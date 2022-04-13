@@ -1,26 +1,49 @@
-from flask import Flask
-import sqlite3
-from flask import g
-
-DATABASE = '/database.db'
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-
-
+from flask import Flask, render_template, request, redirect, url_for
+import sqlite3 as sql
 app = Flask(__name__)
 
-
 @app.route('/')
-def hello():
-    return {"json":"json"}
+def home():
+   return redirect(url_for('list'))
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+@app.route('/enternew')
+def new_student():
+   return render_template('student.html')
+
+@app.route('/addrec',methods = ['POST', 'GET'])
+def addrec():
+   if request.method == 'POST':
+      try:
+         nm = request.form['nm']
+         addr = request.form['add']
+         city = request.form['city']
+         pin = request.form['pin']
+         
+         with sql.connect("database.db") as con:
+            cur = con.cursor()
+            
+            cur.execute("INSERT INTO students (name,addr,city,pin) VALUES (?,?,?,?)",(nm,addr,city,pin) )
+            
+            con.commit()
+            msg = "Record successfully added"
+      except:
+         con.rollback()
+         msg = "error in insert operation"
+      
+      finally:
+         return render_template("result.html",msg = msg)
+         con.close()
+
+@app.route('/list')
+def list():
+   con = sql.connect("database.db")
+   con.row_factory = sql.Row
+   
+   cur = con.cursor()
+   cur.execute("select * from students")
+   
+   rows = cur.fetchall()
+   return render_template("list.html",rows = rows)
+
+if __name__ == '__main__':
+   app.run(debug = True)
