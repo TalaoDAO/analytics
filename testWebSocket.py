@@ -1,28 +1,43 @@
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
-
+import operationsVisualizer
+import model
 connection = HubConnectionBuilder()\
-    .with_url('https://api.tzkt.io/v1/events')\
+    .with_url('https://api.hangzhounet.tzkt.io/v1/events')\
     .with_automatic_reconnect({
         "type": "interval",
         "keep_alive_interval": 10,
         "intervals": [1, 3, 5, 6, 7, 87, 3]
     })\
     .build()
-
+def analyse(data):
+    #pprint(data)
+    for dat in data[0]["data"]:
+        #print(dat["parameter"]["entrypoint"])
+        if dat["parameter"]["entrypoint"]=="marketplace_transfer":
+            print(dat["hash"])
+            initiator=dat["initiator"]["address"]
+            for address in model.eligible():
+                if initiator==address:
+                    amount=operationsVisualizer.getOperationAmount(dat["hash"])
+                    hashOpe=dat["hash"]
+                    entrypoint=dat["parameter"]["entrypoint"]
+                    initiator=dat["initiator"]["address"]
+                    print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
+                    print(amount)
 def init():
-    print("connection established, subscribing to blocks and operations")
-    connection.send('SubscribeToBlocks',[])
-    """connection.send('SubscribeToHead', [])
+    print("connection established, subscribing to operations")
+    #connection.send('SubscribeToBlocks',[])
+    #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
-                    [{'address': 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton', 
-                      'types': 'transaction'}])"""
+                    [{'address': 'KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro', 
+                      'types': 'transaction'}])
 
 connection.on_open(init)
-"""connection.on("head", pprint)
-connection.on("operations", pprint)"""
-connection.on("blocks", pprint)
+#connection.on("head", pprint)
+connection.on("operations", analyse)
+#connection.on("blocks", pprint)
 
 connection.start()
 

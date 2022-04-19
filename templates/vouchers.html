@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+   <body>
+   
+      <table border = 1>
+         <thead>
+            <td>id</td>
+            <td>discount</td>
+            <td>expiration</td>
+            <td>benefit</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["id"]}}</td>
+               <td>{{row["discount"]}}</td>
+               <td> {{ row["expiration"]}}</td>
+               <td>{{row['benefit']}}</td>	
+            </tr>
+         {% endfor %}
+      </table>
+      
+      <a href = "/">Go back to home page</a>
+      
+   </body>
+</html>

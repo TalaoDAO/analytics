@@ -35,9 +35,7 @@ def addVoucherUser():
         address=input("address:")
         with sql.connect("database.db") as con:
             cur = con.cursor()
-            print("kb8")        
             cur.execute("INSERT INTO usersWVouchers (id,idVoucher,addressUser) VALUES (?,?,?)",(id,idVoucher,address) )
-            print("kb9")      
             con.commit()
             msg = "Record successfully added"
     except:
@@ -53,17 +51,20 @@ def eligible():
         cur.execute("select addressUser from usersWVouchers where idVoucher in ( select id from vouchers where date(expiration) >= date('now')) ")
 
         rows = cur.fetchall()
-
+        #print(rows)
+        result=[]
         for row in rows:
-            print(row)
+            #print(row[0])
+            result.append(row[0])
+        return result
 
-    
 
-print("start")
-toDo=input("cmd : ")
-if(toDo=="av"):
-    addVoucher()
-if(toDo=="avu"):
-    addVoucherUser()
-if(toDo=="e"):
-    eligible()
+def cli():
+    print("start")
+    toDo=input("cmd : ")
+    if(toDo=="av"):
+        addVoucher()
+    if(toDo=="avu"):
+        addVoucherUser()
+    if(toDo=="e"):
+        print(eligible())
