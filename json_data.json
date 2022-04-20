@@ -1,1 +1,293 @@
-[{"type": "transaction", "id": 22442247, "level": 831391, "timestamp": "2022-04-19T19:50:56Z", "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B", "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W", "counter": 4013458, "sender": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "gasLimit": 14389, "gasUsed": 6181, "storageLimit": 0, "storageUsed": 0, "bakerFee": 1747, "storageFee": 0, "allocationFee": 0, "target": {"address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"}, "amount": 1000000, "parameter": {"entrypoint": "buy", "value": ["503"]}, "storage": {"fees": {"unit": "600", "ticket": "600", "tezotop": "600", "artifact": "600", "collectible": "600"}, "paused": false, "listing": 31473, "metadata": 31474, "collector": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk", "pool_share": "5000", "nft_registry": "KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro", "revenue_pool": "KT1C1HzbgDt1UZ7jEpKa4Zp6xqSXDVgZ1mqB", "administrator": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD", "pending_admin": null}, "diffs": [{"bigmap": 31473, "path": "listing", "action": "update_key", "content": {"hash": "exprvSRHcv7SxWgTyBvUy277Y5fc2DoVnzDZTkdRidcqRn662UhTCM", "key": "503", "value": {"owner": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im", "price": "1000000", "on_sale": false, "category": "unit"}}}], "status": "applied", "hasInternals": true}, {"type": "transaction", "id": 22442248, "level": 831391, "timestamp": "2022-04-19T19:50:56Z", "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B", "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W", "counter": 4013458, "initiator": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "sender": {"address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"}, "nonce": 0, "gasLimit": 0, "gasUsed": 1420, "storageLimit": 0, "storageUsed": 0, "bakerFee": 0, "storageFee": 0, "allocationFee": 0, "target": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "amount": 940000, "status": "applied", "hasInternals": false}, {"type": "transaction", "id": 22442249, "level": 831391, "timestamp": "2022-04-19T19:50:56Z", "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B", "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W", "counter": 4013458, "initiator": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "sender": {"address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"}, "nonce": 1, "gasLimit": 0, "gasUsed": 4227, "storageLimit": 0, "storageUsed": 0, "bakerFee": 0, "storageFee": 0, "allocationFee": 0, "target": {"address": "KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro"}, "amount": 0, "parameter": {"entrypoint": "marketplace_transfer", "value": [{"to_": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im", "from_": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im", "token_id": "503"}]}, "storage": {"uids": {"unit": "4595", "ticket": "128", "tezotop": "749", "artifact": "791", "collectible": "56"}, "ledger": 31429, "minter": "KT1LEVjXrEfJSs7DaRhY7Hg2eHLWwUYwVUi1", "paused": false, "manager": "KT1UPESv5WEa99z8gNpaVykuiDqXKe1Eg7Yg", "metadata": 31430, "operators": 31431, "all_tokens": "6319", "marketplace": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye", "administrator": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD", "pending_admin": null, "token_metadata": 31433, "token_attributes": 31432}, "diffs": [{"bigmap": 31432, "path": "token_attributes", "action": "update_key", "content": {"hash": "exprvSRHcv7SxWgTyBvUy277Y5fc2DoVnzDZTkdRidcqRn662UhTCM", "key": "503", "value": {"uid": "502", "ints": {"hp": "6", "exp": "5", "speed": "2", "attack": "5", "defence": "3", "accuracy": "4", "mint_time": "1639465440"}, "sets": {}, "owner": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im", "on_sale": false, "strings": {"type": "land"}, "category": "unit", "token_id": "503"}}}, {"bigmap": 31429, "path": "ledger", "action": "update_key", "content": {"hash": "expruqs7fmjin5cmJEdFU9UUREoBVuD7NcWgUzFuzi4r2mdcFJFU6J", "key": {"nat": "503", "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "value": "1"}}], "status": "applied", "hasInternals": false}, {"type": "transaction", "id": 22442250, "level": 831391, "timestamp": "2022-04-19T19:50:56Z", "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B", "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W", "counter": 4013458, "initiator": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "sender": {"address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"}, "nonce": 2, "gasLimit": 0, "gasUsed": 1248, "storageLimit": 0, "storageUsed": 0, "bakerFee": 0, "storageFee": 0, "allocationFee": 0, "target": {"address": "KT1C1HzbgDt1UZ7jEpKa4Zp6xqSXDVgZ1mqB"}, "amount": 30000, "storage": {"admin": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD", "ledger": 31551, "paused": false, "revenue": {"total_gif": "1686601000000000", "multiplier": "100000000000000000000", "last_update": "2022-04-19T07:30:00Z", "xtz_per_gif": "771884430393074", "current_cycle": {"revenue": "4098600", "end_time": "2022-04-21T07:30:00Z", "start_time": "2022-04-19T07:30:00Z", "xtz_per_sec": "9461805555555555555555"}, "cycle_duration": "172800"}, "staking": {"gif": {"address": "KT1UaEFX85xkrPrqffFU9SzbmYaD9pYNQ5KX", "token_id": "0"}, "collector": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk", "unlock_fees": {}, "revenue_tier": "3", "min_lock_amount": {"1": "5000000000000", "2": "25000000000000", "3": "100000000000000"}}, "metadata": 31552}, "status": "applied", "hasInternals": false}, {"type": "transaction", "id": 22442251, "level": 831391, "timestamp": "2022-04-19T19:50:56Z", "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B", "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W", "counter": 4013458, "initiator": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "sender": {"address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"}, "nonce": 3, "gasLimit": 0, "gasUsed": 1213, "storageLimit": 0, "storageUsed": 0, "bakerFee": 0, "storageFee": 0, "allocationFee": 0, "target": {"address": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk"}, "amount": 30000, "storage": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD", "status": "applied", "hasInternals": false}]
+[
+    {
+        "type": "transaction",
+        "id": 22442247,
+        "level": 831391,
+        "timestamp": "2022-04-19T19:50:56Z",
+        "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B",
+        "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W",
+        "counter": 4013458,
+        "sender": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "gasLimit": 14389,
+        "gasUsed": 6181,
+        "storageLimit": 0,
+        "storageUsed": 0,
+        "bakerFee": 1747,
+        "storageFee": 0,
+        "allocationFee": 0,
+        "target": {
+            "address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"
+        },
+        "amount": 1000000,
+        "parameter": {
+            "entrypoint": "buy",
+            "value": [
+                "503"
+            ]
+        },
+        "storage": {
+            "fees": {
+                "unit": "600",
+                "ticket": "600",
+                "tezotop": "600",
+                "artifact": "600",
+                "collectible": "600"
+            },
+            "paused": false,
+            "listing": 31473,
+            "metadata": 31474,
+            "collector": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk",
+            "pool_share": "5000",
+            "nft_registry": "KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro",
+            "revenue_pool": "KT1C1HzbgDt1UZ7jEpKa4Zp6xqSXDVgZ1mqB",
+            "administrator": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD",
+            "pending_admin": null
+        },
+        "diffs": [
+            {
+                "bigmap": 31473,
+                "path": "listing",
+                "action": "update_key",
+                "content": {
+                    "hash": "exprvSRHcv7SxWgTyBvUy277Y5fc2DoVnzDZTkdRidcqRn662UhTCM",
+                    "key": "503",
+                    "value": {
+                        "owner": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im",
+                        "price": "1000000",
+                        "on_sale": false,
+                        "category": "unit"
+                    }
+                }
+            }
+        ],
+        "status": "applied",
+        "hasInternals": true
+    },
+    {
+        "type": "transaction",
+        "id": 22442248,
+        "level": 831391,
+        "timestamp": "2022-04-19T19:50:56Z",
+        "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B",
+        "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W",
+        "counter": 4013458,
+        "initiator": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "sender": {
+            "address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"
+        },
+        "nonce": 0,
+        "gasLimit": 0,
+        "gasUsed": 1420,
+        "storageLimit": 0,
+        "storageUsed": 0,
+        "bakerFee": 0,
+        "storageFee": 0,
+        "allocationFee": 0,
+        "target": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "amount": 940000,
+        "status": "applied",
+        "hasInternals": false
+    },
+    {
+        "type": "transaction",
+        "id": 22442249,
+        "level": 831391,
+        "timestamp": "2022-04-19T19:50:56Z",
+        "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B",
+        "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W",
+        "counter": 4013458,
+        "initiator": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "sender": {
+            "address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"
+        },
+        "nonce": 1,
+        "gasLimit": 0,
+        "gasUsed": 4227,
+        "storageLimit": 0,
+        "storageUsed": 0,
+        "bakerFee": 0,
+        "storageFee": 0,
+        "allocationFee": 0,
+        "target": {
+            "address": "KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro"
+        },
+        "amount": 0,
+        "parameter": {
+            "entrypoint": "marketplace_transfer",
+            "value": [
+                {
+                    "to_": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im",
+                    "from_": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im",
+                    "token_id": "503"
+                }
+            ]
+        },
+        "storage": {
+            "uids": {
+                "unit": "4595",
+                "ticket": "128",
+                "tezotop": "749",
+                "artifact": "791",
+                "collectible": "56"
+            },
+            "ledger": 31429,
+            "minter": "KT1LEVjXrEfJSs7DaRhY7Hg2eHLWwUYwVUi1",
+            "paused": false,
+            "manager": "KT1UPESv5WEa99z8gNpaVykuiDqXKe1Eg7Yg",
+            "metadata": 31430,
+            "operators": 31431,
+            "all_tokens": "6319",
+            "marketplace": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye",
+            "administrator": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD",
+            "pending_admin": null,
+            "token_metadata": 31433,
+            "token_attributes": 31432
+        },
+        "diffs": [
+            {
+                "bigmap": 31432,
+                "path": "token_attributes",
+                "action": "update_key",
+                "content": {
+                    "hash": "exprvSRHcv7SxWgTyBvUy277Y5fc2DoVnzDZTkdRidcqRn662UhTCM",
+                    "key": "503",
+                    "value": {
+                        "uid": "502",
+                        "ints": {
+                            "hp": "6",
+                            "exp": "5",
+                            "speed": "2",
+                            "attack": "5",
+                            "defence": "3",
+                            "accuracy": "4",
+                            "mint_time": "1639465440"
+                        },
+                        "sets": {},
+                        "owner": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im",
+                        "on_sale": false,
+                        "strings": {
+                            "type": "land"
+                        },
+                        "category": "unit",
+                        "token_id": "503"
+                    }
+                }
+            },
+            {
+                "bigmap": 31429,
+                "path": "ledger",
+                "action": "update_key",
+                "content": {
+                    "hash": "expruqs7fmjin5cmJEdFU9UUREoBVuD7NcWgUzFuzi4r2mdcFJFU6J",
+                    "key": {
+                        "nat": "503",
+                        "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+                    },
+                    "value": "1"
+                }
+            }
+        ],
+        "status": "applied",
+        "hasInternals": false
+    },
+    {
+        "type": "transaction",
+        "id": 22442250,
+        "level": 831391,
+        "timestamp": "2022-04-19T19:50:56Z",
+        "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B",
+        "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W",
+        "counter": 4013458,
+        "initiator": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "sender": {
+            "address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"
+        },
+        "nonce": 2,
+        "gasLimit": 0,
+        "gasUsed": 1248,
+        "storageLimit": 0,
+        "storageUsed": 0,
+        "bakerFee": 0,
+        "storageFee": 0,
+        "allocationFee": 0,
+        "target": {
+            "address": "KT1C1HzbgDt1UZ7jEpKa4Zp6xqSXDVgZ1mqB"
+        },
+        "amount": 30000,
+        "storage": {
+            "admin": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD",
+            "ledger": 31551,
+            "paused": false,
+            "revenue": {
+                "total_gif": "1686601000000000",
+                "multiplier": "100000000000000000000",
+                "last_update": "2022-04-19T07:30:00Z",
+                "xtz_per_gif": "771884430393074",
+                "current_cycle": {
+                    "revenue": "4098600",
+                    "end_time": "2022-04-21T07:30:00Z",
+                    "start_time": "2022-04-19T07:30:00Z",
+                    "xtz_per_sec": "9461805555555555555555"
+                },
+                "cycle_duration": "172800"
+            },
+            "staking": {
+                "gif": {
+                    "address": "KT1UaEFX85xkrPrqffFU9SzbmYaD9pYNQ5KX",
+                    "token_id": "0"
+                },
+                "collector": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk",
+                "unlock_fees": {},
+                "revenue_tier": "3",
+                "min_lock_amount": {
+                    "1": "5000000000000",
+                    "2": "25000000000000",
+                    "3": "100000000000000"
+                }
+            },
+            "metadata": 31552
+        },
+        "status": "applied",
+        "hasInternals": false
+    },
+    {
+        "type": "transaction",
+        "id": 22442251,
+        "level": 831391,
+        "timestamp": "2022-04-19T19:50:56Z",
+        "block": "BLTqZhdnWpy1hAGHZQi51rH5PdVb4EsN7vF376bQVELBNRBw98B",
+        "hash": "op14bVwzDN1he22PktD3tdQ3EjQDSRLnkH91AAwMVcQVrLfEm5W",
+        "counter": 4013458,
+        "initiator": {
+            "address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+        },
+        "sender": {
+            "address": "KT1D8UvEeWK7a73KxFJNQdVJk2t6ewXWvoye"
+        },
+        "nonce": 3,
+        "gasLimit": 0,
+        "gasUsed": 1213,
+        "storageLimit": 0,
+        "storageUsed": 0,
+        "bakerFee": 0,
+        "storageFee": 0,
+        "allocationFee": 0,
+        "target": {
+            "address": "KT1Nav2mw934Nd2pFBzUhpu8G5q2LG6HbTbk"
+        },
+        "amount": 30000,
+        "storage": "tz1fbKDvLgwjnuXDcVDUW8JdPTAsna5VhvKD",
+        "status": "applied",
+        "hasInternals": false
+    }
+]

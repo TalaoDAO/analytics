@@ -18,14 +18,19 @@ def analyse(data):
         if dat["parameter"]["entrypoint"]=="marketplace_transfer":
             print(dat["hash"])
             initiator=dat["initiator"]["address"]
-            for address in model.eligible():
-                if initiator==address:
+            for eli in model.eligible().items():
+                print(eli)
+                print(eli[0])
+                print(eli[0]==initiator)
+                print(initiator)
+                if initiator==eli[0]:
                     amount=operationsVisualizer.getOperationAmount(dat["hash"])
                     hashOpe=dat["hash"]
                     entrypoint=dat["parameter"]["entrypoint"]
                     initiator=dat["initiator"]["address"]
                     print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
                     print(amount)
+                    model.addTx(hashOpe,eli[1],initiator,'KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro',amount,dat["timestamp"])
 def init():
     print("connection established, subscribing to operations")
     #connection.send('SubscribeToBlocks',[])
