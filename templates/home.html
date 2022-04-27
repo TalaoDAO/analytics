@@ -1,9 +1,17 @@
 <!doctype html>
 <html>
+   <head>
+      <title>Home</title>
+      <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+
+   </head>
    <body>
-   
-      <a href="/vouchers">Vouchers</a>
+      <input  class="button" type="button" onclick="location.href='/vouchers';" value="Vouchers" />
       
-      <a href="/usersvouchers">usersWVouchers</a>
+      <input  class="button" type="button" onclick="location.href='/usersvouchers';" value="usersWVouchers" />
+
+
+      <input  class="button" type="button" onclick="location.href='/transactions';" value="Transactions" />
+
    </body>
 </html>

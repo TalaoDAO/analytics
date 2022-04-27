@@ -81,3 +81,12 @@ def cli():
         addVoucherUser()
     if(toDo=="e"):
         print(eligible())
+    if(toDo=="t"):
+        getDiscount(4)    
+def getDiscount(idVoucher):
+    with sql.connect("database.db") as conn:
+        cur = conn.cursor()
+        cur.execute("select discount from vouchers where id="+str(idVoucher))
+        rows = cur.fetchall()
+        result=rows[0]
+        return result[0]

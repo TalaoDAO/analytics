@@ -3,6 +3,8 @@ from time import sleep
 from pprint import pprint
 import operationsVisualizer
 import model
+import cashBackSender
+
 connection = HubConnectionBuilder()\
     .with_url('https://api.hangzhounet.tzkt.io/v1/events')\
     .with_automatic_reconnect({
@@ -11,18 +13,13 @@ connection = HubConnectionBuilder()\
         "intervals": [1, 3, 5, 6, 7, 87, 3]
     })\
     .build()
+
 def analyse(data):
-    #pprint(data)
     for dat in data[0]["data"]:
-        #print(dat["parameter"]["entrypoint"])
         if dat["parameter"]["entrypoint"]=="marketplace_transfer":
             print(dat["hash"])
             initiator=dat["initiator"]["address"]
             for eli in model.eligible().items():
-                print(eli)
-                print(eli[0])
-                print(eli[0]==initiator)
-                print(initiator)
                 if initiator==eli[0]:
                     amount=operationsVisualizer.getOperationAmount(dat["hash"])
                     hashOpe=dat["hash"]
@@ -30,7 +27,20 @@ def analyse(data):
                     initiator=dat["initiator"]["address"]
                     print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
                     print(amount)
+                    print(eli[1])
+                    print(model.getDiscount(eli[1]))
+                    discount=model.getDiscount(eli[1])
+                    print(discount)
+                    print("discount "+str(discount)+"%")
+
                     model.addTx(hashOpe,eli[1],initiator,'KT1JWMAHDuUMr82nQvS9AxEXyKU8MAeez4Ro',amount,dat["timestamp"])
+
+                    cashBack=amount*model.getDiscount(eli[1])/100000000
+                    print("cashBack: "+ str(amount*model.getDiscount(eli[1])/100000000))
+                    print(str(cashBack)+" "+str(initiator))
+                    print(cashBack,initiator)
+                    
+                    cashBackSender.cashbackSender(cashBack,initiator)
 def init():
     print("connection established, subscribing to operations")
     #connection.send('SubscribeToBlocks',[])

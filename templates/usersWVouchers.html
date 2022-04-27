@@ -1,8 +1,13 @@
 <!doctype html>
 <html>
+   <head>
+      <title>Users and vouchers</title>
+      <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+   </head>
    <body>
-   
-      <table border = 1>
+      <input  class="button" type="button" onclick="location.href='/';" value="Home page" />
+
+      <table class="blueTable" border = 1>
          <thead>
             <td>id</td>
             <td>idVoucher</td>
@@ -19,7 +24,6 @@
          {% endfor %}
       </table>
       
-      <a href = "/">Go back to home page</a>
       
    </body>
 </html>
