@@ -7,16 +7,6 @@ def home():
    return render_template("home.html")
 
 
-@app.route('/vouchers')
-def vouchers():
-   con = sql.connect("database.db")
-   con.row_factory = sql.Row
-   
-   cur = con.cursor()
-   cur.execute("select * from vouchers")
-   
-   rows = cur.fetchall()
-   return render_template("vouchers.html",rows = rows)
 
 @app.route('/usersvouchers')
 def usersWvouchers():
@@ -37,8 +27,15 @@ def transactions():
    cur = con.cursor()
 
    try:
-
-      cur.execute('select * from transactions where datetime(date) < date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+str(int(request.args.get('day'))+1)+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
+      year=request.args.get('year')
+      month=request.args.get('month')
+      day=request.args.get('day')
+      if(int(day)<10):
+         day="0"+str(int(request.args.get('day'))+1)
+      else:
+         day=str(int(request.args.get('day'))+1)
+      cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
+      print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
       rows = cur.fetchall()
       return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
    except TypeError:

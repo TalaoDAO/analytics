@@ -12,6 +12,9 @@
             <td>id</td>
             <td>idVoucher</td>
             <td>address</td>
+            <td>discount</td>
+            <td>expiration</td>
+            <td>benefitInfluencer</td>
          </thead>
          
          {% for row in rows %}
@@ -19,7 +22,9 @@
                <td>{{row["id"]}}</td>
                <td>{{row["idVoucher"]}}</td>
                <td> {{ row["addressUser"]}}</td>
-
+               <td>{{row["discount"]}}</td>
+               <td> {{ row["expiration"]}}</td>
+               <td>{{row['benefitInfluencer']}}</td>
             </tr>
          {% endfor %}
       </table>

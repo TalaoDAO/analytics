@@ -6,7 +6,7 @@ import json
 
 def getOperationAmount(hash):
 
-    conn = http.client.HTTPSConnection("api.hangzhou2net.tzkt.io")
+    conn = http.client.HTTPSConnection("api.ithacanet.tzkt.io")
     headers = {
         }
   
