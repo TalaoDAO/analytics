@@ -1,11 +1,13 @@
 import model
 from pytezos import pytezos
 from decimal import Decimal
+from pprint import pprint
 #print(model.eligible())
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack")
-    pytezos.using(key='edskRz4RJ5H9NYiAQiP5ESmzpmT4aexBYqaxiqgW6Zxwq4zWp4H3XRj5CQdYMpjcaiFbmoq4dxJRJ27aT8LEPKArumJ8Hm3KDA', shell="https://rpczero.tzbeta.net/") \
+    hash=pytezos.using(key='edskS7hDFoZo1pXVtCmdFxhs2z44ZrWWnNaZx1vAZqqfsowyMbXJWEqfw5rdiKQ6Uqaeiqdppvwo3nJFFUkG1sCFyTasVVfbQJ', shell="https://ithacanet.smartpy.io/") \
     .transaction(destination=userAddress, amount=Decimal(amountToSend)) \
-    .autofill().sign().inject()
+    .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
-#cashbackSender(0.00001,"tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")
+    return hash
+#print(cashbackSender(0.00001,"tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39"))

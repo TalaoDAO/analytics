@@ -21,34 +21,41 @@ def analyse(data):
             if dat["parameter"]["entrypoint"]=="marketplace_transfer":
                 print("hash marketplace transfer "+dat["hash"])
                 initiator=dat["initiator"]["address"]
-                print("model.eligible "+str(model.eligible()))
-                print("length "+str(len(model.eligible())))
+                #print("model.eligible "+str(model.eligible()))
+                #print("length "+str(len(model.eligible())))
                 elis=model.eligible()
                 for u in range(0,len(elis)):
                     eli=elis[u]
-                    print(str(eli)+" -- "+str(eli[0]))
+                    #print(str(eli)+" -- "+str(eli[0]))
                     print("initiator "+str(initiator))
                     if initiator==str(eli[0]):
                         amount=operationsVisualizer.getOperationAmount(dat["hash"])
-                        print(amount)
+                        print("tezos spent : "+str(amount))
                         hashOpe=dat["hash"]
                         entrypoint=dat["parameter"]["entrypoint"]
                         initiator=dat["initiator"]["address"]
                         print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
-                        print(amount)
-                        print(eli[1])
                         discount=eli[1]
-                        print(discount)
                         print("discount "+str(discount)+"%")
-
-                        model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',amount,dat["timestamp"])
-
                         cashBack=amount*eli[1]/100000000
-                        print("cashBack: "+ str(amount*eli[1]/100000000))
-                        print(str(cashBack)+" "+str(initiator))
-                        print(cashBack,initiator)
-                        
-                        cashBackSender.cashbackSender(cashBack,initiator)
+                        print("cashback : "+str(cashBack))
+                        print(eli)
+                        typeRemuneration=eli[4]
+                        amountRemuneration=eli[3]
+                        if typeRemuneration=="pourcentage":
+                            print("modif")
+                            amountRemuneration=amountRemuneration*amount/100000000
+                        print(typeRemuneration+" "+str(amountRemuneration))
+                        model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',amount,dat["timestamp"],cashBack,amountRemuneration)
+
+                        print("cashBack: "+ str(cashBack))
+                        #print(str(cashBack)+" "+str(initiator))
+                        print(str(cashBack),initiator)
+                        print(str(amountRemuneration),eli[5])
+                        model.addPayement(hashOpe,initiator,"player",cashBack)
+                        model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
+                        #cashBackSender.cashbackSender(cashBack,initiator)
+                        #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                 print("fin loop")
         except KeyError:
             pass
