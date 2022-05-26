@@ -16,5 +16,6 @@ while True:
             status=operationsVisualizer.getOperationStatus(hash)
             print("status : "+str(status))
         model.setPayementDone(payementToExecute[3],hash,"date")
-
+    if(payementToExecute==None):
+        time.sleep(3)
     

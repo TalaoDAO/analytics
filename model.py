@@ -2,10 +2,15 @@ from audioop import add
 import sqlite3 as sql
 import traceback
 import sys
+from datetime import datetime
+
+
 try:
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, idVoucher INTEGER, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
+    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersAnayltics (address TEXT PRIMARY KEY, authentificated INTEGER)")
+
 except:
     None    
 
@@ -74,7 +79,8 @@ def setPayementDone(prio,hash,date):
         with sql.connect("database.db") as con:
             cur = con.cursor()
             print("update payements set applied=1,hashPayement='"+hash+"' where prio="+str(prio))
-            cur.execute("update payements set applied=1,hashPayement='"+hash+"' where prio="+str(prio))
+            now = datetime.now()
+            cur.execute("update payements set applied=1,hashPayement='"+hash+"',date='"+now.strftime("%d/%m/%Y %H:%M:%S")+"' where prio="+str(prio))
             con.commit()
 
     except sql.Error as er:
@@ -84,7 +90,6 @@ def setPayementDone(prio,hash,date):
         exc_type, exc_value, exc_tb = sys.exc_info()
         print(traceback.format_exception(exc_type, exc_value, exc_tb))
     finally:
-        print("")
         con.close()
 def cli():
     print("start")
@@ -110,5 +115,17 @@ def getPayementPrio():
         con.rollback()        
     finally:
         con.close()
+
+def isAuthenticated(address):
+    try:
+        with sql.connect("database.db") as con:
+            cur = con.cursor()
+            cur.execute("select authentificated from usersAnalytics where address="+address)
+            max = cur.fetchone()
+    except:
+        con.rollback()        
+    finally:
+        con.close()
+
 #addPayement("eaa","ee","ew",4)
 #setPayementDone(4,"eee","ew")

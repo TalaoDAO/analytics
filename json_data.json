@@ -1,1 +1,264 @@
-[{"type": "transaction", "id": 30420193, "level": 515799, "timestamp": "2022-05-10T12:49:50Z", "block": "BL5JDTKJTqgyTxYxcxyj5cC6s47T2XmAm6d4bVcLSVnnrE61Z3y", "hash": "ooWHG6iL13zcc9Tu1MiyxFkjEwXVS4u62qa6B8KZUsxcxrybMeH", "counter": 10356609, "sender": {"address": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"}, "gasLimit": 1521, "gasUsed": 1421, "storageLimit": 100, "storageUsed": 0, "bakerFee": 417, "storageFee": 0, "allocationFee": 0, "target": {"address": "tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39"}, "amount": 29999, "status": "applied", "hasInternals": false}]
+{
+    "@context": [
+        "https: //www.w3.org/2018/credentials/v1",
+        {
+            "affiliate": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "benefit": {
+                        "@context": {
+                            "category": "schema:category",
+                            "incentiveCompensation": "schema:incentiveCompensation",
+                            "price": "schema:value"
+                        },
+                        "@id": "https: //github.com/TalaoDAO/context/blob/main/README"
+                    },
+                    "did": "schema:identifier",
+                    "email": "schema:email",
+                    "name": "schema:name",
+                    "paymentAccepted": {
+                        "@context": {
+                            "blockchain": "schema:name",
+                            "blockchainAccount": "schema:identifier",
+                            "currency": "schema:currency"
+                        },
+                        "@id": "schema:paymentAccepted"
+                    }
+                },
+                "@id": "https: //github.com/TalaoDAO/context/blob/main/README.md"
+            },
+            "associatedAddress": {
+                "@context": {
+                    "@protected": true,
+                    "blockchain": "https: //schema.org/blockchain",
+                    "blockchainAccount": "https: //schema.org/address"
+                },
+                "@id": "https: //schema.org/address"
+            },
+            "offers": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "benefit": {
+                        "@context": {
+                            "category": "schema:category",
+                            "discount": "schema:discount",
+                            "price": "schema:value"
+                        },
+                        "@id": "https: //github.com/TalaoDAO/context/blob/main/README"
+                    },
+                    "category": "schema:category",
+                    "endDate": "schema:date",
+                    "offeredBy": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "description": "schema:description",
+                            "did": "schema:identifier",
+                            "logo": {
+                                "@id": "schema:image",
+                                "@type": "@id"
+                            },
+                            "name": "schema:name",
+                            "paymentMethod": {
+                                "@context": {
+                                    "blockchain": "schema:name",
+                                    "blockchainAccount": "schema:identifier",
+                                    "currency": "schema:currency"
+                                },
+                                "@id": "schema:paymentMethod"
+                            },
+                            "website": "schema:website"
+                        },
+                        "@id": "schema:offeredBy"
+                    },
+                    "startDate": "schema:date"
+                },
+                "@id": "schema:offer"
+            },
+            "talaoAccount": "https: //schema.org/account",
+            "walletNotation": "https: //schema.org/notation"
+        }
+    ],
+    "credentialSubject": {
+        "affiliate": {
+            "benefit": {
+                "category": "commission",
+                "incentiveCompensation": "5%"
+            },
+            "email": "contact@talao.co",
+            "name": "Talao",
+            "paymentAccepted": {
+                "blockchain": "Tezos",
+                "blockchainAccount": "tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555",
+                "currency": "XTZ"
+            }
+        },
+        "associatedAddress": [
+            {
+                "blockchain": "tezos",
+                "blockchainAccount": "tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
+            },
+            {
+                "blockchain": "ethereum",
+                "blockchainAccount": "0x461B99bCBdaD9697d299FDFe0879eC04De256DA1"
+            },
+            {
+                "blockchain": "polygon",
+                "blockchainAccount": "0x461B99bCBdaD9697d299FDFe0879eC04De256DA1"
+            }
+        ],
+        "id": "did:tz:tz2DHsghAAqFH1wxu5zrU7my5dWMZMzqNT3B",
+        "offers": [
+            {
+                "benefit": {
+                    "category": "discount",
+                    "discount": "15%"
+                },
+                "category": "discounted_coupon",
+                "endDate": "2022-06-08T19: 55: 00Z",
+                "offeredBy": {
+                    "description": "gaming ",
+                    "platform ": "Tezotopia",
+                    "logo": "ipfs: //QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
+                    "name": "GifGames",
+                    "paymentMethod": {
+                        "blockchain": "Tezos",
+                        "blockchainAccount": "tz1iyjrTUNxDpPaqNZ84ipGELAcTWYg66789",
+                        "currency": "XTZ"
+                    }
+                },
+                "startDate": "2022-04-08T19: 55: 00Z"
+            }
+        ],
+        "talaoAccount": "0x83E0481C1844Ed257efE1147218C125832F10236",
+        "type": "TalaoCommunity",
+        "walletNotation": "Gold"
+    },
+    "id": "did:tz2:....",
+    "issuanceDate": "2022-05-18T09: 15: 29Z",
+    "issuer": "did:tz:tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du",
+    "proof": {
+        "@context": {
+            "Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "challenge": "https: //w3id.org/security#challenge",
+                    "created": {
+                        "@id": "http: //purl.org/dc/terms/created",
+                        "@type": "http: //www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "domain": "https: //w3id.org/security#domain",
+                    "expires": {
+                        "@id": "https: //w3id.org/security#expiration",
+                        "@type": "http: //www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "id": "@id",
+                    "jws": "https: //w3id.org/security#jws",
+                    "nonce": "https: //w3id.org/security#nonce",
+                    "proofPurpose": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "assertionMethod": {
+                                "@container": "@set",
+                                "@id": "https: //w3id.org/security#assertionMethod",
+                                "@type": "@id"
+                            },
+                            "authentication": {
+                                "@container": "@set",
+                                "@id": "https: //w3id.org/security#authenticationMethod",
+                                "@type": "@id"
+                            },
+                            "id": "@id",
+                            "type": "@type"
+                        },
+                        "@id": "https: //w3id.org/security#proofPurpose",
+                        "@type": "@vocab"
+                    },
+                    "publicKeyJwk": {
+                        "@id": "https: //w3id.org/security#publicKeyJwk",
+                        "@type": "@json"
+                    },
+                    "type": "@type",
+                    "verificationMethod": {
+                        "@id": "https: //w3id.org/security#verificationMethod",
+                        "@type": "@id"
+                    }
+                },
+                "@id": "https: //w3id.org/security#Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021"
+            },
+            "Ed25519PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021": {
+                "@id": "https: //w3id.org/security#Ed25519PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021"
+            },
+            "P256BLAKE2BDigestSize20Base58CheckEncodedSignature2021": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "challenge": "https: //w3id.org/security#challenge",
+                    "created": {
+                        "@id": "http: //purl.org/dc/terms/created",
+                        "@type": "http: //www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "domain": "https: //w3id.org/security#domain",
+                    "expires": {
+                        "@id": "https: //w3id.org/security#expiration",
+                        "@type": "http: //www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "id": "@id",
+                    "jws": "https: //w3id.org/security#jws",
+                    "nonce": "https: //w3id.org/security#nonce",
+                    "proofPurpose": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "assertionMethod": {
+                                "@container": "@set",
+                                "@id": "https: //w3id.org/security#assertionMethod",
+                                "@type": "@id"
+                            },
+                            "authentication": {
+                                "@container": "@set",
+                                "@id": "https: //w3id.org/security#authenticationMethod",
+                                "@type": "@id"
+                            },
+                            "id": "@id",
+                            "type": "@type"
+                        },
+                        "@id": "https: //w3id.org/security#proofPurpose",
+                        "@type": "@vocab"
+                    },
+                    "publicKeyJwk": {
+                        "@id": "https: //w3id.org/security#publicKeyJwk",
+                        "@type": "@json"
+                    },
+                    "type": "@type",
+                    "verificationMethod": {
+                        "@id": "https: //w3id.org/security#verificationMethod",
+                        "@type": "@id"
+                    }
+                },
+                "@id": "https: //w3id.org/security#P256BLAKE2BDigestSize20Base58CheckEncodedSignature2021"
+            },
+            "P256PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021": {
+                "@id": "https: //w3id.org/security#P256PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021"
+            }
+        },
+        "created": "2022-05-18T09: 15: 43.622Z",
+        "jws": "eyJhbGciOiJFZERTQSIsImNyaXQiOlsiYjY0Il0sImI2NCI6ZmFsc2V9..BvLwXBw2ZPEdxFd8Yyxa2rklWcdN-nZRPLgS0hy99k8EQMmM-F02zXOi22c2nvg-ppT-lZGg3siHPUuBh0yUCQ",
+        "proofPurpose": "assertionMethod",
+        "publicKeyJwk": {
+            "crv": "Ed25519",
+            "kty": "OKP",
+            "x": "FUoLewH4w4-KdaPH2cjZbL--CKYxQRWR05Yd_bIbhQo"
+        },
+        "type": "Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021",
+        "verificationMethod": "did:tz:tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du#blockchainAccountId"
+    },
+    "type": [
+        "VerifiableCredential",
+        "TalaoCommunity"
+    ]
+}

@@ -19,7 +19,7 @@ def getOperationStatus(hash):
 
 
     #print(result)
-    print("here"+str(len(jsonExample)))
+    #print("here"+str(len(jsonExample)))
     with open('json_data.json', 'w') as mon_fichier:
         json.dump(jsonExample, mon_fichier)
     try:
@@ -44,7 +44,7 @@ def getOperationAmount(hash):
 
 
     #print(result)
-    print("here"+str(len(jsonExample)))
+    #print("here"+str(len(jsonExample)))
     with open('json_data.json', 'w') as mon_fichier:
         json.dump(jsonExample, mon_fichier)
     return jsonExample[0]["amount"]

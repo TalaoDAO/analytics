@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+   <title>Transactions Details</title>
+   <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+</head>
+
+<body>
+   <input class="button" type="button" onclick="location.href='/';" value="Home page" />
+
+   <table class="blueTable" border=1>
+      <thead>
+         <td>prio</td>
+         <td>hash</td>
+         <td>address</td>
+         <td>applied</td>
+         <td>forWho</td>
+         <td>amount</td>
+         <td>date</td>
+         <td>hashPayement</td>
+      </thead>
+      {% for row in rows %}
+      <tr>
+         <td>{{row["prio"]}}</td> 
+         <td><a href="https://ithacanet.tzkt.io/{{row["hash"]}}">{{row["hash"]}}</a></td>
+         <td>{{row["address"]}}</td>
+         <td> {{ row["applied"]}}</td>
+         <td>{{row['forWho']}}</td>
+         <td>{{row["amount"]}}</td>
+         <td>{{row["date"]}}</td>
+         <td><a href="https://ithacanet.tzkt.io/{{row["hashPayement"]}}">{{row["hashPayement"]}}</a></td>
+      </tr>
+      {% endfor %}
+   </table>
+   <div>
+    <input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" />
+    <input  type="text" id="addressToSee" >
+   </div>
+   <div id="total">
+      
+   </div>
+
+</body>
+
+</html>
