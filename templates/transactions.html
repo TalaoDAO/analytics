@@ -7,7 +7,7 @@
 </head>
 
 <body>
-   <input class="button" type="button" onclick="location.href='/';" value="Home page" />
+   <input class="button" type="button" onclick="location.href='/analytics/';" value="Home page" />
 
    <table class="blueTable" border=1>
       <thead>
@@ -30,7 +30,7 @@
       {% endfor %}
    </table>
    <div>
-      <input class="button" type="button" onclick="location.href='/transactions?year='+year()+'&month='+month()+'&day='+day()+'';" value="Select Date" />
+      <input class="button" type="button" onclick="location.href='/analytics/transactions?year='+year()+'&month='+month()+'&day='+day()+'';" value="Select Date" />
       <input type="date" id="dateInput" min="2020-01-01" value="{{year}}-{{month}}-{{day}}">
 
    </div>
