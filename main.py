@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, render_tem
 from flask_qrcode import QRcode
 from datetime import timedelta
 
-from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 import didkit
 import redis
