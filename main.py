@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify, request, Response,session
 from flask_qrcode import QRcode
 from datetime import timedelta
-
-from datetime import timedelta
 import didkit
 import redis
 import socket
@@ -16,7 +14,7 @@ import model
 app = Flask(__name__)
 
 app.config.from_object(__name__)
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=15)
 
 qrcode = QRcode(app)
 PORT = 3000
@@ -34,80 +32,134 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
-    return render_template("home.html")
+    if (session.get('logged')=="True"):
+        if(session.get('user')=="admin"):
+            return render_template("home.html",usersWvouchers='''<input  class="button" type="button" onclick="location.href='/analytics/usersvouchers';" value="usersWVouchers" />''')
+        else:
+            return render_template("home.html")
+    else:
+        return redirect(url_for('login'))
+ 
 
 
 @app.route('/analytics/usersvouchers')
 def usersWvouchers():
     try:
-        print(session.get('logged'))
         if (session.get('logged')=="True"):
+            if(session.get('user')=="admin"):
+                con = sql.connect("database.db")
+                con.row_factory = sql.Row
             
-            con = sql.connect("database.db")
-            con.row_factory = sql.Row
-        
-            cur = con.cursor()
-            cur.execute("select * from usersWVouchers")
-            
-            rows = cur.fetchall()
-            return render_template("usersWVouchers.html",rows = rows)
+                cur = con.cursor()
+                cur.execute("select * from usersWVouchers")
+                
+                rows = cur.fetchall()
+                return render_template("usersWVouchers.html",rows = rows)
+            else:
+                return redirect(url_for('home'))
         else:
-            return redirect(url_for('home'))
+            return redirect(url_for('login'))
     except KeyError:
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     except TypeError:
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
 
 @app.route('/analytics/logout', methods=['GET', 'POST'])
 def logout():
     session['logged']=False
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 @app.route('/analytics/transactions')
 def transactions():
-   con = sql.connect("database.db")
-   con.row_factory = sql.Row
-   
-   cur = con.cursor()
-   
-   try:
-      year=request.args.get('year')
-      month=request.args.get('month')
-      day=request.args.get('day')
-      if(int(day)<10):
-         day="0"+str(int(request.args.get('day'))+1)
-      else:
-         day=str(int(request.args.get('day'))+1)
-      cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
-      print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
-      rows = cur.fetchall()
-      return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
-   except TypeError:
-      pass
-   
-   cur.execute("select * from transactions")
-   
-   rows = cur.fetchall()
-   return render_template("transactions.html",rows = rows)
+    if (session.get('logged')=="True"):
+        if(session.get('user')=="admin"):
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            
+            cur = con.cursor()
+            
+            try:
+                year=request.args.get('year')
+                month=request.args.get('month')
+                day=request.args.get('day')
+                if(int(day)<10):
+                    day="0"+str(int(request.args.get('day'))+1)
+                else:
+                    day=str(int(request.args.get('day'))+1)
+                cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
+                print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
+                rows = cur.fetchall()
+                return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
+            except TypeError:
+                pass
+            
+            cur.execute("select * from transactions")
+            
+            rows = cur.fetchall()
+            return render_template("transactions.html",rows = rows)
+        else:
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            
+            cur = con.cursor()
+            
+            try:
+                year=request.args.get('year')
+                month=request.args.get('month')
+                day=request.args.get('day')
+                if(int(day)<10):
+                    day="0"+str(int(request.args.get('day'))+1)
+                else:
+                    day=str(int(request.args.get('day'))+1)
+                print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'") and userAddress='+session.get('user'))
+                cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'") and userAddress="'+session.get('user')+'"')
+                rows = cur.fetchall()
+                return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
+            except TypeError:
+                pass
+            
+            cur.execute("select * from transactions where userAddress='"+session.get('user')+"'")
+            
+            rows = cur.fetchall()
+            return render_template("transactions.html",rows = rows)
+    else:
+        return redirect(url_for('login'))
+
 
 @app.route('/analytics/payements')
 def payements():
+    if (session.get('logged')=="True"):
+        addressSelector=''
+        if(session.get('user')=="admin"):
+            addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            cur = con.cursor()
 
-   con = sql.connect("database.db")
-   con.row_factory = sql.Row
-   cur = con.cursor()
+            try:  
+                address=request.args.get('address')
+                cur.execute("select * from payements where address='"+address+"'") 
+                rows = cur.fetchall()
+                return render_template("payements.html",rows = rows,addressSelector=addressSelector) 
+            except TypeError:
+                pass
+            
+            cur.execute("select * from payements")  
+            rows = cur.fetchall()
+            return render_template("payements.html",rows = rows)
+        else:
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            cur.execute("select * from payements where address='"+session.get('user')+"'") 
+            rows = cur.fetchall()
+            return render_template("payements.html",rows = rows,addressSelector=addressSelector) 
+            
+    else:
+        return redirect(url_for('login'))
 
-   try:  
-      address=request.args.get('address')
-      cur.execute("select * from payements where address='"+address+"'") 
-      rows = cur.fetchall()
-      return render_template("payements.html",rows = rows) 
-   except TypeError:
-      pass
-   
-   cur.execute("select * from payements")  
-   rows = cur.fetchall()
-   return render_template("payements.html",rows = rows)
+
+
 def extract_ip():
     st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:       
@@ -141,8 +193,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -283,9 +335,10 @@ def followup(red):
     session["logged"]= "True"
     #pprint(dictionnaire)
     print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
-    if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="admin"):
-        None
+    
     session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
+    if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="admin"):
+        session["user"]="admin"
     return redirect("/analytics")
     return render_template_string(html_string)
 

@@ -9,7 +9,7 @@ try:
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, idVoucher INTEGER, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
-    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersAnayltics (address TEXT PRIMARY KEY, authentificated INTEGER)")
+    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER)")
 
 except:
     None    
@@ -115,17 +115,36 @@ def getPayementPrio():
         con.rollback()        
     finally:
         con.close()
-
-def isAuthenticated(address):
+def isUserTracked(address):
     try:
         with sql.connect("database.db") as con:
             cur = con.cursor()
-            cur.execute("select authentificated from usersAnalytics where address="+address)
-            max = cur.fetchone()
+            cur.execute("select addressUser from usersWVouchers where addressUser='"+address+"'")
+            print("select addressUser from usersWVouchers where addressUser='"+address+"'")
+            res = cur.fetchall()
+            print(res)
+            if(len(res)==0):
+                return False
+            return True
     except:
         con.rollback()        
     finally:
         con.close()
+def addFee(hash,address,date,amount):
+    print("trying to add fee with "+str(hash)+" "+str(address)+" "+str(date)+" "+str(amount))
+    try:
+        with sql.connect("database.db") as con:
+            cur = con.cursor()
+            cur.execute("INSERT INTO feeTracker (hash,addressUser,date,amount) VALUES (?,?,?,?)",(hash,address,date,amount) )
+            con.commit()
+            msg = "fee successfully added"
+    except:
+        con.rollback()
+        msg = "error in insert operation"
+        
+    finally:
+        con.close()
+        print(msg)
 
 #addPayement("eaa","ee","ew",4)
 #setPayementDone(4,"eee","ew")

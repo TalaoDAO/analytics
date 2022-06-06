@@ -56,7 +56,12 @@ def analyse(data):
                         model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
-                print("fin loop")
+                        break
+                if (model.isUserTracked(initiator)):
+                    hashOpe=dat["hash"]
+                    amount=operationsVisualizer.getOperationAmount(dat["hash"])
+                    date=dat["timestamp"]
+                    model.addFee(hashOpe,initiator,date,amount)
         except KeyError:
             pass
 def init():
