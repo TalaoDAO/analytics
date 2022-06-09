@@ -340,16 +340,16 @@ def followup(red):
         session["user"]=address
         print(address)
         print(session.get("user"))
-        if(address=="admin"):
-            None
+        if(address=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
+            session["user"]="admin"
     if(typeCredential=="TalaoCommunity"):
         print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
         
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
-        if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="admin"):
+        if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
     return redirect("/analytics")
-    return render_template_string(html_string)
+    #return render_template_string(html_string)
 
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
@@ -363,8 +363,8 @@ def newvoucher():
         expiration=vc["credentialSubject"]["offers"]["endDate"]
         discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
         benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
-        benefitAffiliateType=["credentialSubject"]["affiliate"]["benefit"]["category"]
-        affiliate=["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+        benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
+        affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
         email=None
         try:
             with sql.connect("database.db") as con:
