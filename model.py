@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 try:
-    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT,email TEXT)")
+    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER)")

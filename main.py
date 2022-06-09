@@ -355,22 +355,21 @@ def followup(red):
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
-    vc=request.json
-    pprint(vc)
+    vc=json.loads(request.get_data())
+    
     key = request.headers.get('key')
     if (key=="SECRET_KEY"):
         adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
         #return jsonify("ok"), 200
-        expiration=vc["credentialSubject"]["offers"]["endDate"]
-        discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+        expiration=vc["credentialSubject"]["offers"][0]["endDate"]
+        discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
         benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
         benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
         affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
-        email=None
         try:
             with sql.connect("database.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate,email) VALUES (?,?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate,email) )
+                cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
                 con.commit()
                 msg = "usersWVoucher successfully added"
         except:

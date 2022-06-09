@@ -1,6 +1,6 @@
 import requests
-
-params = {"key": "SECRET_KEY"}
+import json
+params = { 'accept' : 'application/json',"key": "SECRET_KEY"}
 body = {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
@@ -213,5 +213,5 @@ body = {
 
 
 response = requests.post(
-    "http://192.168.1.17:3000/analytics/api/newvoucher", json=body, headers=params)
+    "http://192.168.1.17:3000/analytics/api/newvoucher", data=json.dumps(body), headers=params)
 print(response.status_code)
