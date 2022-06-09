@@ -333,26 +333,38 @@ def followup(red):
         </html>"""
     dictionnaire=json.loads(credential)
     session["logged"]= "True"
-    #pprint(dictionnaire)
-    print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
-    
-    session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
-    if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="admin"):
-        session["user"]="admin"
+    typeCredential=dictionnaire["type"][1]
+    if(typeCredential=="EmailPass"):
+        email=dictionnaire["credentialSubject"]["email"]
+        address=model.getAddressFromMail(email)
+        session["user"]=address
+        print(address)
+        print(session.get("user"))
+        if(address=="admin"):
+            None
+    if(typeCredential=="TalaoCommunity"):
+        print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
+        
+        session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
+        if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="admin"):
+            session["user"]="admin"
     return redirect("/analytics")
     return render_template_string(html_string)
 
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
+    vc=request.json
+    pprint(vc)
     key = request.headers.get('key')
     if (key=="SECRET_KEY"):
-        adressUser=request.args.get("adressUser")
-        expiration=request.args.get("expiration")
-        discount=request.args.get("discount")
-        benefitAffiliate=request.args.get("benefitAffiliate")
-        benefitAffiliateType=request.args.get("benefitAffiliateType")
-        affiliate=request.args.get("affiliate")
+        adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+        #return jsonify("ok"), 200
+        expiration=vc["credentialSubject"]["offers"]["endDate"]
+        discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+        benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
+        benefitAffiliateType=["credentialSubject"]["affiliate"]["benefit"]["category"]
+        affiliate=["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
         try:
             with sql.connect("database.db") as con:
                 cur = con.cursor()

@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 try:
-    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, idVoucher INTEGER, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
+    sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT,email TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
     sql.connect("database.db").cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER)")
@@ -130,6 +130,19 @@ def isUserTracked(address):
         con.rollback()        
     finally:
         con.close()
+def getAddressFromMail(mail):
+    try:
+        with sql.connect("database.db") as con:
+            cur = con.cursor()
+            cur.execute("select addressUser from usersWVouchers where email='"+mail+"'")
+            res = cur.fetchall()
+            if(len(res)==0):
+                return None
+            return res[0][0]
+    except:
+        con.rollback()        
+    finally:
+        con.close()
 def addFee(hash,address,date,amount):
     print("trying to add fee with "+str(hash)+" "+str(address)+" "+str(date)+" "+str(amount))
     try:
@@ -148,3 +161,4 @@ def addFee(hash,address,date,amount):
 
 #addPayement("eaa","ee","ew",4)
 #setPayementDone(4,"eee","ew")
+print(getAddressFromMail("ew@gmail.com"))
