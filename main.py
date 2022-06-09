@@ -336,6 +336,9 @@ def followup(red):
     typeCredential=dictionnaire["type"][1]
     if(typeCredential=="EmailPass"):
         email=dictionnaire["credentialSubject"]["email"]
+        if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
+            session["user"]="admin"
+            return redirect("/analytics")
         address=model.getAddressFromMail(email)
         session["user"]=address
         print(address)
