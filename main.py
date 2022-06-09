@@ -193,8 +193,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -365,10 +365,11 @@ def newvoucher():
         benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
         benefitAffiliateType=["credentialSubject"]["affiliate"]["benefit"]["category"]
         affiliate=["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+        email=None
         try:
             with sql.connect("database.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate,email) VALUES (?,?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate,email) )
                 con.commit()
                 msg = "usersWVoucher successfully added"
         except:
