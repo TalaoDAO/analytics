@@ -34,9 +34,9 @@ async def verifyPresentation(vc):
 def home():
     if (session.get('logged')=="True"):
         if(session.get('user')=="admin"):
-            return render_template("home.html",usersWvouchers='''<input  class="button" type="button" onclick="location.href='/analytics/usersvouchers';" value="usersWVouchers" />''')
-        else:
             return render_template("home.html")
+        else:
+            return render_template("home.html",usersWVouchers="hidden")
     else:
         return redirect(url_for('login'))
  
@@ -193,8 +193,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -348,6 +348,7 @@ def followup(red):
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
         if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
+    print("logged in "+session.get("user"))
     return redirect("/analytics")
     #return render_template_string(html_string)
 
