@@ -11,11 +11,10 @@ import sqlite3 as sql
 import asyncio
 from pprint import pprint
 import model
-app = Flask(__name__)
 
+app = Flask(__name__)
 app.config.from_object(__name__)
 app.permanent_session_lifetime = timedelta(minutes=15)
-
 qrcode = QRcode(app)
 PORT = 3000
 app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
@@ -25,21 +24,44 @@ async def verifyPresentation(vc):
     verif = await didkit.verify_presentation(vc, '{}')
     return verif
 
-
-
-    
-
-
 @app.route('/analytics/')
 def home():
     if (session.get('logged')=="True"):
+        addressSelector=''
         if(session.get('user')=="admin"):
-            return render_template("home.html")
+            addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+
+            try:  
+                address=request.args.get('address')
+                cur.execute("select * from payements where address='"+address+"'") 
+                rows = cur.fetchall()
+                return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
+            except TypeError:
+                pass
+            
+            cur.execute("select * from payements")  
+            rows = cur.fetchall()
+            return render_template("home.html",rows = rows)
         else:
-            return render_template("home.html",usersWVouchers="hidden")
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            cur.execute("select * from payements where address='"+session.get('user')+"'") 
+            rows = cur.fetchall() 
+            cur.execute("select * from transactions where userAddress='"+session.get('user')+"'")
+            rows2 = cur.fetchall()
+            """for row in rows:
+                if(row[3]==1):
+                    row[3]="done"
+                else:
+                    row[3]="pending"""
+            return render_template("home.html",rows = rows,rows2=rows2,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+            
     else:
         return redirect(url_for('login'))
- 
 
 
 @app.route('/analytics/usersvouchers')
@@ -67,6 +89,7 @@ def usersWvouchers():
 @app.route('/analytics/logout', methods=['GET', 'POST'])
 def logout():
     session['logged']=False
+    session['user']=None
     return redirect(url_for('login'))
 
 @app.route('/analytics/transactions')
@@ -125,7 +148,6 @@ def transactions():
     else:
         return redirect(url_for('login'))
 
-
 @app.route('/analytics/payements')
 def payements():
     if (session.get('logged')=="True"):
@@ -158,8 +180,6 @@ def payements():
     else:
         return redirect(url_for('login'))
 
-
-
 def extract_ip():
     st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:       
@@ -170,8 +190,7 @@ def extract_ip():
     finally:
         st.close()
     return IP
-"""if __name__ == '__main__':
-   app.run(debug = True,port=3000)"""
+
 red= redis.Redis(host='127.0.0.1', port=6379, db=0)
 OFFER_DELAY = timedelta(seconds= 10*60)
 did_verifier = 'did:tz:tz2NQkPq3FFA3zGAyG8kLcWatGbeXpHMu7yk'
@@ -184,7 +203,6 @@ pattern = {"type": "VerifiablePresentationRequest",
                 }]
             }
 
-
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
     id = str(uuid.uuid1())
@@ -193,8 +211,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -312,26 +330,8 @@ def followup(red):
         # on ne presente que le premier
         credential = json.dumps(presentation['verifiableCredential'][0], indent=4, ensure_ascii=False)
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
-    html_string = """
-        <!DOCTYPE html>
-        <html>
-        <body class="h-screen w-screen flex">
-        <br>Number of credentials : """ + nb_credentials + """<br>
-        <br>Holder (wallet DID)  : """ + holder + """<br>
-        <br>Issuers : """ + issuers + """<br>
-        <br>Credential types : """ + types + """
-        <br><br>
-        <form action="/" method="GET" >
-                    <button  type"submit" >Verifier test</button>
-        </form>
-        <br>---------------------------------------------------<br>
-        <h2> Verifiable Credential </h2>
-        <pre class="whitespace-pre-wrap m-auto">""" + credential + """</pre>
-        <h2> Verifiable Presentation </h2>
-        <pre class="whitespace-pre-wrap m-auto">""" + presentation + """</pre>
-        </body>
-        </html>"""
     dictionnaire=json.loads(credential)
+    pprint(presentation)
     session["logged"]= "True"
     typeCredential=dictionnaire["type"][1]
     if(typeCredential=="EmailPass"):
@@ -350,42 +350,45 @@ def followup(red):
         
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
         if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
+            #session["user"]="admin"
             session["user"]="admin"
-    print("logged in "+session.get("user"))
+    if(typeCredential=="TezosAssociatedWallet"):      
+        session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
+        print(session.get("user"))
+    #print("logged in "+session.get("user"))
+    print(session.get("user"))
     return redirect("/analytics")
-    #return render_template_string(html_string)
-
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
-    vc=json.loads(request.get_data())
-    
-    key = request.headers.get('key')
-    if (key=="SECRET_KEY"):
-        adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-        #return jsonify("ok"), 200
-        expiration=vc["credentialSubject"]["offers"][0]["endDate"]
-        discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
-        benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
-        benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
-        affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
-        try:
-            with sql.connect("database.db") as con:
-                cur = con.cursor()
-                cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
-                con.commit()
-                msg = "usersWVoucher successfully added"
-        except:
-            con.rollback()
-            msg = "error in insert operation"
-            
-        finally:
-            con.close()
-            print(msg)
-            return jsonify("ok"), 200
-    else:
-        return jsonify("Forbidden"), 403
-
+    try:
+        vc=json.loads(request.get_data())
+        key = request.headers.get('key')
+        if (key=="SECRET_KEY"):
+            adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+            expiration=vc["credentialSubject"]["offers"][0]["endDate"]
+            discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+            benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
+            benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
+            affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+            try:
+                with sql.connect("database.db") as con:
+                    cur = con.cursor()
+                    cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                    con.commit()
+                    msg = "usersWVoucher successfully added"
+            except:
+                con.rollback()
+                msg = "error in insert operation"
+                
+            finally:
+                con.close()
+                print(msg)
+                return jsonify("ok"), 200
+        else:
+            return jsonify("Forbidden"), 403
+    except KeyError:
+        return jsonify("error"),404
 
 if __name__ == '__main__':
     # to get the local server IP 
