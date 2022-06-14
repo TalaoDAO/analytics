@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify, request, Response,session
+from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify, request, Response,session,send_file
 from flask_qrcode import QRcode
 from datetime import timedelta
 import didkit
@@ -110,6 +110,11 @@ pattern = {"type": "VerifiablePresentationRequest",
                 }]
             }
 
+@app.route('/analytics/style' , methods=['GET'])
+def style():
+	return send_file('./static/style.css', attachment_filename='style.css')
+    
+
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
     id = str(uuid.uuid1())
@@ -118,8 +123,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -241,12 +246,14 @@ def followup(red):
     #pprint(presentation)
     session["logged"]= "True"
     typeCredential=dictionnaire["type"][1]
-    """if(typeCredential=="EmailPass"):
+    if(typeCredential=="EmailPass"):
         email=dictionnaire["credentialSubject"]["email"]
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
             session["user"]="admin"
             return redirect("/analytics")
-        address=model.getAddressFromMail(email)
+        else:
+            return redirect(url_for('login'))
+        """address=model.getAddressFromMail(email)
         session["user"]=address
         print(address)
         print(session.get("user"))
