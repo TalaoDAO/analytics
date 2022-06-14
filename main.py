@@ -123,8 +123,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
