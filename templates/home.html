@@ -25,18 +25,15 @@
             <td>Reference of payment transaction</td>
          </thead>
          {% for row in rows %}
-         {% for row2 in rows2 %}
          <tr>
-            <td><a href="https://ithacanet.tzkt.io/{{row["hash"]}}">{{row["hash"]}}</a></td> select * from(select a.hash,a.amount,a.date,b.applied,b.address from transactions a, payements b where a.hash=b.hash) where address="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"
-
-            <td>{{row2["amount"]}}</td>
-            <td></td>
-            <td></td>
-            <td>{{row["amount"]}}</td> 
+            <td><a href="https://ithacanet.tzkt.io/{{row["hash"]}}">{{row["hash"]}}</a></td> 
+            <td>{{row["amount"]}}</td>
+            <td>{{row["date"]}}</td>
+            <td>{{row["discount"]}}</td>
+            <td>{{row["amountDiscount"]}}</td> 
             <td> {{ row["applied"]}}</td> 
             <td><a href="https://ithacanet.tzkt.io/{{row["hashPayement"]}}">{{row["hashPayement"]}}</a></td> 
          </tr>
-         {% endfor %}
          {% endfor %}
       </table>
 

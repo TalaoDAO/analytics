@@ -36,7 +36,7 @@ def home():
 
             try:  
                 address=request.args.get('address')
-                cur.execute("select * from payements where address='"+address+"'") 
+                cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') ") 
                 rows = cur.fetchall()
                 return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
             except TypeError:
@@ -49,16 +49,10 @@ def home():
             con = sql.connect("database.db")
             con.row_factory = sql.Row
             cur = con.cursor()
-            cur.execute("select * from payements where address='"+session.get('user')+"'") 
+            cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') where address='"+session.get('user')+"'") 
             rows = cur.fetchall() 
-            cur.execute("select * from transactions where userAddress='"+session.get('user')+"'")
-            rows2 = cur.fetchall()
-            """for row in rows:
-                if(row[3]==1):
-                    row[3]="done"
-                else:
-                    row[3]="pending"""
-            return render_template("home.html",rows = rows,rows2=rows2,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+
+            return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
             
     else:
         return redirect(url_for('login'))
@@ -110,7 +104,7 @@ def transactions():
                 else:
                     day=str(int(request.args.get('day'))+1)
                 cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
-                print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
+                #print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'")')
                 rows = cur.fetchall()
                 return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
             except TypeError:
@@ -134,7 +128,7 @@ def transactions():
                     day="0"+str(int(request.args.get('day'))+1)
                 else:
                     day=str(int(request.args.get('day'))+1)
-                print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'") and userAddress='+session.get('user'))
+                #print('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'") and userAddress='+session.get('user'))
                 cur.execute('select * from transactions where datetime(date) < date("'+year+'-'+month+'-'+day+'") and datetime(date) > date("'+request.args.get('year')+'-'+request.args.get('month')+'-'+request.args.get('day')+'") and userAddress="'+session.get('user')+'"')
                 rows = cur.fetchall()
                 return render_template("transactions.html",rows = rows,year=request.args.get('year'),month=request.args.get('month'),day=request.args.get('day'))
@@ -211,8 +205,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -331,10 +325,10 @@ def followup(red):
         credential = json.dumps(presentation['verifiableCredential'][0], indent=4, ensure_ascii=False)
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
     dictionnaire=json.loads(credential)
-    pprint(presentation)
+    #pprint(presentation)
     session["logged"]= "True"
     typeCredential=dictionnaire["type"][1]
-    if(typeCredential=="EmailPass"):
+    """if(typeCredential=="EmailPass"):
         email=dictionnaire["credentialSubject"]["email"]
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
             session["user"]="admin"
@@ -344,9 +338,9 @@ def followup(red):
         print(address)
         print(session.get("user"))
         if(address=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
-            session["user"]="admin"
+            session["user"]="admin"""
     if(typeCredential=="TalaoCommunity"):
-        print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
+        #print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
         
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
         if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
@@ -354,9 +348,11 @@ def followup(red):
             session["user"]="admin"
     if(typeCredential=="TezosAssociatedWallet"):      
         session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
+        if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
+            session["user"]="admin"
         print(session.get("user"))
     #print("logged in "+session.get("user"))
-    print(session.get("user"))
+    #print(session.get("user"))
     return redirect("/analytics")
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
