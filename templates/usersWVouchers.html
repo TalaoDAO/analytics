@@ -10,21 +10,23 @@
       <table class="blueTable" border = 1>
          <thead>
             <td>id</td>
-            <td>idVoucher</td>
-            <td>address</td>
-            <td>discount</td>
+            <td>addressUser</td>
             <td>expiration</td>
-            <td>benefitInfluencer</td>
+            <td>discount</td>
+            <td>benefitAffiliate</td>
+            <td>benefitAffiliateType</td>
+            <td>affiliate</td>
          </thead>
          
          {% for row in rows %}
             <tr>
                <td>{{row["id"]}}</td>
-               <td>{{row["idVoucher"]}}</td>
-               <td> {{ row["addressUser"]}}</td>
-               <td>{{row["discount"]}}</td>
+               <td>{{row["addressUser"]}}</td>
                <td> {{ row["expiration"]}}</td>
-               <td>{{row['benefitInfluencer']}}</td>
+               <td>{{row["discount"]}}</td>
+               <td> {{ row["benefitAffiliate"]}}</td>
+               <td>{{row['benefitAffiliateType']}}</td>
+               <td>{{row['affiliate']}}</td>
             </tr>
          {% endfor %}
       </table>
