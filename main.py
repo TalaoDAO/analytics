@@ -250,7 +250,7 @@ def followup(red):
         print(str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
         print(str(email))
-        if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
+        if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io" or email=="achillerondo@gmail.com"):
             session["logged"]= "True"
             session["user"]="admin"
             return redirect("/analytics")
