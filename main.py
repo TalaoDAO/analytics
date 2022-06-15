@@ -244,13 +244,14 @@ def followup(red):
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
     dictionnaire=json.loads(credential)
     #pprint(presentation)
-    session["logged"]= "True"
+    
     typeCredential=dictionnaire["type"][1]
     if(typeCredential=="EmailPass"):
-        pprint(presentation)
+        print(str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
         print(str(email))
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
+            session["logged"]= "True"
             session["user"]="admin"
             return redirect("/analytics")
         else:
@@ -267,8 +268,10 @@ def followup(red):
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
         if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             #session["user"]="admin"
+            session["logged"]= "True"
             session["user"]="admin"
     if(typeCredential=="TezosAssociatedWallet"):      
+        session["logged"]= "True"
         session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
         if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
