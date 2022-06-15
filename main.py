@@ -246,10 +246,11 @@ def followup(red):
     #pprint(presentation)
     
     typeCredential=dictionnaire["type"][1]
+    print("type credential : "+typeCredential)
     if(typeCredential=="EmailPass"):
-        print(str(presentation))
+        print("presentation " +str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
-        print(str(email))
+        print("email "+str(email))
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io" or email=="achillerondo@gmail.com"):
             session["logged"]= "True"
             session["user"]="admin"
@@ -275,7 +276,7 @@ def followup(red):
         session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
         if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
-        print(session.get("user"))
+        print("user "+session.get("user"))
     #print("logged in "+session.get("user"))
     #print(session.get("user"))
     return redirect("/analytics")
