@@ -247,7 +247,9 @@ def followup(red):
     session["logged"]= "True"
     typeCredential=dictionnaire["type"][1]
     if(typeCredential=="EmailPass"):
+        pprint(presentation)
         email=dictionnaire["credentialSubject"]["email"]
+        print(str(email))
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io"):
             session["user"]="admin"
             return redirect("/analytics")
