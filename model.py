@@ -31,7 +31,7 @@ def addVoucherUser():
         
     finally:
         con.close()
-        print(msg)
+        print("msg db "+str(msg))
 def eligible():
     with sql.connect("database.db") as conn:
         cur = conn.cursor()
@@ -53,7 +53,7 @@ def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,
         
     finally:
         con.close()
-        print(msg)
+        print("msg db "+str(msg))
 def addPayement(hash,address,forWho,amount):
     print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount))
     try:
@@ -62,7 +62,6 @@ def addPayement(hash,address,forWho,amount):
             cur = con.cursor()
             cur.execute("select max(prio) from payements ")
             max = cur.fetchone()
-            print()
             cur = con.cursor()
             cur.execute("INSERT INTO payements (hash,prio,address,applied,forWho,amount) VALUES (?,?,?,?,?,?)",(hash,max[0]+1,address,False,forWho,amount) )
             con.commit()
@@ -73,7 +72,7 @@ def addPayement(hash,address,forWho,amount):
         
     finally:
         con.close()
-        print(msg)
+        print("msg db "+str(msg))
 def setPayementDone(prio,hash,date):
     try:
         with sql.connect("database.db") as con:
@@ -122,7 +121,7 @@ def isUserTracked(address):
             cur.execute("select addressUser from usersWVouchers where addressUser='"+address+"'")
             print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            print(res)
+            print("res "+res)
             if(len(res)==0):
                 return False
             return True
@@ -157,6 +156,6 @@ def addFee(hash,address,date,amount):
         
     finally:
         con.close()
-        print(msg)
+        print("msg db "+str(msg))
 
 

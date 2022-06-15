@@ -293,6 +293,7 @@ def newvoucher():
             benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
             benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
             affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+            print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
             try:
                 with sql.connect("database.db") as con:
                     cur = con.cursor()
@@ -305,7 +306,7 @@ def newvoucher():
                 
             finally:
                 con.close()
-                print(msg)
+                print("msg db addVoucher "+str(msg))
                 return jsonify("ok"), 200
         else:
             return jsonify("Forbidden"), 403
