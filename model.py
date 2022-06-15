@@ -159,6 +159,4 @@ def addFee(hash,address,date,amount):
         con.close()
         print(msg)
 
-#addPayement("eaa","ee","ew",4)
-#setPayementDone(4,"eee","ew")
-print(getAddressFromMail("ew@gmail.com"))
+
