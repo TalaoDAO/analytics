@@ -287,7 +287,7 @@ def newvoucher():
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
         if (key=="SECRET_KEY"):
-            adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+            adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"][0]
             expiration=vc["credentialSubject"]["offers"][0]["endDate"]
             discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
             benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
