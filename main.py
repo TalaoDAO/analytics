@@ -123,8 +123,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head></head>
@@ -251,7 +251,7 @@ def followup(red):
         print("presentation " +str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
         print("email "+str(email))
-        if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io" or email=="achillerondo@gmail.com" or email=="denis@altme.io" or email=="hugo@altme.io"):
+        if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io" or email=="achillerondo@gmail.com" or email=="denis@altme.io" or email=="hugo@altme.io" or email=="achillemarseille@gmail.com"):
             session["logged"]= "True"
             session["user"]="admin"
             return redirect("/analytics")
