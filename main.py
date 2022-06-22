@@ -158,17 +158,17 @@ def login(red):
 def presentation_endpoint(id, red):
     try :
         my_pattern = json.loads(red.get(id).decode())
-        pprint(my_pattern)
+        pprint("my_pattern "+str(my_pattern))
     except :
         event_data = json.dumps({"id" : id,
                                  "message" : "redis decode failed",
                                  "check" : "ko"})
         red.publish('verifier', event_data)
-        pprint(event_data)
+        pprint("event data "+str(event_data))
         return jsonify("server error"), 500
     
     if request.method == 'GET':
-        pprint(my_pattern)
+        pprint("my_pattern "+str(my_pattern))
 
         return jsonify(my_pattern)
     
@@ -177,6 +177,7 @@ def presentation_endpoint(id, red):
         try : 
             pprint(request.form['presentation'])
             result = json.loads(asyncio.run(verifyPresentation(request.form['presentation'])))['errors']
+            print("result "+str(result))
         except:
             print("except")
             event_data = json.dumps({"id" : id,
