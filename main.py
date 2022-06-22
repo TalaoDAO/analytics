@@ -22,6 +22,7 @@ app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e317
 
 async def verifyPresentation(vc):
     verif = await didkit.verify_presentation(vc, '{}')
+    print(verif)
     return verif
 
 @app.route('/analytics/')
