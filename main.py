@@ -175,7 +175,7 @@ def presentation_endpoint(id, red):
     if request.method == 'POST' :
         #red.delete(id)
         try : 
-            #pprint(request.form['presentation'])
+            pprint(request.form['presentation'])
             result = json.loads(asyncio.run(verifyPresentation(request.form['presentation'])))
             print("result "+str(result))
         except:
@@ -277,7 +277,8 @@ def followup(red):
             #session["user"]="admin"
             session["logged"]= "True"
             session["user"]="admin"
-    if(typeCredential=="TezosAssociatedWallet"):      
+    if(typeCredential=="TezosAssociatedWallet"):   
+        print("presentation " +str(presentation))   
         session["logged"]= "True"
         session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
         if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
