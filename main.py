@@ -27,6 +27,8 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
+    session["logged"]= "True"
+    session["user"]="admin"
     if (session.get('logged')=="True"):
         addressSelector=''
         if(session.get('user')=="admin"):
@@ -128,13 +130,21 @@ def login(red):
     url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
-        <head></head>
+        <head> <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">      </head>
         <body>
         <center>
             <div>  
-                <h2>Scan the QR Code bellow with your smartphone wallet</h2> 
+
+                <img  src="../static/Logo.png">
+                <br>
+                <br>
+                <div id="access">
+                <p >Access my analitycs</p>
+                </div>
+                <p id="connect">Connect with your email pass or your associated address</p>
+                <h5>Scan the QR Code bellow with your smartphone wallet</h5> 
                 <br>  
-                <div><img src="{{ qrcode(url) }}" ></div>
+                <div><img id="qrcode" src="{{ qrcode(url) }}" ></div>
             </div>
         </center>
         <script>

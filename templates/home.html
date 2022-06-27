@@ -2,39 +2,41 @@
 <html>
    <head>
       <title>Home</title>
-      <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">      
+      <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
    </head>
    <body>
       
       <h5>connected with {{addressTezos}}</h5>
-
-      <input  class="button" type="button" onclick="location.href='/analytics/usersvouchers';" value="usersWVouchers" {{usersWVouchers}}=""/>
-
+      <div id="logo">
+      <img  src="../static/Logo.png">
+   </div>
+      <input  class="button" id="vouchers" type="button" onclick="location.href='/analytics/usersvouchers';" value="usersWVouchers" {{usersWVouchers}}=""/>
+   
       
-      <input  class="button" type="button" onclick="location.href='/analytics/logout';" value="Deconnexion" />
-
+      <input  class="button" id="logout" type="button" onclick="location.href='/analytics/logout';" value="Deconnexion" />
+      <div class="table">
       <table class="blueTable" border=1>
          <thead class="header">
-            <td>Reference of NFT purchase transaction</td>
-            <td>Purchase amount (XTZ)</td>
-            <td>Purchase date</td>
-            <td>% discount</td>
-            <td>Amount of the discount (XTZ)</td>
-            <td>Payment status</td>
-            <td>Reference of payment transaction</td>
+            <td><p class="line">Reference of NFT purchase transaction</p></td>
+            <td><p class="line">Purchase amount (XTZ)</p></td>
+            <td><p class="line">Purchase date</p></td>
+            <td><p class="line">% discount</p></td>
+            <td><p class="line">Amount of the discount (XTZ)</p></td>
+            <td><p class="line">Payment status</p></td>
+            <td><p class="line">Reference of payment transaction</p></td>
          </thead>
          {% for row in rows %}
          <tr>
             <td><a href="https://ithacanet.tzkt.io/{{row["hash"]}}">{{row["hash"]}}</a></td> 
-            <td>{{row["amount"]}}</td>
-            <td>{{row["date"]}}</td>
-            <td>{{row["discount"]}}</td>
-            <td>{{row["amountDiscount"]}}</td> 
-            <td> {{ row["applied"]}}</td> 
+            <td><p class="line">{{row["amount"]}}</p></td>
+            <td><p class="line">{{row["date"]}}</p></td>
+            <td><p class="line">{{row["discount"]}}</p></td>
+            <td><p class="line">{{row["amountDiscount"]}}</p></td> 
+            <td><p class="line">{{ row["applied"]}}</p></td> 
             <td><a href="https://ithacanet.tzkt.io/{{row["hashPayement"]}}">{{row["hashPayement"]}}</a></td> 
          </tr>
          {% endfor %}
       </table>
-
+   </div>
    </body>
 </html>
