@@ -116,7 +116,11 @@ pattern = {"type": "VerifiablePresentationRequest",
 @app.route('/analytics/style' , methods=['GET'])
 def style():
 	return send_file('./static/style.css', attachment_filename='style.css')
-    
+
+@app.route('/analytics/static/logo',methods=['GET'])
+def style():
+	return send_file('./static/Logo.png', attachment_filename='Logo.png')
+
 
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
@@ -135,7 +139,7 @@ def login(red):
         <center>
             <div>  
 
-                <img  src="../static/Logo.png">
+      <img  src="../analytics/static/logo">
                 <br>
                 <br>
                 <div id="access">
