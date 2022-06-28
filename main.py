@@ -121,6 +121,9 @@ def style():
 def logo():
 	return send_file('./static/Logo.png', attachment_filename='Logo.png')
 
+@app.route('/analytics/static/background',methods=['GET'])
+def background():
+	return send_file('./static/tezotopia-space.png', attachment_filename='tezotopia-space.png')
 
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
