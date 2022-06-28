@@ -125,6 +125,10 @@ def logo():
 def background():
 	return send_file('./static/tezotopia-space.png', attachment_filename='tezotopia-space.png')
 
+@app.route('/analytics/static/font',methods=['GET'])
+def font():
+	return send_file('./static/Rubik-Regular.ttf', attachment_filename='Rubik-Regular.ttf')
+
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
     id = str(uuid.uuid1())
