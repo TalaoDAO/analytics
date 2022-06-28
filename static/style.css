@@ -1,59 +1,7 @@
-/*table.blueTable {
-  border: 1px solid #1C6EA4;
-  background-color: #EEEEEE;
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
+@font-face {
+  font-family: Rubik;
+  src: url(Rubik-Regular.ttf);
 }
-table.blueTable td, table.blueTable th {
-  border: 1px solid #AAAAAA;
-  padding: 3px 2px;
-}
-table.blueTable tbody td {
-  font-size: 13px;
-}
-table.blueTable tr:nth-child(even) {
-  background: #D0E4F5;
-}
-table.blueTable thead {
-  background-color : rgba(255, 255, 255, 0.021);
-
-  border-bottom: 2px solid #444444;
-}
-table.blueTable thead th {
-  font-size: 15px;
-  font-weight: bold;
-  
-  border-left: 2px solid #D0E4F5;
-}
-table.blueTable thead th:first-child {
-  border-left: none;
-}
-
-table.blueTable tfoot {
-  font-size: 14px;
-  font-weight: bold;
-  color: #FFFFFF;
-  background: #D0E4F5;
-  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  border-top: 2px solid #444444;
-}
-table.blueTable tfoot td {
-  font-size: 14px;
-}
-table.blueTable tfoot .links {
-  text-align: right;
-}
-table.blueTable tfoot .links a{
-  display: inline-block;
-  background: #1C6EA4;
-  color: #FFFFFF;
-  padding: 2px 8px;
-  border-radius: 5px;
-}*/
-
 .button {
   color: #ffffff;
   background: transparent linear-gradient(0deg, #6E22CD 0%, #9F69E3 100%) 0% 0% no-repeat padding-box;
@@ -71,10 +19,16 @@ table.blueTable tfoot .links a{
 
 body {
   background-color: black;
-  background-image: url(https://talao.co/analytics/static/background)
-  
-}
+  background-image: url(https://talao.co/analytics/static/background);
+  font-family :Rubik;
 
+}
+table{
+  border-width: 1px;
+  border-color: #ffffff;
+  border-style: solid;
+  border-collapse: collapse;
+}
 thead{
   background-color: rgba(255,255,255,0.5);
 }
@@ -84,16 +38,20 @@ tr{
 
 a{
   color: white;
+  font-family :Rubik;
+
 }
 
 .line{
-  text-align: left;
-font: normal normal normal Rubik;
-letter-spacing: 0px;
+  text-align: center;
+  font-family :Rubik;
+  letter-spacing: 0px;
 color: #EEE9F4;
 opacity: 1;}
 td{
   height: 50px;
+  border: 1px solid #FFFFFF;
+
 }
 tr{
   width: 80%;
@@ -112,21 +70,31 @@ tr{
 #logo{
   text-align: center;
 }
-h5 {
+#scan {
   color: #EEE9F4;
-
+  font-family :Rubik;
 }
 #qrcode{
   max-width: 300px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 20px solid #FFFFFF;
+border-radius: 20px;
+opacity: 1;
 }
 #access{
   text-align: center;
 font-family :Rubik;
-font-size: 22px;
+font-size: 58px;
 letter-spacing: 0px;
 color: #FFFFFF;
 opacity: 1;
+font-weight: bold;
+line-height: 0px;
 }
 #connect{
   color: #FBD400;
+  font-family :Rubik;
+  font-size: 24px;
+  line-height: 0px;
+
 }
