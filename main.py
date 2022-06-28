@@ -27,8 +27,6 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
-    session["logged"]= "True"
-    session["user"]="admin"
     if (session.get('logged')=="True"):
         addressSelector=''
         if(session.get('user')=="admin"):
@@ -200,7 +198,8 @@ def presentation_endpoint(id, red):
         #red.delete(id)
         try : 
             pprint(request.form['presentation'])
-            result = json.loads(asyncio.run(verifyPresentation(request.form['presentation'])))
+            #result = json.loads(asyncio.run(verifyPresentation(request.form['presentation'])))
+            result=False
             print("result "+str(result))
         except:
             print("except")
