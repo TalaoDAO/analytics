@@ -118,7 +118,7 @@ def style():
 	return send_file('./static/style.css', attachment_filename='style.css')
 
 @app.route('/analytics/static/logo',methods=['GET'])
-def style():
+def logo():
 	return send_file('./static/Logo.png', attachment_filename='Logo.png')
 
 
