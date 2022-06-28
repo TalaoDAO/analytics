@@ -137,7 +137,7 @@ def login(red):
     url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
-        <head>       <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
+        <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
       </head>
         <body>
         <center>
