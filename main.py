@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify, request, Response,session,send_file
 from flask_qrcode import QRcode
 from datetime import timedelta
@@ -9,9 +10,8 @@ import json
 import sys
 import sqlite3 as sql
 import asyncio
+import traceback
 from pprint import pprint
-import model
-
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.permanent_session_lifetime = timedelta(minutes=15)
@@ -135,8 +135,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
@@ -149,7 +149,7 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >Access my analitycs</p>
+                <p >Access my analytics</p>
                 </div>
                 <p id="connect">Connect with your email pass or your associated address</p>
                 <br><br>
@@ -317,27 +317,63 @@ def newvoucher():
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
         if (key=="SECRET_KEY"):
-            adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"][0]
-            expiration=vc["credentialSubject"]["offers"][0]["endDate"]
-            discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
-            benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
-            benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
-            affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
-            print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
-            try:
-                with sql.connect("database.db") as con:
-                    cur = con.cursor()
-                    cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
-                    con.commit()
-                    msg = "usersWVoucher successfully added"
-            except:
-                con.rollback()
-                msg = "error in insert operation"
-                
-            finally:
-                con.close()
-                print("msg db addVoucher "+str(msg))
-                return jsonify("ok"), 200
+            if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
+                print("MembershipCard_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["credentialSubject"]["offers"][0]["endDate"]
+                discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                benefitAffiliate=None
+                benefitAffiliateType=None
+                affiliate=None
+                try:
+                    with sql.connect("../database.db") as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
+            if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
+                print("TezVoucher_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["credentialSubject"]["offers"][0]["endDate"]
+                discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
+                benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
+                affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+                print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
+                try:
+                    with sql.connect("../database.db") as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
         else:
             return jsonify("Forbidden"), 403
     except KeyError:
