@@ -123,3 +123,10 @@ line-height: 0px;
   max-width: 80%;
   margin-left: 7%;
 }
+#titleVouchers
+{
+  text-align: center;
+  color: #ffffff;
+  font-family :Rubik;
+  font-size: 40px;
+}
