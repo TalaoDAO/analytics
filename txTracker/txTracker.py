@@ -21,7 +21,7 @@ def analyse(data):
             if dat["parameter"]["entrypoint"]=="marketplace_transfer":
                 print("hash marketplace transfer "+dat["hash"])
                 initiator=dat["initiator"]["address"]
-                #print("model.eligible "+str(model.eligible()))
+                print("model.eligible "+str(model.eligible()))
                 #print("length "+str(len(model.eligible())))
                 elis=model.eligible()
                 for u in range(0,len(elis)):
@@ -74,11 +74,12 @@ def analyse(data):
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
-                """if (model.isUserTracked(initiator)):
+                print(model.isUserTracked(initiator))
+                if (model.isUserTracked(initiator)):
                     hashOpe=dat["hash"]
                     amount=operationsVisualizer.getOperationAmount(dat["hash"])
                     date=dat["timestamp"]
-                    model.addFee(hashOpe,initiator,date,amount)"""
+                    model.addFee(hashOpe,initiator,date,amount)
         except KeyError:
             print("keyError")
             pass

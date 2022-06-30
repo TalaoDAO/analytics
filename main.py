@@ -276,7 +276,7 @@ def followup(red):
     typeCredential=dictionnaire["type"][1]
     print("type credential : "+typeCredential)
     if(typeCredential=="EmailPass"):
-        print("presentation " +str(presentation))
+        #print("presentation " +str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
         print("email "+str(email))
         if (email=="nicolas.muller@talao.io" or email=="thierry.thevenet@talao.io" or email=="achillerondo@gmail.com" or email=="denis@altme.io" or email=="hugo@altme.io" or email=="achillemarseille@gmail.com"):

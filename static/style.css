@@ -28,6 +28,9 @@ table{
   border-color: #ffffff;
   border-style: solid;
   border-collapse: collapse;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
 }
 thead{
   background-color: rgba(255,255,255,0.5);
@@ -51,7 +54,7 @@ opacity: 1;}
 td{
   height: 50px;
   border: 1px solid #FFFFFF;
-
+  padding: 10px;
 }
 tr{
   width: 80%;
