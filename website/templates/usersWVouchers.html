@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+   <head>
+      <title>Users and vouchers</title>
+      <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
+   </head>
+   <body>
+      <input  class="button" type="button" onclick="location.href='/analytics/';" value="Home page" />
+
+      <table class="blueTable" border = 1>
+         <thead>
+            <td><p class="line">id</p></td>
+            <td><p class="line">addressUser</p></td>
+            <td><p class="line">expiration</p></td>
+            <td><p class="line">discount</p></td>
+            <td><p class="line">benefitAffiliate</p></td>
+            <td><p class="line">benefitAffiliateType</p></td>
+            <td><p class="line">affiliate</p></td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td><p class="line">{{row["id"]}}</p></td>
+               <td><p class="line">{{row["addressUser"]}}</p></td>
+               <td> <p class="line">{{ row["expiration"]}}</p></td>
+               <td><p class="line">{{row["discount"]}}</p></td>
+               <td><p class="line">{{ row["benefitAffiliate"]}}</p> </td>
+               <td><p class="line">{{row['benefitAffiliateType']}}</p></td>
+               <td><p class="line">{{row['affiliate']}}</p></td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+      
+   </body>
+</html>

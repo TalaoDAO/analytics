@@ -1,0 +1,194 @@
+{
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        {
+            "name": "https://schema.org/name",
+            "description": "https://schema.org/description",
+            "EmailPass": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "email": "schema:email",
+                    "id": "@id",
+                    "issuedBy": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "logo": {
+                                "@id": "schema:image",
+                                "@type": "@id"
+                            },
+                            "name": "schema:name"
+                        },
+                        "@id": "schema:issuedBy"
+                    },
+                    "passbaseMetadata": "schema:identifier",
+                    "schema": "https://schema.org/",
+                    "type": "@type"
+                },
+                "@id": "https://github.com/TalaoDAO/context/blob/main/README.md#emailpass"
+            }
+        }
+    ],
+    "id": "urn:uuid:464030c2-d859-11ec-8225-0a5bad1dad00",
+    "type": [
+        "VerifiableCredential",
+        "EmailPass"
+    ],
+    "credentialSubject": {
+        "id": "did:tz:tz2DHsghAAqFH1wxu5zrU7my5dWMZMzqNT3B",
+        "email": "achillerondo@gmail.com",
+        "passbaseMetadata": "XusjrRYmDICD2b9bWVo7myDY4jrnGJNc+bHScmFg74zriyq4msCAtSAeA65CADCM0HIJmOrzOu74fIeVfwu5WCWVwnNhIpBq+f1Q20eS2CtOrgvhNnqa41XaxICD5O8OqBRYt/qSr04P0PxM4WGqqFMpl17g3V9Ve+7Rf68yiJe62CfPQZ1LRs7fHKP6CBhG0OMZIqQucMQKOvLP0dUx1l/XO/uPudtV+Tph3n0u8nF8mmwG8CDo20BnJ/Sdy070jgV8mjd8iFWM5/gP0haTYZZffJ8ZqfdkypRrVPvqce/MspbfutkrbtB/480AYBWZCDM57N658wkgIlqed3Vu7w==",
+        "issuedBy": {
+            "logo": "https://talao.mypinata.cloud/ipfs/QmNwbEEupT7jR2zmrA87FsN4hUS8eXnCxM8DsL9RXc25cu",
+            "name": "Talao"
+        },
+        "type": "EmailPass"
+    },
+    "issuer": "did:tz:tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du",
+    "issuanceDate": "2022-05-20T16:24:08Z",
+    "proof": {
+        "@context": {
+            "Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "challenge": "https://w3id.org/security#challenge",
+                    "created": {
+                        "@id": "http://purl.org/dc/terms/created",
+                        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "domain": "https://w3id.org/security#domain",
+                    "expires": {
+                        "@id": "https://w3id.org/security#expiration",
+                        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "id": "@id",
+                    "jws": "https://w3id.org/security#jws",
+                    "nonce": "https://w3id.org/security#nonce",
+                    "proofPurpose": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "assertionMethod": {
+                                "@container": "@set",
+                                "@id": "https://w3id.org/security#assertionMethod",
+                                "@type": "@id"
+                            },
+                            "authentication": {
+                                "@container": "@set",
+                                "@id": "https://w3id.org/security#authenticationMethod",
+                                "@type": "@id"
+                            },
+                            "id": "@id",
+                            "type": "@type"
+                        },
+                        "@id": "https://w3id.org/security#proofPurpose",
+                        "@type": "@vocab"
+                    },
+                    "publicKeyJwk": {
+                        "@id": "https://w3id.org/security#publicKeyJwk",
+                        "@type": "@json"
+                    },
+                    "type": "@type",
+                    "verificationMethod": {
+                        "@id": "https://w3id.org/security#verificationMethod",
+                        "@type": "@id"
+                    }
+                },
+                "@id": "https://w3id.org/security#Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021"
+            },
+            "Ed25519PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021": {
+                "@id": "https://w3id.org/security#Ed25519PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021"
+            },
+            "P256BLAKE2BDigestSize20Base58CheckEncodedSignature2021": {
+                "@context": {
+                    "@protected": true,
+                    "@version": 1.1,
+                    "challenge": "https://w3id.org/security#challenge",
+                    "created": {
+                        "@id": "http://purl.org/dc/terms/created",
+                        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "domain": "https://w3id.org/security#domain",
+                    "expires": {
+                        "@id": "https://w3id.org/security#expiration",
+                        "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                    },
+                    "id": "@id",
+                    "jws": "https://w3id.org/security#jws",
+                    "nonce": "https://w3id.org/security#nonce",
+                    "proofPurpose": {
+                        "@context": {
+                            "@protected": true,
+                            "@version": 1.1,
+                            "assertionMethod": {
+                                "@container": "@set",
+                                "@id": "https://w3id.org/security#assertionMethod",
+                                "@type": "@id"
+                            },
+                            "authentication": {
+                                "@container": "@set",
+                                "@id": "https://w3id.org/security#authenticationMethod",
+                                "@type": "@id"
+                            },
+                            "id": "@id",
+                            "type": "@type"
+                        },
+                        "@id": "https://w3id.org/security#proofPurpose",
+                        "@type": "@vocab"
+                    },
+                    "publicKeyJwk": {
+                        "@id": "https://w3id.org/security#publicKeyJwk",
+                        "@type": "@json"
+                    },
+                    "type": "@type",
+                    "verificationMethod": {
+                        "@id": "https://w3id.org/security#verificationMethod",
+                        "@type": "@id"
+                    }
+                },
+                "@id": "https://w3id.org/security#P256BLAKE2BDigestSize20Base58CheckEncodedSignature2021"
+            },
+            "P256PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021": {
+                "@id": "https://w3id.org/security#P256PublicKeyBLAKE2BDigestSize20Base58CheckEncoded2021"
+            }
+        },
+        "type": "Ed25519BLAKE2BDigestSize20Base58CheckEncodedSignature2021",
+        "proofPurpose": "assertionMethod",
+        "verificationMethod": "did:tz:tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du#blockchainAccountId",
+        "created": "2022-05-20T16:24:08.915Z",
+        "jws": "eyJhbGciOiJFZEJsYWtlMmIiLCJjcml0IjpbImI2NCJdLCJiNjQiOmZhbHNlfQ..OGQT7djQm26b0MGp2Xo0VyDIqcRYMWMPA4linfczQs5UQUceXqrmPK2fh1lelWhtkDcoutoge9YhswXFH4xTAQ",
+        "publicKeyJwk": {
+            "crv": "Ed25519",
+            "kty": "OKP",
+            "x": "FUoLewH4w4-KdaPH2cjZbL--CKYxQRWR05Yd_bIbhQo"
+        }
+    },
+    "expirationDate": "2023-05-20T16:24:08.393901Z",
+    "description": [
+        {
+            "@language": "en",
+            "@value": "This signed electronic credential is proof that you are the owner of this email address."
+        },
+        {
+            "@language": "de",
+            "@value": "Dieses signierte elektronische Zertifikat ist der Beweis dafür, dass Sie der Inhaber dieser E-Mail-Adresse sind."
+        },
+        {
+            "@language": "fr",
+            "@value": "Cette attestation électronique signée est la preuve que vous êtes le propriétaire de cette adresse email."
+        }
+    ],
+    "name": [
+        {
+            "@language": "en",
+            "@value": "Email Proof"
+        },
+        {
+            "@language": "de",
+            "@value": "E-Mail-Beweis"
+        },
+        {
+            "@language": "fr",
+            "@value": "Preuve d'email"}]}
