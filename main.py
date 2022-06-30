@@ -325,7 +325,7 @@ def newvoucher():
                 benefitAffiliateType=None
                 affiliate=None
                 try:
-                    with sql.connect("../database.db") as con:
+                    with sql.connect("database.db") as con:
                         cur = con.cursor()
                         print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
                         cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
@@ -354,7 +354,7 @@ def newvoucher():
                 affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
                 print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
                 try:
-                    with sql.connect("../database.db") as con:
+                    with sql.connect("database.db") as con:
                         cur = con.cursor()
                         print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
                         cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
