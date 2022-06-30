@@ -119,3 +119,7 @@ line-height: 0px;
   margin-right: 10%;
   margin-top: 5%;
 }
+.analyticsTable{
+  max-width: 80%;
+  margin-left: 7%;
+}
