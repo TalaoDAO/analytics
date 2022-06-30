@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, url_for, render_template_string, jsonify, request, Response,session,send_file
 from flask_qrcode import QRcode
 from datetime import timedelta
