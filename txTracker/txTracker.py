@@ -3,8 +3,10 @@ from time import sleep
 from pprint import pprint
 import operationsVisualizer
 import model
+import sys
 #import cashBackSender
 print("txTrackerService")
+sys.stdout.flush()
 connection = HubConnectionBuilder()\
     .with_url('https://api.ithacanet.tzkt.io/v1/events')\
     .with_automatic_reconnect({
@@ -20,14 +22,17 @@ def analyse(data):
         try:
             if dat["parameter"]["entrypoint"]=="marketplace_transfer":
                 print("hash marketplace transfer "+dat["hash"])
+                sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
                 print("model.eligible "+str(model.eligible()))
+                sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
                 elis=model.eligible()
                 for u in range(0,len(elis)):
                     eli=elis[u]
                     #print(str(eli)+" -- "+str(eli[0]))
                     print("initiator "+str(initiator))
+                    sys.stdout.flush()
                     if initiator==str(eli[0]):
                         amount=operationsVisualizer.getOperationAmount(dat["hash"])
                         print("tezos spent : "+str(amount))
@@ -35,6 +40,7 @@ def analyse(data):
                         entrypoint=dat["parameter"]["entrypoint"]
                         initiator=dat["initiator"]["address"]
                         print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
+                        sys.stdout.flush()
                         discount=eli[1]
                         disc=""
                         i=0
@@ -44,13 +50,17 @@ def analyse(data):
                             if(i==len(discount)-1):
                                 break
                         print("discount "+str(disc)+"%")
+                        sys.stdout.flush()
                         cashBack=amount*int(disc)/100000000
                         print("cashback : "+str(cashBack))
+                        sys.stdout.flush()
                         print(eli)
+                        sys.stdout.flush()
                         typeRemuneration=eli[4]
                         amountRemuneration=eli[3]
                         if typeRemuneration=="commission":
                             print("modif")
+                            sys.stdout.flush()
                             remu=""
                             i=0
                             while(amountRemuneration[i]!="%"):
@@ -60,21 +70,28 @@ def analyse(data):
                                 if(i==len(amountRemuneration)-1):
                                     break
                             print(str(remu))
+                            sys.stdout.flush()
                             print(len(remu))
+                            sys.stdout.flush()
                             amountRemuneration=int(remu)*amount/100000000
                         print(typeRemuneration+" "+str(amountRemuneration))
+                        sys.stdout.flush()
                         model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',amount,dat["timestamp"],cashBack,amountRemuneration)
 
                         print("cashBack: "+ str(cashBack))
+                        sys.stdout.flush()
                         #print(str(cashBack)+" "+str(initiator))
                         print(str(cashBack),initiator)
+                        sys.stdout.flush()
                         print(str(amountRemuneration),eli[5])
+                        sys.stdout.flush()
                         model.addPayement(hashOpe,initiator,"player",cashBack)
                         model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
                 print(model.isUserTracked(initiator))
+                sys.stdout.flush()
                 if (model.isUserTracked(initiator)):
                     hashOpe=dat["hash"]
                     amount=operationsVisualizer.getOperationAmount(dat["hash"])
@@ -82,9 +99,11 @@ def analyse(data):
                     model.addFee(hashOpe,initiator,date,amount)
         except KeyError:
             print("keyError")
+            sys.stdout.flush()
             pass
 def init():
     print("connection established, subscribing to operations")
+    sys.stdout.flush()
     #connection.send('SubscribeToBlocks',[])
     #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
@@ -105,4 +124,5 @@ except KeyboardInterrupt:
     pass
 finally:
     print('shutting down...')
+    sys.stdout.flush()
     connection.stop()
