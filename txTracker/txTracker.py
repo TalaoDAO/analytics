@@ -4,7 +4,7 @@ from pprint import pprint
 import operationsVisualizer
 import model
 #import cashBackSender
-
+print("txTrackerService")
 connection = HubConnectionBuilder()\
     .with_url('https://api.ithacanet.tzkt.io/v1/events')\
     .with_automatic_reconnect({
