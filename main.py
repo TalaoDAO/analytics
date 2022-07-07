@@ -317,7 +317,7 @@ def newvoucher():
     try:
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
-        if (key=="SECRET_KEY"):
+        if (key=="SECRET_KEY" or key=="urn:uuid:0b2556dc-34de-11ec-be99-89ca158fc186"):
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
