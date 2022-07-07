@@ -1,12 +1,12 @@
 import http.client
 from datetime import datetime
 import json
-
+import sys
 
 
 def getOperationStatus(hash):
 
-    conn = http.client.HTTPSConnection("api.ithacanet.tzkt.io")
+    conn = http.client.HTTPSConnection("api.ghostnet.tzkt.io")
     headers = {
         }
   
@@ -16,12 +16,6 @@ def getOperationStatus(hash):
     data = res.read()
     output=data.decode("utf-8")
     jsonExample=json.loads(output)
-
-
-    #print(result)
-    #print("here"+str(len(jsonExample)))
-    with open('json_data.json', 'w') as mon_fichier:
-        json.dump(jsonExample, mon_fichier)
     try:
         return jsonExample[0]["status"]
     except KeyError:
@@ -30,8 +24,9 @@ def getOperationStatus(hash):
         return None
 
 def getOperationAmount(hash):
-
-    conn = http.client.HTTPSConnection("api.ithacanet.tzkt.io")
+    print("request")
+    sys.stdout.flush()
+    conn = http.client.HTTPSConnection("api.ghostnet.tzkt.io")
     headers = {
         }
   
@@ -41,11 +36,5 @@ def getOperationAmount(hash):
     data = res.read()
     output=data.decode("utf-8")
     jsonExample=json.loads(output)
-
-
-    #print(result)
-    #print("here"+str(len(jsonExample)))
-    with open('json_data.json', 'w') as mon_fichier:
-        json.dump(jsonExample, mon_fichier)
     return jsonExample[0]["amount"]
-#print(getOperationStatus("ooMLWbsuzYkBSdGkiA249Fk19WrMFUjY94yKAR717HNZiZffEjh"))
+print(getOperationStatus("ooMLWbsuzYkBSdGkiA249Fk19WrMFUjY94yKAR717HNZiZffEjh"))

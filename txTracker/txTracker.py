@@ -2,7 +2,9 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
 import operationsVisualizer
+print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
 import model
+print(model.eligible())
 import sys
 #import cashBackSender
 print("txTrackerService")
@@ -23,19 +25,27 @@ def analyse(data):
             if dat["parameter"]["entrypoint"]=="marketplace_transfer":
                 print("hash marketplace transfer "+dat["hash"])
                 sys.stdout.flush()
+                print(str(dat))
+                sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
-                print("model.eligible "+str(model.eligible()))
+                #print("model.eligible "+str(model.eligible()))
+                print(initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
                 elis=model.eligible()
+                print(str(elis))
+                sys.stdout.flush()
                 for u in range(0,len(elis)):
                     eli=elis[u]
                     #print(str(eli)+" -- "+str(eli[0]))
                     print("initiator "+str(initiator))
                     sys.stdout.flush()
                     if initiator==str(eli[0]):
+                        print("yes")
+                        sys.stdout.flush()
                         amount=operationsVisualizer.getOperationAmount(dat["hash"])
                         print("tezos spent : "+str(amount))
+                        sys.stdout.flush()
                         hashOpe=dat["hash"]
                         entrypoint=dat["parameter"]["entrypoint"]
                         initiator=dat["initiator"]["address"]

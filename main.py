@@ -26,6 +26,8 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
+    session["logged"]="True"
+    session["user"]="admin"
     if (session.get('logged')=="True"):
         addressSelector=''
         if(session.get('user')=="admin"):
