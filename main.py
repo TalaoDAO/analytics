@@ -11,6 +11,11 @@ import sqlite3 as sql
 import asyncio
 import traceback
 from pprint import pprint
+import json
+
+with open('keys.json') as mon_fichier:
+    data = json.load(mon_fichier)
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.permanent_session_lifetime = timedelta(minutes=15)
@@ -26,8 +31,6 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
-    session["logged"]="True"
-    session["user"]="admin"
     if (session.get('logged')=="True"):
         addressSelector=''
         if(session.get('user')=="admin"):
@@ -273,7 +276,7 @@ def followup(red):
         credential = json.dumps(presentation['verifiableCredential'][0], indent=4, ensure_ascii=False)
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
     dictionnaire=json.loads(credential)
-    #pprint(presentation)
+    print(presentation)
     
     typeCredential=dictionnaire["type"][1]
     print("type credential : "+typeCredential)
@@ -287,12 +290,7 @@ def followup(red):
             return redirect("/analytics")
         else:
             return redirect(url_for('login'))
-        """address=model.getAddressFromMail(email)
-        session["user"]=address
-        print(address)
-        print(session.get("user"))
-        if(address=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
-            session["user"]="admin"""
+
     if(typeCredential=="TalaoCommunity"):
         #print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
         
@@ -301,13 +299,20 @@ def followup(red):
             #session["user"]="admin"
             session["logged"]= "True"
             session["user"]="admin"
-    if(typeCredential=="TezosAssociatedWallet"):   
+
+    if(typeCredential=="TezVoucher_1"):
+        session["user"]=dictionnaire["credentialSubject"]["associatedAddress"]["blockchainTezos"][0]
+        session["logged"]= "True"
+        if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
+            
+            session["user"]="admin"
+    """if(typeCredential=="TezosAssociatedWallet"):   
         print("presentation " +str(presentation))   
         session["logged"]= "True"
         session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
         if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
-        print("user "+session.get("user"))
+        print("user "+session.get("user"))"""
     #print("logged in "+session.get("user"))
     #print(session.get("user"))
     return redirect("/analytics")
@@ -317,7 +322,7 @@ def newvoucher():
     try:
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
-        if (key=="SECRET_KEY" or key=="urn:uuid:0b2556dc-34de-11ec-be99-89ca158fc186"):
+        if (key=="SECRET_KEY" or key==data.get('apiKey')):
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
