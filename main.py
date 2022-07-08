@@ -304,7 +304,11 @@ def followup(red):
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"]["blockchainTezos"][0]
         session["logged"]= "True"
         if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
-            
+            session["user"]="admin"
+    if(typeCredential=="MembershipCard_1"):
+        session["user"]=dictionnaire["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+        session["logged"]= "True"
+        if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
     """if(typeCredential=="TezosAssociatedWallet"):   
         print("presentation " +str(presentation))   

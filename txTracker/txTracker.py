@@ -52,13 +52,7 @@ def analyse(data):
                         print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
                         sys.stdout.flush()
                         discount=eli[1]
-                        disc=""
-                        i=0
-                        while(discount[i]!="%"):
-                            disc=disc+discount[i]
-                            i+=1
-                            if(i==len(discount)-1):
-                                break
+                        disc=transformer(discount)
                         print("discount "+str(disc)+"%")
                         sys.stdout.flush()
                         cashBack=amount*int(disc)/100000000
@@ -136,3 +130,17 @@ finally:
     print('shutting down...')
     sys.stdout.flush()
     connection.stop()
+
+def transformer(num):
+    if(type(num)==int):
+        return num
+    if(num[len(num)-1]=="%"):
+        disc=""
+        i=0
+        while(num[i]!="%"):
+            disc=disc+num[i]
+            i+=1
+            if(i==len(num)-1):
+                break
+        return int(disc)
+    return int(num)
