@@ -155,7 +155,7 @@ def login(red):
                 <div id="access">
                 <p >Access my analytics</p>
                 </div>
-                <p id="connect">Connect with your email pass or your associated address</p>
+                <p id="connect">Connect with your email pass, your voucher or your membership card</p>
                 <br><br>
                 <p id="scan">Scan the QR Code bellow with your smartphone wallet</p5> 
                 <br>  
