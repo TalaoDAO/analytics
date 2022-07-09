@@ -115,13 +115,11 @@ line-height: 0px;
 
 }
 .voucherTable{
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
+  margin: auto;
 }
 .analyticsTable{
   max-width: 80%;
-  margin-left: 7%;
+  margin: auto;
 }
 #titleVouchers
 {
