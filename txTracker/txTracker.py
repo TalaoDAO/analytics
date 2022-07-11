@@ -2,13 +2,16 @@ from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
 import operationsVisualizer
-print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
+#print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
 import model
-print(model.eligible())
+#print(model.eligible())
 import sys
 #import cashBackSender
-print("txTrackerService")
-sys.stdout.flush()
+#print("txTrackerService")
+#sys.stdout.flush()
+
+#This service use a websocket system based on https://api.tzkt.io/#section/Python-simple-client
+
 connection = HubConnectionBuilder()\
     .with_url('https://api.ithacanet.tzkt.io/v1/events')\
     .with_automatic_reconnect({
@@ -32,7 +35,7 @@ def analyse(data):
                 print(initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
-                elis=model.eligible()
+                elis=model.eligible() # here i get vouchers with addresses of players having a voucher
                 print(str(elis))
                 sys.stdout.flush()
                 for u in range(0,len(elis)):
@@ -80,6 +83,7 @@ def analyse(data):
                             amountRemuneration=int(remu)*amount/100000000
                         print(typeRemuneration+" "+str(amountRemuneration))
                         sys.stdout.flush()
+                        #here i add a transaction in the db 
                         model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',amount,dat["timestamp"],cashBack,amountRemuneration)
 
                         print("cashBack: "+ str(cashBack))
@@ -89,6 +93,8 @@ def analyse(data):
                         sys.stdout.flush()
                         print(str(amountRemuneration),eli[5])
                         sys.stdout.flush()
+                        #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
+
                         model.addPayement(hashOpe,initiator,"player",cashBack)
                         model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
@@ -96,6 +102,7 @@ def analyse(data):
                         break
                 print(model.isUserTracked(initiator))
                 sys.stdout.flush()
+                #here i track all transactions made by an user talao brang to Tezotopia
                 if (model.isUserTracked(initiator)):
                     hashOpe=dat["hash"]
                     amount=operationsVisualizer.getOperationAmount(dat["hash"])
@@ -105,6 +112,8 @@ def analyse(data):
             print("keyError")
             sys.stdout.flush()
             pass
+
+
 def init():
     print("connection established, subscribing to operations")
     sys.stdout.flush()

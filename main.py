@@ -280,6 +280,7 @@ def followup(red):
     
     typeCredential=dictionnaire["type"][1]
     print("type credential : "+typeCredential)
+
     if(typeCredential=="EmailPass"):
         #print("presentation " +str(presentation))
         email=dictionnaire["credentialSubject"]["email"]
@@ -293,7 +294,6 @@ def followup(red):
 
     if(typeCredential=="TalaoCommunity"):
         #print(dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"])
-        
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]
         if (dictionnaire["credentialSubject"]["associatedAddress"][0]["blockchainAccount"]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             #session["user"]="admin"
@@ -305,11 +305,13 @@ def followup(red):
         session["logged"]= "True"
         if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
+
     if(typeCredential=="MembershipCard_1"):
         session["user"]=dictionnaire["credentialSubject"]["associatedAddress"]["blockchainTezos"]
         session["logged"]= "True"
         if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
+            
     """if(typeCredential=="TezosAssociatedWallet"):   
         print("presentation " +str(presentation))   
         session["logged"]= "True"
