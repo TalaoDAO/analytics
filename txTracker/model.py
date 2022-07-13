@@ -123,7 +123,7 @@ def isUserTracked(address):
             cur.execute("select addressUser from usersWVouchers where addressUser='"+address+"'")
             #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            print("res "+str(res))
+            #print("res "+str(res))
             if(len(res)==0):
                 return False
             return True
@@ -169,3 +169,5 @@ def addFee(hash,address,date,amount):
 eligible()
 
 
+"""select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
+select * from payements"""
