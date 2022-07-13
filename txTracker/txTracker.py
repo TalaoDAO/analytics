@@ -28,15 +28,15 @@ def analyse(data):
             if dat["parameter"]["entrypoint"]=="marketplace_transfer":
                 print("hash marketplace transfer "+dat["hash"])
                 sys.stdout.flush()
-                print(str(dat))
+                print("data from api "+str(dat))
                 sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
                 #print("model.eligible "+str(model.eligible()))
-                print(initiator)
+                print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
                 elis=model.eligible() # here i get vouchers with addresses of players having a voucher
-                print(str(elis))
+                print("eligibles "+str(elis))
                 sys.stdout.flush()
                 for u in range(0,len(elis)):
                     eli=elis[u]
@@ -100,7 +100,7 @@ def analyse(data):
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
-                print(model.isUserTracked(initiator))
+                print("user Tracked "+model.isUserTracked(initiator))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia
                 if (model.isUserTracked(initiator)):
