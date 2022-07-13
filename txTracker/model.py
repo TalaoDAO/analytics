@@ -4,7 +4,6 @@ import traceback
 import sys
 from datetime import datetime
 
-
 try:
     sql.connect("/home/achille/analytics/database.db").cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
     sql.connect("/home/achille/analytics/database.db").cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
@@ -38,6 +37,7 @@ def eligible():
         cur.execute("select addressUser,discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now')")
 
         rows = cur.fetchall()
+        print("eligibles :")
         print(rows)
         return rows
 def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate):
@@ -167,5 +167,5 @@ def addFee(hash,address,date,amount):
         print("msg db "+str(msg))
 
 eligible()
-
+isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 

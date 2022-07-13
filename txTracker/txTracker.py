@@ -4,7 +4,7 @@ from pprint import pprint
 import operationsVisualizer
 #print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
 import model
-#print(model.eligible())
+print(model.eligible())
 import sys
 #import cashBackSender
 #print("txTrackerService")
