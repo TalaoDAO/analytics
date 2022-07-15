@@ -21,6 +21,26 @@ connection = HubConnectionBuilder()\
     })\
     .build()
 
+
+def transformer(num):
+    print("transformer")
+    sys.stdout.flush()
+    print(num)
+    sys.stdout.flush()
+    sys.stdout.flush()
+    if(type(num)==int):
+        return num
+    if(num[len(num)-1]=="%"):
+        disc=""
+        i=0
+        while(num[i]!="%"):
+            disc=disc+num[i]
+            i+=1
+            if(i==len(num)-1):
+                break
+        return int(disc)
+    return int(num)
+    
 def analyse(data):
     #pprint(data)
     for dat in data[0]["data"]:
@@ -141,22 +161,3 @@ finally:
     print('shutting down...')
     sys.stdout.flush()
     connection.stop()
-
-def transformer(num):
-    print("transformer")
-    sys.stdout.flush()
-    print(num)
-    sys.stdout.flush()
-    sys.stdout.flush()
-    if(type(num)==int):
-        return num
-    if(num[len(num)-1]=="%"):
-        disc=""
-        i=0
-        while(num[i]!="%"):
-            disc=disc+num[i]
-            i+=1
-            if(i==len(num)-1):
-                break
-        return int(disc)
-    return int(num)
