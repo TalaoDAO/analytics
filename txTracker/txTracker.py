@@ -55,6 +55,8 @@ def analyse(data):
                         print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
                         sys.stdout.flush()
                         discount=eli[1]
+                        print(discount)
+                        sys.stdout.flush()
                         disc=transformer(discount)
                         print("discount "+str(disc)+"%")
                         sys.stdout.flush()
@@ -141,6 +143,11 @@ finally:
     connection.stop()
 
 def transformer(num):
+    print("transformer")
+    sys.stdout.flush()
+    print(num)
+    sys.stdout.flush()
+    sys.stdout.flush()
     if(type(num)==int):
         return num
     if(num[len(num)-1]=="%"):
