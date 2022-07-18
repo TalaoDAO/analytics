@@ -50,6 +50,8 @@ def home():
             
             cur.execute("select * from payements")  
             rows = cur.fetchall()
+            print(rows)
+            sys.stdout.flush()
             return render_template("home.html",rows = rows)
         else:
             con = sql.connect("database.db")
