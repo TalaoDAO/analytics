@@ -22,6 +22,7 @@ app.permanent_session_lifetime = timedelta(minutes=15)
 qrcode = QRcode(app)
 PORT = 3000
 app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
+DBPATH="/home/achille/analytics/database.db"
 
 
 async def verifyPresentation(vc):
@@ -35,7 +36,7 @@ def home():
         addressSelector=''
         if(session.get('user')=="admin"):
             addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
-            con = sql.connect("database.db")
+            con = sql.connect(DBPATH)
             con.row_factory = sql.Row
             cur = con.cursor()
 
@@ -51,7 +52,7 @@ def home():
             rows = cur.fetchall()
             return render_template("home.html",rows = rows)
         else:
-            con = sql.connect("database.db")
+            con = sql.connect(DBPATH)
             con.row_factory = sql.Row
             cur = con.cursor()
             cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') where address='"+session.get('user')+"'") 
@@ -68,7 +69,7 @@ def usersWvouchers():
     try:
         if (session.get('logged')=="True"):
             if(session.get('user')=="admin"):
-                con = sql.connect("database.db")
+                con = sql.connect(DBPATH)
                 con.row_factory = sql.Row
             
                 cur = con.cursor()
@@ -339,7 +340,7 @@ def newvoucher():
                 benefitAffiliateType=None
                 affiliate=None
                 try:
-                    with sql.connect("database.db") as con:
+                    with sql.connect(DBPATH) as con:
                         cur = con.cursor()
                         print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
                         cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
@@ -368,7 +369,7 @@ def newvoucher():
                 affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
                 print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
                 try:
-                    with sql.connect("database.db") as con:
+                    with sql.connect(DBPATH) as con:
                         cur = con.cursor()
                         print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
                         cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
