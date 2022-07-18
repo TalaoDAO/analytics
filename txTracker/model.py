@@ -43,6 +43,7 @@ def eligible():
         print(rows)
         return rows
 def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate):
+    eligible()
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
