@@ -44,12 +44,18 @@ def home():
                 address=request.args.get('address')
                 cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') ") 
                 rows = cur.fetchall()
+                print("rows   --------0")
+                sys.stdout.flush()
+                print(rows)
+                sys.stdout.flush()
                 return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
             except TypeError:
                 pass
             
             cur.execute("select * from payements")  
             rows = cur.fetchall()
+            print("rows   --------1")
+            sys.stdout.flush()
             print(rows)
             sys.stdout.flush()
             return render_template("home.html",rows = rows)
@@ -59,6 +65,10 @@ def home():
             cur = con.cursor()
             cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') where address='"+session.get('user')+"'") 
             rows = cur.fetchall() 
+            print("rows   --------2")
+            sys.stdout.flush()
+            print(rows)
+            sys.stdout.flush()
 
             return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
             
