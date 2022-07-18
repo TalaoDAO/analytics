@@ -61,6 +61,7 @@ def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,
         print("msg db "+str(msg))
 def addPayement(hash,address,forWho,amount):
     print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount))
+    sys.stdout.flush()
     try:
         with sql.connect(DBPATH) as con:
             print("try")
@@ -78,6 +79,8 @@ def addPayement(hash,address,forWho,amount):
     finally:
         con.close()
         print("msg db "+str(msg))
+        sys.stdout.flush()
+
 def setPayementDone(prio,hash,date):
     try:
         with sql.connect(DBPATH) as con:
