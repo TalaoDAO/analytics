@@ -36,7 +36,7 @@ def home():
         addressSelector=''
         if(session.get('user')=="admin"):
             addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
-            con = sql.connect(database.db)
+            con = sql.connect("database.db")
             con.row_factory = sql.Row
             cur = con.cursor()
 
@@ -52,7 +52,7 @@ def home():
             rows = cur.fetchall()
             return render_template("home.html",rows = rows)
         else:
-            con = sql.connect(DBPATH)
+            con = sql.connect("database.db")
             con.row_factory = sql.Row
             cur = con.cursor()
             cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') where address='"+session.get('user')+"'") 
