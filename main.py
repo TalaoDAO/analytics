@@ -36,7 +36,7 @@ def home():
         addressSelector=''
         if(session.get('user')=="admin"):
             addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
-            con = sql.connect(DBPATH)
+            con = sql.connect(database.db)
             con.row_factory = sql.Row
             cur = con.cursor()
 
