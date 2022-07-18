@@ -3,8 +3,10 @@ import sqlite3 as sql
 import traceback
 import sys
 from datetime import datetime
+
 DBPATH="/home/achille/analytics/database.db"
 #DBPATH="/home/achille1017/prog/tezotopia/database.db"
+
 
 try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
@@ -39,7 +41,7 @@ def eligible():
         cur.execute("select addressUser,discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now')")
 
         rows = cur.fetchall()
-        print("eligibles")
+        print("eligibles :")
         print(rows)
         return rows
 def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate):
@@ -177,7 +179,7 @@ def addFee(hash,address,date,amount):
         print("msg db "+str(msg))
 
 eligible()
-
+isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
