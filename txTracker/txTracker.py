@@ -121,7 +121,7 @@ def analyse(data):
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
-                print("user Tracked "+model.isUserTracked(initiator))
+                print("user Tracked "+str(model.isUserTracked(initiator)))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia
                 if (model.isUserTracked(initiator)):

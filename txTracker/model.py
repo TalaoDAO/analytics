@@ -4,8 +4,8 @@ import traceback
 import sys
 from datetime import datetime
 
-DBPATH="/home/achille/analytics/database.db"
-#DBPATH="/home/achille1017/prog/tezotopia/database.db"
+#DBPATH="/home/achille/analytics/database.db"
+DBPATH="/home/achille1017/prog/tezotopia/database.db"
 
 
 try:
@@ -152,7 +152,7 @@ def isUserTracked(address):
             cur.execute("select addressUser from usersWVouchers where addressUser='"+address+"'")
             #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            #print("res "+str(res))
+            print("res "+str(res))
             if(len(res)==0):
                 return False
             return True
