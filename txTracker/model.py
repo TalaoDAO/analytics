@@ -70,14 +70,18 @@ def addPayement(hash,address,forWho,amount):
             cur.execute("INSERT INTO payements (hash,prio,address,applied,forWho,amount) VALUES (?,?,?,?,?,?)",(hash,max[0]+1,address,False,forWho,amount) )
             con.commit()
             msg = "payement successfully added"
-    except:
-        con.rollback()
-        msg = "error in insert operation"
-        
+    except sql.Error as er:
+        print('SQLite error: %s' % (' '.join(er.args)))
+        sys.stdout.flush()
+        print("Exception class is: ", er.__class__)
+        sys.stdout.flush()
+        print('SQLite traceback: ')
+        sys.stdout.flush()
+        exc_type, exc_value, exc_tb = sys.exc_info()
+        print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        sys.stdout.flush()
     finally:
         con.close()
-        print("msg db "+str(msg))
-        sys.stdout.flush()
 
 def setPayementDone(prio,hash,date):
     try:
