@@ -80,7 +80,6 @@ def addPayement(hash,address,forWho,amount):
     sys.stdout.flush()
     try:
         with sql.connect(DBPATH) as con:
-            print("try")
             cur = con.cursor()
             cur.execute("select max(prio) from payements ")
             max = cur.fetchone()
@@ -99,6 +98,8 @@ def addPayement(hash,address,forWho,amount):
         print(traceback.format_exception(exc_type, exc_value, exc_tb))
         sys.stdout.flush()
     finally:
+        print(msg)
+        sys.stdout.flush()
         con.close()
 
 def setPayementDone(prio,hash,date):
