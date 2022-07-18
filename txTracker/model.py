@@ -13,7 +13,23 @@ try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER)")
-
+    max =sql.connect(DBPATH).cursor().execute("select max(prio) from payements ").fetchone()
+    print(max[0])
+    if(max[0]==None):
+        print("no payements")
+        try:
+            with sql.connect(DBPATH) as con:
+                cur = con.cursor()
+                cur.execute("insert into payements values (0,0,0,0,0,0,0,0)" )
+                con.commit()
+                msg = "new payement added "
+        except:
+            con.rollback()
+            msg = "error in insert operation"
+        
+        finally:
+            con.close()
+            print("msg db "+str(msg))
 except:
     None    
 
