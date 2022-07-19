@@ -35,6 +35,8 @@ def getOperationAmount(hash):
     res = conn.getresponse()
     data = res.read()
     output=data.decode("utf-8")
-    jsonExample=json.loads(output)
-    return jsonExample[0]["amount"]
-print(getOperationStatus("ooMLWbsuzYkBSdGkiA249Fk19WrMFUjY94yKAR717HNZiZffEjh"))
+    jsonRes=json.loads(output)
+    if (jsonRes[0]["type"]=="reveal"):
+        return jsonRes[1]["amount"]
+    return jsonRes[0]["amount"]
+print(getOperationAmount("oop4V6HPBr85iWwXss8JiaTj9DKb3a3JXBVfuFfNpW6xvyPw4jr"))
