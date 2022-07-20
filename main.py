@@ -289,7 +289,7 @@ def followup(red):
         credential = json.dumps(presentation['verifiableCredential'][0], indent=4, ensure_ascii=False)
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
     dictionnaire=json.loads(credential)
-    print(presentation)
+    #print(presentation)
     
     typeCredential=dictionnaire["type"][1]
     print("type credential : "+typeCredential)
