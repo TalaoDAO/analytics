@@ -166,6 +166,48 @@ def isUserTracked(address):
                     msg="error"       
     finally:
         con.close()
+def isPayementAdded(hash):
+    try:
+        with sql.connect(DBPATH) as con:
+            cur = con.cursor()
+            cur.execute("select prio from payements where hash='"+hash+"'")
+            #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
+            res = cur.fetchall()
+            print("res "+str(res))
+            if(len(res)==0):
+                return False
+            return True
+    except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"       
+    finally:
+        con.close()
+def isFeeAdded(hash):
+    try:
+        with sql.connect(DBPATH) as con:
+            cur = con.cursor()
+            cur.execute("select date from FeeTracker where hash='"+hash+"'")
+            #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
+            res = cur.fetchall()
+            print("res "+str(res))
+            if(len(res)==0):
+                return False
+            return True
+    except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"       
+    finally:
+        con.close()
 def getAddressFromMail(mail):
     try:
         with sql.connect(DBPATH) as con:
