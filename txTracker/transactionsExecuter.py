@@ -12,19 +12,19 @@ while True:
     if(payementToExecute!=None):
         print("going to pay "+str(payementToExecute))
         sys.stdout.flush()
-        hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
-        time.sleep(10)
-        status=operationsVisualizer.getOperationStatus(hash)
-        print("status : "+str(status))
-        sys.stdout.flush()
-        while(status!="applied"):
+        if(len(payementToExecute[0])==36):
+            hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
             status=operationsVisualizer.getOperationStatus(hash)
             print("status : "+str(status))
             sys.stdout.flush()
-        #test balance
-        
-        model.setPayementDone(payementToExecute[3],hash,"date")
+            while(status!="applied"):
+                time.sleep(10)
+                status=operationsVisualizer.getOperationStatus(hash)
+                print("status : "+str(status))
+                sys.stdout.flush()
+            #test balance
+            model.setPayementDone(payementToExecute[3],hash,"date")
     if(payementToExecute==None):
         time.sleep(3)
     
