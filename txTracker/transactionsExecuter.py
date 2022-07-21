@@ -12,7 +12,12 @@ while True:
     if(payementToExecute!=None):
         print("going to pay "+str(payementToExecute))
         sys.stdout.flush()
-        if(len(payementToExecute[0])==36):
+        print("debug ")
+        sys.stdout.flush()
+        print(payementToExecute[0])
+        sys.stdout.flush()
+
+        if(len(payementToExecute[0])==36 or payementToExecute[0]==None):
             hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
             status=operationsVisualizer.getOperationStatus(hash)
