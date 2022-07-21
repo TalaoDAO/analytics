@@ -118,7 +118,8 @@ def analyse(data):
                         #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                         if(model.isPayementAdded(hashOpe)==False):
                             model.addPayement(hashOpe,initiator,"player",cashBack)
-                            model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
+                            if(eli[5]!=None):
+                                model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
