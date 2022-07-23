@@ -4,8 +4,8 @@ import traceback
 import sys
 from datetime import datetime
 
-DBPATH="/home/achille/analytics/database.db"
-#DBPATH="/home/achille1017/prog/tezotopia/database.db"
+#DBPATH="/home/achille/analytics/database.db"
+DBPATH="/home/achille1017/prog/tezotopia/database.db"
 
 
 try:
@@ -113,10 +113,16 @@ def setPayementDone(prio,hash,date):
 
     except sql.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
+        sys.stdout.flush()
+
         print("Exception class is: ", er.__class__)
+        sys.stdout.flush()
+
         print('SQLite traceback: ')
         exc_type, exc_value, exc_tb = sys.exc_info()
         print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        sys.stdout.flush()
+
     finally:
         con.close()
 def cli():

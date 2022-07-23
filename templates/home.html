@@ -18,23 +18,19 @@
       <div class="table">
       <table class="analyticsTable" border=1>
          <thead class="header">
-            <td><p class="line">Reference of NFT purchase transaction</p></td>
             <td><p class="line">Purchase amount (XTZ)</p></td>
             <td><p class="line">Purchase date</p></td>
             <td><p class="line">% discount</p></td>
             <td><p class="line">Amount of the discount (XTZ)</p></td>
-            <td><p class="line">Payment status</p></td>
-            <td><p class="line">Reference of payment transaction</p></td>
+            <td><p class="line">Discount payment</p></td>
          </thead>
          {% for row in rows %}
          <tr>
-            <td><a href="https://ghostnet.tzkt.io/{{row["hash"]}}">{{row["hash"]}}</a></td> 
-            <td><p class="line">{{row["amount"]}}</p></td>
+            <td><a href="https://ghostnet.tzkt.io/{{row["hash"]}}" class="line">{{row["amount"]}}</a></td>
             <td><p class="line">{{row["date"]}}</p></td>
             <td><p class="line">{{row["discount"]}}</p></td>
-            <td><p class="line">{{row["amountDiscount"]}}</p></td> 
+            <td><a href="https://ghostnet.tzkt.io/{{row["hashPayement"]}}" class="line">{{row["amountDiscount"]}}</a></td> 
             <td><p class="line">{{ row["applied"]}}</p></td> 
-            <td><a href="https://ghostnet.tzkt.io/{{row["hashPayement"]}}">{{row["hashPayement"]}}</a></td> 
          </tr>
          {% endfor %}
       </table>
