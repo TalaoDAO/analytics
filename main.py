@@ -22,8 +22,8 @@ app.permanent_session_lifetime = timedelta(minutes=15)
 qrcode = QRcode(app)
 PORT = 3000
 app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
-#DBPATH="/home/achille/analytics/database.db"
-DBPATH="/home/achille1017/prog/tezotopia/database.db"
+DBPATH="/home/achille/analytics/database.db"
+#DBPATH="/home/achille1017/prog/tezotopia/database.db"
 
 
 async def verifyPresentation(vc):
@@ -43,11 +43,11 @@ def home():
 
             try:  
                 address=request.args.get('address')
-                cur.execute("select * from(select a.relativeTo,a.hash,a.amount,a.date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player') ") 
+                cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
                 rows = cur.fetchall()
                 print("rows   --------0")
                 sys.stdout.flush()
-                print(rows)
+                print(rows[0])
                 sys.stdout.flush()
                 return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
             except TypeError:
@@ -68,7 +68,7 @@ def home():
             rows = cur.fetchall() 
             print("rows   --------2")
             sys.stdout.flush()
-            print(rows)
+            print(rows[0])
             sys.stdout.flush()
 
             return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
@@ -153,8 +153,8 @@ def login(red):
     pattern['domain'] = 'http://' + IP
     # l'idee ici est de créer un endpoint dynamique
     red.set(id,  json.dumps(pattern))
-    url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    #url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
     html_string = """  <!DOCTYPE html>
         <html>
         <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
