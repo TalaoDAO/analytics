@@ -68,7 +68,7 @@ def home():
             rows = cur.fetchall() 
             print("rows   --------2")
             sys.stdout.flush()
-            print(rows[0])
+#            print(rows[0])
             sys.stdout.flush()
 
             return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
