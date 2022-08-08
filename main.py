@@ -12,6 +12,7 @@ import asyncio
 import traceback
 from pprint import pprint
 import json
+from flask_mobility.decorators import mobilized
 
 with open('keys.json') as mon_fichier:
     data = json.load(mon_fichier)
@@ -167,7 +168,7 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >Access my analytics</p>
+                <p >Access my analytics from Desktop</p>
                 </div>
                 <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
                 <br><br>
@@ -194,6 +195,55 @@ def login(red):
         </html>"""
     return render_template_string(html_string, url=url, id=id)
 
+@mobilized(login)
+def login(red):
+    id = str(uuid.uuid1())
+    pattern['challenge'] = str(uuid.uuid1()) # nonce
+    IP=extract_ip()
+    pattern['domain'] = 'http://' + IP
+    # l'idee ici est de créer un endpoint dynamique
+    red.set(id,  json.dumps(pattern))
+    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
+    html_string = """  <!DOCTYPE html>
+        <html>
+        <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
+      </head>
+        <body>
+        <center>
+            <div>  
+
+      <img  src="../analytics/static/logo">
+                <br>
+                
+                <div id="access">
+                <p >Access my analytics from Mobile</p>
+                </div>
+                <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
+                <br><br>
+                <p id="scan">Scan the QR Code bellow with your smartphone wallet</p5> 
+                <br>  
+                <div><img id="qrcode" src="{{ qrcode(url) }}" ></div>
+            </div>
+        </center>
+        <script>
+            var source = new EventSource('/analytics/verifier_stream');
+            source.onmessage = function (event) {
+                const result = JSON.parse(event.data);
+                console.log(result.message);
+                if (result.check == 'ok' & result.id == '{{id}}'){
+                    window.location.href="/analytics/followup?id={{id}}";
+                }
+                else { 
+                    window.alert(result.message);
+                    window.location.href="/analytics/";
+                }
+            };
+        </script>
+        </body>
+        </html>"""
+    return render_template_string(html_string, url=url, id=id)
+    
 @app.route('/analytics/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
     try :
