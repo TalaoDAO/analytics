@@ -146,7 +146,10 @@ def background():
 def font():
 	return send_file('./static/Rubik-Regular.ttf', attachment_filename='Rubik-Regular.ttf')
 
+@app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
+    print(request)
+    print(request.MOBILE)
     id = str(uuid.uuid1())
     pattern['challenge'] = str(uuid.uuid1()) # nonce
     IP=extract_ip()
@@ -194,8 +197,7 @@ def login(red):
         </html>"""
     return render_template_string(html_string, url=url, id=id)
 
-@app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
-@mobilized(login(red))
+@mobilized(login)
 def login(red):
     id = str(uuid.uuid1())
     pattern['challenge'] = str(uuid.uuid1()) # nonce
