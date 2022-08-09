@@ -13,11 +13,13 @@ import traceback
 from pprint import pprint
 import json
 from flask_mobility.decorators import mobilized
+from flask_mobility import Mobility
 
 with open('keys.json') as mon_fichier:
     data = json.load(mon_fichier)
 
 app = Flask(__name__)
+Mobility(app)
 app.config.from_object(__name__)
 app.permanent_session_lifetime = timedelta(minutes=15)
 qrcode = QRcode(app)
@@ -148,7 +150,7 @@ def font():
 
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
-    print(request)
+    print(str(request.MOBILE))
     sys.stdout.flush()
 
     #print(request.MOBILE)
@@ -172,7 +174,7 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >from Desktop</p>
+                <p >Access my analytics</p>
                 </div>
                 <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
                 <br><br>
@@ -197,19 +199,7 @@ def login(red):
         </script>
         </body>
         </html>"""
-    return render_template_string(html_string, url=url, id=id)
-
-@mobilized(login)
-def login(red):
-    id = str(uuid.uuid1())
-    pattern['challenge'] = str(uuid.uuid1()) # nonce
-    IP=extract_ip()
-    pattern['domain'] = 'http://' + IP
-    # l'idee ici est de créer un endpoint dynamique
-    red.set(id,  json.dumps(pattern))
-    #url = 'http://' + IP + ':' + str(PORT) +  '/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    url = 'https://talao.co/analytics/endpoint/' + id +'?issuer=' + did_verifier
-    html_string = """  <!DOCTYPE html>
+    html_string_mobile="""  <!DOCTYPE html>
         <html>
         <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
       </head>
@@ -221,13 +211,15 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >from Mobile</p>
+                <p >Access my analytics</p>
                 </div>
                 <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
                 <br><br>
                 <p id="scan">Scan the QR Code bellow with your smartphone wallet</p5> 
                 <br>  
-                <div><img id="qrcode" src="{{ qrcode(url) }}" ></div>
+                <div>
+                <a href="https://app.altme.io/app/download?uri={{url}}"><input type="button" value="Open your wallet"></a>
+                </div>
             </div>
         </center>
         <script>
@@ -246,7 +238,16 @@ def login(red):
         </script>
         </body>
         </html>"""
-    return render_template_string(html_string, url=url, id=id)
+    print(request.MOBILE==True)
+
+    if(request.MOBILE==True):
+        print("mobile")
+        print(request.MOBILE==True)
+        return render_template_string(html_string_mobile, url=url, id=id)
+    else:
+        print("desktop")
+        return render_template_string(html_string, url=url, id=id)
+
     
 @app.route('/analytics/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
