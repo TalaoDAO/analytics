@@ -168,7 +168,7 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >Access my analytics from Desktop</p>
+                <p >from Desktop</p>
                 </div>
                 <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
                 <br><br>
@@ -217,7 +217,7 @@ def login(red):
                 <br>
                 
                 <div id="access">
-                <p >Access my analytics from Mobile</p>
+                <p >from Mobile</p>
                 </div>
                 <p id="connect">Connect with your email pass, your Tezotopia voucher or membership card</p>
                 <br><br>
