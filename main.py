@@ -149,7 +149,9 @@ def font():
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
 def login(red):
     print(request)
-    print(request.MOBILE)
+    sys.stdout.flush()
+
+    #print(request.MOBILE)
     id = str(uuid.uuid1())
     pattern['challenge'] = str(uuid.uuid1()) # nonce
     IP=extract_ip()
