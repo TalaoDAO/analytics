@@ -195,7 +195,7 @@ def login(red):
     return render_template_string(html_string, url=url, id=id)
 
 @app.route('/analytics/login' , methods=['GET'], defaults={'red' : red}) 
-@mobilized(login)
+@mobilized(login(red))
 def login(red):
     id = str(uuid.uuid1())
     pattern['challenge'] = str(uuid.uuid1()) # nonce
