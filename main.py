@@ -36,7 +36,6 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/')
 def home():
-    if (session.get('logged')=="True"):
         addressSelector=''
         if(session.get('user')=="admin"):
             addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
@@ -64,20 +63,22 @@ def home():
             sys.stdout.flush()
             return render_template("home.html",rows = rows)
         else:
-            con = sql.connect(DBPATH)
-            con.row_factory = sql.Row
-            cur = con.cursor()
-            cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and address='"+session.get('user')+"')") 
-            rows = cur.fetchall() 
-            print("rows   --------2")
-            sys.stdout.flush()
-#            print(rows[0])
-            sys.stdout.flush()
+            try:  
+                address=request.args.get('address')
+                con = sql.connect(DBPATH)
+                con.row_factory = sql.Row
+                cur = con.cursor()
+                cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and address='"+address+"')") 
+                rows = cur.fetchall() 
+                print("rows   --------2")
+                sys.stdout.flush()
+    #            print(rows[0])
+                sys.stdout.flush()
 
-            return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
-            
-    else:
-        return redirect(url_for('login'))
+                return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+            except TypeError:
+                pass
+
 
 
 @app.route('/analytics/usersvouchers')
