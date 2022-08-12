@@ -1,10 +1,18 @@
-import model
+#import model
 from pytezos import pytezos
 from decimal import Decimal
 from pprint import pprint
 import mailSender
 import operationsVisualizer
 import sys
+import json
+import os
+script_dir = os.path.dirname(__file__)
+file_path = os.path.join(script_dir, '../keys.json')
+with open(file_path) as mon_fichier:
+    data = json.load(mon_fichier)
+    privateKey=data["privateKeyCashBackSender"]
+    publicKey=data["publicKeyCashBackSender"]
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack")
     sys.stdout.flush()
@@ -17,3 +25,5 @@ def cashbackSender(amountToSend,userAddress):
     if(balance<50):
         mailSender.sendAlert("Less than 50 XTZ on payements address","Only "+str(balance)+" left.")
     return hash
+
+    
