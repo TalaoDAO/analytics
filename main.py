@@ -34,8 +34,8 @@ async def verifyPresentation(vc):
     print(verif)
     return verif
 
-@app.route('/analytics/')
-def home():
+@app.route('/analytics/<address>')
+def home(address):
         addressSelector=''
         if(session.get('user')=="admin"):
             addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
@@ -44,7 +44,6 @@ def home():
             cur = con.cursor()
 
             try:  
-                address=request.args.get('address')
                 cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
                 rows = cur.fetchall()
                 print("rows   --------0")
@@ -64,7 +63,6 @@ def home():
             return render_template("home.html",rows = rows)
         else:
             try:  
-                address=request.args.get('address')
                 con = sql.connect(DBPATH)
                 con.row_factory = sql.Row
                 cur = con.cursor()
