@@ -4,7 +4,7 @@ from pprint import pprint
 import operationsVisualizer
 #print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
 import model
-print(model.eligible())
+
 import sys
 #import cashBackSender
 #print("txTrackerService")
@@ -45,30 +45,29 @@ def analyse(data):
     #pprint(data)
     for dat in data[0]["data"]:
         try:
-            if dat["parameter"]["entrypoint"]=="marketplace_transfer":
-                print("hash marketplace transfer "+dat["hash"])
+            if dat["parameter"]["entrypoint"]=="mint":
+                print("hash mint "+dat["hash"])
                 sys.stdout.flush()
-                print("data from api "+str(dat))
-                sys.stdout.flush()
+                #print("data from api "+str(dat))
+                #sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
-                #print("model.eligible "+str(model.eligible()))
+                print("model.eligible "+str(model.eligible()))
                 print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
                 elis=model.eligible() # here i get vouchers with addresses of players having a voucher
-                print("eligibles "+str(elis))
-                sys.stdout.flush()
+                #print("eligibles "+str(elis))
+                #sys.stdout.flush()
                 for u in range(0,len(elis)):
                     eli=elis[u]
-                    #print(str(eli)+" -- "+str(eli[0]))
-                    print("initiator "+str(initiator))
-                    sys.stdout.flush()
+                    #print(str(eli[0])+", initiator : "+str(initiator))
+                    #sys.stdout.flush()
                     if initiator==str(eli[0]):
                         print("yes")
                         sys.stdout.flush()
-                        amount=operationsVisualizer.getOperationAmount(dat["hash"])
-                        print("tezos spent : "+str(amount))
-                        sys.stdout.flush()
+                        #amount=operationsVisualizer.getOperationAmount(dat["hash"])
+                        #print("tezos spent : "+str(amount))
+                        #sys.stdout.flush()
                         hashOpe=dat["hash"]
                         entrypoint=dat["parameter"]["entrypoint"]
                         initiator=dat["initiator"]["address"]
@@ -80,7 +79,7 @@ def analyse(data):
                         disc=transformer(discount)
                         print("discount "+str(disc)+"%")
                         sys.stdout.flush()
-                        cashBack=amount*int(disc)/100000000
+                        cashBack=1*int(disc)/100000000 # verifier decimales
                         print("cashback : "+str(cashBack))
                         sys.stdout.flush()
                         print(eli)
@@ -102,11 +101,11 @@ def analyse(data):
                             sys.stdout.flush()
                             print(len(remu))
                             sys.stdout.flush()
-                            amountRemuneration=int(remu)*amount/100000000
+                            amountRemuneration=int(remu)*1/100000000
                         print(typeRemuneration+" "+str(amountRemuneration))
                         sys.stdout.flush()
                         #here i add a transaction in the db 
-                        model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',amount,dat["timestamp"],cashBack,amountRemuneration)
+                        model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
 
                         print("cashBack: "+ str(cashBack))
                         sys.stdout.flush()
@@ -128,10 +127,10 @@ def analyse(data):
                 #here i track all transactions made by an user talao brang to Tezotopia
                 if (model.isUserTracked(initiator)):
                     hashOpe=dat["hash"]
-                    amount=operationsVisualizer.getOperationAmount(dat["hash"])
+                    #amount=operationsVisualizer.getOperationAmount(dat["hash"])
                     date=dat["timestamp"]
                     if(model.isFeeAdded(hashOpe)==False):
-                        model.addFee(hashOpe,initiator,date,amount)
+                        model.addFee(hashOpe,initiator,date,1)
         except KeyError:
             print("keyError")
             sys.stdout.flush()
@@ -144,7 +143,7 @@ def init():
     #connection.send('SubscribeToBlocks',[])
     #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
-                    [{'address': 'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa', 
+                    [{'address': 'KT1Db1XxuPMnCk1TEwFXpD3LJLhafFm6ghRs', 
                       'types': 'transaction'}])
 
 connection.on_open(init)

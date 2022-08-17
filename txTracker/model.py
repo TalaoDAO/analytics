@@ -4,8 +4,8 @@ import traceback
 import sys
 from datetime import datetime
 
-DBPATH="/home/achille/analytics/database.db"
-#DBPATH="/home/achille1017/prog/tezotopia/database.db"
+#DBPATH="/home/achille/analytics/database.db"
+DBPATH="/home/achille1017/prog/tezotopia/database.db"
 
 
 try:
@@ -243,8 +243,7 @@ def addFee(hash,address,date,amount):
         con.close()
         print("msg db "+str(msg))
 
-eligible()
-isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
+
 
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
