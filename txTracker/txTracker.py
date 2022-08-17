@@ -42,7 +42,7 @@ def transformer(num):
     return int(num)
     
 def analyse(data):
-    #pprint(data)
+    pprint(data)
     for dat in data[0]["data"]:
         try:
             if dat["parameter"]["entrypoint"]=="mint":
@@ -52,6 +52,8 @@ def analyse(data):
                 #sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
                 print("model.eligible "+str(model.eligible()))
+                sys.stdout.flush()
+
                 print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
