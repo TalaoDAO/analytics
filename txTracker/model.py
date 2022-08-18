@@ -4,8 +4,8 @@ import traceback
 import sys
 from datetime import datetime
 
-#DBPATH="/home/achille/analytics/database.db"
-DBPATH="/home/achille1017/prog/tezotopia/database.db"
+DBPATH="/home/achille/analytics/database.db"
+#DBPATH="/home/achille1017/prog/tezotopia/database.db"
 
 
 try:

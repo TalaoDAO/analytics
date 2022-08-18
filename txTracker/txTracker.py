@@ -108,7 +108,7 @@ def analyse(data):
                         sys.stdout.flush()
                         #here i add a transaction in the db 
                         model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
-
+                        print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
                         print("cashBack: "+ str(cashBack))
                         sys.stdout.flush()
                         #print(str(cashBack)+" "+str(initiator))
@@ -118,7 +118,8 @@ def analyse(data):
                         sys.stdout.flush()
                         #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                         if(model.isPayementAdded(hashOpe)==False):
-                            model.addPayement(hashOpe,initiator,"player",cashBack)
+                            #model.addPayement(hashOpe,initiator,"player",cashBack)
+                            print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                             if(len(eli[5])==36):
                                 model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
