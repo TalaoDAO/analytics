@@ -81,7 +81,7 @@ def analyse(data):
                         disc=transformer(discount)
                         print("discount "+str(disc)+"%")
                         sys.stdout.flush()
-                        cashBack=1*int(disc)/100000000 # verifier decimales
+                        cashBack=100*int(disc)/100000000 # verifier decimales
                         print("cashback : "+str(cashBack))
                         sys.stdout.flush()
                         print(eli)
@@ -103,7 +103,7 @@ def analyse(data):
                             sys.stdout.flush()
                             print(len(remu))
                             sys.stdout.flush()
-                            amountRemuneration=int(remu)*1/100000000
+                            amountRemuneration=int(remu)*1/100
                         print(typeRemuneration+" "+str(amountRemuneration))
                         sys.stdout.flush()
                         #here i add a transaction in the db 
@@ -118,7 +118,7 @@ def analyse(data):
                         sys.stdout.flush()
                         #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                         if(model.isPayementAdded(hashOpe)==False):
-                            #model.addPayement(hashOpe,initiator,"player",cashBack)
+                            model.addPayement(hashOpe,initiator,"player",cashBack)
                             print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                             if(len(eli[5])==36):
                                 model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
