@@ -16,18 +16,21 @@ while True:
         sys.stdout.flush()
 
         if(len(payementToExecute[0])==36 or payementToExecute[0]==None):
-            hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
-            time.sleep(10)
-            status=operationsVisualizer.getOperationStatus(hash)
-            print("status : "+str(status))
-            sys.stdout.flush()
-            while(status!="applied"):
+            if(payementToExecute[1]<1):
+                model.setPayementDone(payementToExecute[3],"invalid amount to pay","date")
+            else:
+                hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
                 time.sleep(10)
                 status=operationsVisualizer.getOperationStatus(hash)
                 print("status : "+str(status))
                 sys.stdout.flush()
-            #test balance
-            model.setPayementDone(payementToExecute[3],hash,"date")
+                while(status!="applied"):
+                    time.sleep(10)
+                    status=operationsVisualizer.getOperationStatus(hash)
+                    print("status : "+str(status))
+                    sys.stdout.flush()
+                #test balance
+                model.setPayementDone(payementToExecute[3],hash,"date")
     if(payementToExecute==None):
         time.sleep(3)
     
