@@ -20,7 +20,7 @@ while True:
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
             
-            hash=cashBackSender.cashbackSender(payementToExecute[1]*1000000,payementToExecute[0])
+            hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
             status=operationsVisualizer.getOperationStatus(hash)
             print("status : "+str(status))
