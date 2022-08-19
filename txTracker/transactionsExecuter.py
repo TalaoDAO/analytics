@@ -5,6 +5,7 @@ import cashBackSender
 import operationsVisualizer
 import sys
 
+from decimal import Decimal
 
 
 while True:
@@ -16,7 +17,9 @@ while True:
         sys.stdout.flush()
 
         if(len(payementToExecute[0])==36 or payementToExecute[0]==None):
-            if(payementToExecute[1]<1):
+            print(Decimal(payementToExecute[1]))
+            sys.stdout.flush()
+            if(Decimal(payementToExecute[1])<1):
                 model.setPayementDone(payementToExecute[3],"invalid amount to pay","date")
             else:
                 hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
