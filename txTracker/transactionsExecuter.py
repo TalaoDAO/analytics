@@ -20,6 +20,7 @@ while True:
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
             if(Decimal(payementToExecute[1])<0.001):
+                print("invalid amount "+ str(Decimal(payementToExecute[1])+str(Decimal(payementToExecute[1])<0.001)))
                 model.setPayementDone(payementToExecute[3],"invalid amount to pay","date")
             else:
                 hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
