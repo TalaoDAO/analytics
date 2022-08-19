@@ -18,10 +18,10 @@ with open(file_path) as mon_fichier:
     print(publicKey)
     sys.stdout.flush()
 def cashbackSender(amountToSend,userAddress):
-    print("trying to sendCashBack")
+    print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
     hash=pytezos.using(key=privateKey, shell="https://rpc.ghostnet.teztnets.xyz/") \
-    .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=100000) \
+    .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
     sys.stdout.flush()
