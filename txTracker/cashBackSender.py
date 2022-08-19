@@ -12,7 +12,11 @@ file_path = os.path.join(script_dir, '../keys.json')
 with open(file_path) as mon_fichier:
     data = json.load(mon_fichier)
     privateKey=data["privateKeyCashBackSender"]
+    print(privateKey)
+    sys.stdout.flush()
     publicKey=data["publicKeyCashBackSender"]
+    print(publicKey)
+    sys.stdout.flush()
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack")
     sys.stdout.flush()
