@@ -12,8 +12,6 @@ while True:
     if(payementToExecute!=None):
         print("going to pay "+str(payementToExecute))
         sys.stdout.flush()
-        print("debug ")
-        sys.stdout.flush()
         print(payementToExecute[0])
         sys.stdout.flush()
 

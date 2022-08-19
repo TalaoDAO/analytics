@@ -14,6 +14,8 @@ with open(file_path) as mon_fichier:
     privateKey=data["privateKeyCashBackSender"]
     publicKey=data["publicKeyCashBackSender"]
 def cashbackSender(amountToSend,userAddress):
+    if(amountToSend<1):
+        return
     print("trying to sendCashBack")
     sys.stdout.flush()
     hash=pytezos.using(key=privateKey, shell="https://ghostnet.smartpy.io/") \
