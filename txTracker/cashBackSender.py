@@ -20,7 +20,7 @@ with open(file_path) as mon_fichier:
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack")
     sys.stdout.flush()
-    hash=pytezos.using(key=privateKey, shell="https://ghostnet.smartpy.io/") \
+    hash=pytezos.using(key=privateKey, shell="https://rpc.ghostnet.teztnets.xyz/") \
     .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=100000) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
