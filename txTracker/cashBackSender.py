@@ -26,6 +26,8 @@ def cashbackSender(amountToSend,userAddress):
     print("sent "+str(amountToSend)+" to "+userAddress)
     sys.stdout.flush()
     balance=operationsVisualizer.getBalanceAddress(publicKey)
+    print(balance)
+    sys.stdout.flush()
     if(balance<50):
         mailSender.sendAlert("Less than 50 XTZ on payements address","Only "+str(balance)+" left.")
     return hash

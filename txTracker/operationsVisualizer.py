@@ -54,3 +54,4 @@ def getBalanceAddress(address):
     output=data.decode("utf-8")
     jsonRes=json.loads(output)
     print(int(jsonRes)/1000000)
+    return(int(jsonRes)/1000000)
