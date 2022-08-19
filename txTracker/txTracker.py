@@ -81,7 +81,7 @@ def analyse(data):
                         disc=transformer(discount)
                         print("discount "+str(disc)+"%")
                         sys.stdout.flush()
-                        cashBack=100*int(disc)/100000000 # verifier decimales
+                        cashBack=int(disc)/100 # verifier decimales
                         print("cashback : "+str(cashBack))
                         sys.stdout.flush()
                         print(eli)
@@ -103,7 +103,7 @@ def analyse(data):
                             sys.stdout.flush()
                             print(len(remu))
                             sys.stdout.flush()
-                            amountRemuneration=int(remu)*1/100
+                            amountRemuneration=int(remu)/100
                         print(typeRemuneration+" "+str(amountRemuneration))
                         sys.stdout.flush()
                         #here i add a transaction in the db 
