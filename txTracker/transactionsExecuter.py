@@ -19,7 +19,7 @@ while True:
         if(len(payementToExecute[0])==36 or payementToExecute[0]==None):
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
-            if(Decimal(payementToExecute[1])<1):
+            if(Decimal(payementToExecute[1])<0.001):
                 model.setPayementDone(payementToExecute[3],"invalid amount to pay","date")
             else:
                 hash=cashBackSender.cashbackSender(payementToExecute[1],payementToExecute[0])
