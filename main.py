@@ -25,16 +25,60 @@ app.permanent_session_lifetime = timedelta(minutes=15)
 qrcode = QRcode(app)
 PORT = 3000
 app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
-DBPATH="/home/achille/analytics/database.db"
-#DBPATH="/home/achille1017/prog/tezotopia/database.db"
-
+DBPATHTESTNET="/home/achille/analytics/database.db"
+#DBPATHTESTNET="/home/achille1017/prog/tezotopia/database.db"
+DBPATH="/home/achille/analytics/databaseMain.db"
+#DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
 
 async def verifyPresentation(vc):
     verif = await didkit.verify_presentation(vc, '{}')
     print(verif)
     return verif
 
-@app.route('/analytics/<address>')
+@app.route('/analytics/testnet/<address>')
+def home(address):
+        addressSelector=''
+        if(session.get('user')=="admin"):
+            addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
+            con = sql.connect(DBPATHTESTNET)
+            con.row_factory = sql.Row
+            cur = con.cursor()
+
+            try:  
+                cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
+                rows = cur.fetchall()
+                print("rows   --------0")
+                sys.stdout.flush()
+                print(rows[0])
+                sys.stdout.flush()
+                return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
+            except TypeError:
+                pass
+            
+            cur.execute("select * from payements")  
+            rows = cur.fetchall()
+            print("rows   --------1")
+            sys.stdout.flush()
+            print(rows)
+            sys.stdout.flush()
+            return render_template("home.html",rows = rows)
+        else:
+            try:  
+                con = sql.connect(DBPATHTESTNET)
+                con.row_factory = sql.Row
+                cur = con.cursor()
+                cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and address='"+address+"')") 
+                rows = cur.fetchall() 
+                print("rows   --------2")
+                sys.stdout.flush()
+    #            print(rows[0])
+                sys.stdout.flush()
+
+                return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+            except TypeError:
+                pass
+
+@app.route('/analytics/mainnet/<address>')
 def home(address):
         addressSelector=''
         if(session.get('user')=="admin"):
@@ -77,9 +121,29 @@ def home(address):
             except TypeError:
                 pass
 
+@app.route('/analytics/testnet/usersvouchers')
+def usersWvouchers():
+    try:
+        if (session.get('logged')=="True"):
+            if(session.get('user')=="admin"):
+                con = sql.connect(DBPATHTESTNET)
+                con.row_factory = sql.Row
+            
+                cur = con.cursor()
+                cur.execute("select * from usersWVouchers")
+                
+                rows = cur.fetchall()
+                return render_template("usersWVouchers.html",rows = rows)
+            else:
+                return redirect(url_for('home'))
+        else:
+            return redirect(url_for('login'))
+    except KeyError:
+        return redirect(url_for('login'))
+    except TypeError:
+        return redirect(url_for('login'))
 
-
-@app.route('/analytics/usersvouchers')
+@app.route('/analytics/mainnet/usersvouchers')
 def usersWvouchers():
     try:
         if (session.get('logged')=="True"):
@@ -391,7 +455,82 @@ def followup(red):
     #print(session.get("user"))
     return redirect("/analytics/tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 
-@app.route('/analytics/api/newvoucher', methods = ['POST'])
+@app.route('/analytics/api/newvoucher/testnet', methods = ['POST'])
+def newvoucher():
+    try:
+        vc=json.loads(request.get_data())
+        key = request.headers.get('key')
+        if (key=="SECRET_KEY" or key==data.get('apiKey')):
+            print(vc)
+            if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
+                print("MembershipCard_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["expirationDate"]
+                try:
+                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                except:
+                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+                benefitAffiliate=None
+                benefitAffiliateType=None
+                affiliate=None
+                try:
+                    with sql.connect(DBPATHTESTNET) as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
+            if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
+                print("TezVoucher_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["expirationDate"]
+                try:
+                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                except:
+                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+                benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
+                benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
+                affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+                print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
+                try:
+                    with sql.connect(DBPATHTESTNET) as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
+        else:
+            return jsonify("Forbidden"), 403
+    except KeyError:
+        return jsonify("error"),404
+
+@app.route('/analytics/api/newvoucher/mainnet', methods = ['POST'])
 def newvoucher():
     try:
         vc=json.loads(request.get_data())
