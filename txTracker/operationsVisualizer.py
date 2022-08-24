@@ -55,3 +55,17 @@ def getBalanceAddress(address):
     jsonRes=json.loads(output)
     print(int(jsonRes)/1000000)
     return(int(jsonRes)/1000000)
+def getBalanceUNO(address):
+    print("request balance ")
+    sys.stdout.flush()
+    conn = http.client.HTTPSConnection("api.ghostnet.tzkt.io")
+    headers = {
+        }
+  
+    link="/v1/tokens/balances?token.contract=KT1E2e7m7PfXNrt7pVgAMHYs74LDQv5qqiUQ&account="+address+"&token.tokenId=0"
+    conn.request("GET",link , headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+    output=data.decode("utf-8")
+    jsonRes=json.loads(output)
+    return(int(jsonRes[0]["balance"])/1000000000)
