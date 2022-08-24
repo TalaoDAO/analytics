@@ -30,7 +30,7 @@ def cashbackSender(amountToSend,userAddress):
     return hash
 
 def sendUNO(amount,address):
-    print("trying to send "+amount+" UNO to "+address)
+    print("trying to send "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
 
     hash=(pytezos.using(key=privateKey, shell='https://rpc.ghostnet.teztnets.xyz/') \

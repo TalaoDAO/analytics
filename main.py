@@ -389,7 +389,7 @@ def followup(red):
         print("user "+session.get("user"))"""
     #print("logged in "+session.get("user"))
     #print(session.get("user"))
-    return redirect("/analytics")
+    return redirect("/analytics/tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
