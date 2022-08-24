@@ -32,14 +32,14 @@ def cashbackSender(amountToSend,userAddress):
 def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
-
+    amountToSend=int(amount*1000000000)
     hash=(pytezos.using(key=privateKey, shell='https://rpc.ghostnet.teztnets.xyz/') \
     .contract('KT1E2e7m7PfXNrt7pVgAMHYs74LDQv5qqiUQ').transfer([{          
         "from_": publicKey,  
         "txs": [         {  
         "to_": address,  
         "token_id": 0,  
-        "amount": amount
+        "amount": amountToSend
           }] }]).send().hash())
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
@@ -47,6 +47,6 @@ def sendUNO(amount,address):
     print(balance)
     sys.stdout.flush()
 
-    if(balance<50):
-        mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
+    #if(balance<50):
+        #mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
     return hash
