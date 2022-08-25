@@ -1,8 +1,8 @@
-from cashBackSender import cashbackSender
+from cashBackSenderMain import cashBackSenderMain
 import modelMain
 import time
-import cashBackSender
-import operationsVisualizer
+import cashBackSenderMain
+import operationsVisualizerMain
 import sys
 
 from decimal import Decimal
@@ -20,14 +20,14 @@ while True:
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
             
-            hash=cashBackSender.sendUNO(payementToExecute[1],payementToExecute[0])
+            hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
-            status=operationsVisualizer.getOperationStatus(hash)
+            status=operationsVisualizerMain.getOperationStatus(hash)
             print("status : "+str(status))
             sys.stdout.flush()
             while(status!="applied"):
                 time.sleep(10)
-                status=operationsVisualizer.getOperationStatus(hash)
+                status=operationsVisualizerMain.getOperationStatus(hash)
                 print("status : "+str(status))
                 sys.stdout.flush()
             #test balance
