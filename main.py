@@ -455,7 +455,7 @@ def followup(red):
     #print(session.get("user"))
     return redirect("/analytics/tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 
-@app.route('/analytics/api/newvoucher/testnet', methods = ['POST'])
+@app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
     try:
         vc=json.loads(request.get_data())
@@ -507,6 +507,78 @@ def newvoucher():
                 print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
                 try:
                     with sql.connect(DBPATHTESTNET) as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
+        else:
+            return jsonify("Forbidden"), 403
+    except KeyError:
+        return jsonify("error"),404
+    try:
+        vc=json.loads(request.get_data())
+        key = request.headers.get('key')
+        if (key=="SECRET_KEY" or key==data.get('apiKey')):
+            print(vc)
+            if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
+                print("MembershipCard_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["expirationDate"]
+                try:
+                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                except:
+                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+                benefitAffiliate=None
+                benefitAffiliateType=None
+                affiliate=None
+                try:
+                    with sql.connect(DBPATH) as con:
+                        cur = con.cursor()
+                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
+                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
+                        con.commit()
+                        msg = "usersWVoucher successfully added"
+                except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+                    msg="error"
+                    
+                finally:
+                    con.close()
+                    print("msg db addVoucher "+str(msg))
+                    return jsonify("ok"), 200
+            if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
+                print("TezVoucher_1")
+                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                expiration=vc["expirationDate"]
+                try:
+                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
+                except:
+                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
+                benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
+                benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
+                affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
+                print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
+                try:
+                    with sql.connect(DBPATH) as con:
                         cur = con.cursor()
                         print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
                         cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
@@ -530,80 +602,6 @@ def newvoucher():
     except KeyError:
         return jsonify("error"),404
 
-@app.route('/analytics/api/newvoucher/mainnet', methods = ['POST'])
-def newvoucher():
-    try:
-        vc=json.loads(request.get_data())
-        key = request.headers.get('key')
-        if (key=="SECRET_KEY" or key==data.get('apiKey')):
-            print(vc)
-            if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
-                print("MembershipCard_1")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                expiration=vc["expirationDate"]
-                try:
-                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
-                except:
-                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
-                benefitAffiliate=None
-                benefitAffiliateType=None
-                affiliate=None
-                try:
-                    with sql.connect(DBPATH) as con:
-                        cur = con.cursor()
-                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
-                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
-                        con.commit()
-                        msg = "usersWVoucher successfully added"
-                except sql.Error as er:
-                    con.rollback()
-                    print('SQLite error: %s' % (' '.join(er.args)))
-                    print("Exception class is: ", er.__class__)
-                    print('SQLite traceback: ')
-                    exc_type, exc_value, exc_tb = sys.exc_info()
-                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
-                    msg="error"
-                    
-                finally:
-                    con.close()
-                    print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
-            if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
-                print("TezVoucher_1")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                expiration=vc["expirationDate"]
-                try:
-                    discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
-                except:
-                    discount=vc["credentialSubject"]["offers"]["benefit"]["discount"]
-                benefitAffiliate=vc["credentialSubject"]["affiliate"]["benefit"]["incentiveCompensation"]
-                benefitAffiliateType=vc["credentialSubject"]["affiliate"]["benefit"]["category"]
-                affiliate=vc["credentialSubject"]["affiliate"]["paymentAccepted"]["blockchainAccount"]
-                print(str(adressUser)," ",str(expiration)," ",str(discount), " ",str(benefitAffiliate)," ",str(benefitAffiliateType)," ",str(affiliate))
-                try:
-                    with sql.connect(DBPATH) as con:
-                        cur = con.cursor()
-                        print("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate))
-                        cur.execute("INSERT INTO usersWVouchers (addressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) VALUES (?,?,?,?,?,?)",(adressUser,expiration,discount,benefitAffiliate,benefitAffiliateType,affiliate) )
-                        con.commit()
-                        msg = "usersWVoucher successfully added"
-                except sql.Error as er:
-                    con.rollback()
-                    print('SQLite error: %s' % (' '.join(er.args)))
-                    print("Exception class is: ", er.__class__)
-                    print('SQLite traceback: ')
-                    exc_type, exc_value, exc_tb = sys.exc_info()
-                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
-                    msg="error"
-                    
-                finally:
-                    con.close()
-                    print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
-        else:
-            return jsonify("Forbidden"), 403
-    except KeyError:
-        return jsonify("error"),404
 
 if __name__ == '__main__':
     # to get the local server IP 
