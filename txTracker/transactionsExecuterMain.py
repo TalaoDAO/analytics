@@ -1,4 +1,4 @@
-from cashBackSenderMain import cashBackSenderMain
+import cashBackSenderMain
 import modelMain
 import time
 import cashBackSenderMain
