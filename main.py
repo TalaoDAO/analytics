@@ -90,10 +90,6 @@ def home(address):
             try:  
                 cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
                 rows = cur.fetchall()
-                print("rows   --------0")
-                sys.stdout.flush()
-                print(rows[0])
-                sys.stdout.flush()
                 return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
             except TypeError:
                 pass
