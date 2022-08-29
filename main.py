@@ -78,7 +78,7 @@ def hometestnet(address):
             except TypeError:
                 pass
 
-@app.route('/analytics/mainnet/<address>')
+@app.route('/analytics/<address>')
 def home(address):
         addressSelector=''
         if(session.get('user')=="admin"):
@@ -143,7 +143,7 @@ def usersWvouchersTestNet():
     except TypeError:
         return redirect(url_for('login'))
 
-@app.route('/analytics/mainnet/usersvouchers')
+@app.route('/analytics/usersvouchers')
 def usersWvouchers():
     try:
         if (session.get('logged')=="True"):
