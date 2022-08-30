@@ -146,7 +146,10 @@ def getPayementPrio():
                 #max = cur.fetchone()
             return max
     except:
-        con.rollback()        
+        try:
+            con.rollback()
+        except:
+            pass        
     finally:
         try:
             con.close()
