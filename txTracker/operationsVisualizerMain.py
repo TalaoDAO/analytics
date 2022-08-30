@@ -1,6 +1,7 @@
 import http.client
 from datetime import datetime
 import json
+from pprint import pprint
 import sys
 
 
@@ -85,5 +86,23 @@ def isTezotopMinted(hash):
         return jsonRes[8]["diffs"][1]["content"]["value"]["category"]=="tezotop"
     except IndexError:
         return False
+def isArtifactFromStarbaseMinted(hash):
+    conn = http.client.HTTPSConnection("api.mainnet.tzkt.io")
+    headers = {
+        }
+  
+    link="/v1/operations/"+hash
+    conn.request("GET",link , headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+    output=data.decode("utf-8")
+    jsonRes=json.loads(output)
+    #pprint(jsonRes)
+    try:
+        print(jsonRes[3]["diffs"][1]["content"]["value"]["category"])
+        return jsonRes[3]["diffs"][1]["content"]["value"]["category"]=="artifact"
+    except IndexError:
+        return False
 #print(getBalanceUNO("tz1UJEY6MH5KaDtYdLycoCGB7z1zDq8Krfhy"))
-print(isTezotopMinted("ooD1tmwxtty6Gi4p3veJF5QDKSqcUKTLFrr5iYTCJauFpYQo87a"))
+#print(isTezotopMinted("ooD1tmwxtty6Gi4p3veJF5QDKSqcUKTLFrr5iYTCJauFpYQo87a"))
+print(isArtifactFromStarbaseMinted("oo7RBQSgBx35PzKACxsiG1bujswM3ooEs4pY5BA3m3pxePgZbZf"))
