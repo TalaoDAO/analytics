@@ -141,9 +141,9 @@ def getPayementPrio():
             cur = con.cursor()
             cur.execute("select address,amount,hash,prio from payements where prio=(select min(prio) from payements where applied=0 and forWho='player' and length(address)=36) ")
             max = cur.fetchone()
-            if(max==None):
-                cur.execute("select address,amount,hash,prio from payements where prio=(select min(prio) from payements where applied=0 and forWho='affiliate' and length(address)=36) ")
-                max = cur.fetchone()
+            #if(max==None):
+                #cur.execute("select address,amount,hash,prio from payements where prio=(select min(prio) from payements where applied=0 and forWho='affiliate' and length(address)=36) ")
+                #max = cur.fetchone()
             return max
     except:
         con.rollback()        

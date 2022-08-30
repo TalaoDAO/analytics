@@ -104,6 +104,8 @@ def analyse(data):
                                     modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
 
                             break
+                        if operationsVisualizerMain.isArtifactFromStarbaseMinted(hashOpe):
+                            None
                 print("user Tracked "+str(modelMain.isUserTracked(initiator)))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia ACTUALLY NOT EFFECTIVE
@@ -125,7 +127,7 @@ def init():
     #connection.send('SubscribeToBlocks',[])
     #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
-                    [{'address': 'KT1JwfnnWU67BftQbHbxpqTJjkMZa9GW1JAU', 
+                    [{'address': 'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM', 
                       'types': 'transaction'}])
 
 connection.on_open(init)
