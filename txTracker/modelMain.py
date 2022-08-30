@@ -224,7 +224,10 @@ def getAddressFromMail(mail):
     except:
         con.rollback()        
     finally:
-        con.close()
+        try:
+            con.close()
+        except:
+            pass
 def addFee(hash,address,date,amount):
     print("trying to add fee with "+str(hash)+" "+str(address)+" "+str(date)+" "+str(amount))
     try:
@@ -245,3 +248,4 @@ def addFee(hash,address,date,amount):
 
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
+print(getPayementPrio())
