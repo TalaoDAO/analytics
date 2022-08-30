@@ -148,7 +148,10 @@ def getPayementPrio():
     except:
         con.rollback()        
     finally:
-        con.close()
+        try:
+            con.close()
+        except:
+            pass
 def isUserTracked(address):
     try:
         with sql.connect(DBPATH) as con:
