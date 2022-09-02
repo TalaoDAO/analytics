@@ -87,8 +87,8 @@ def analyse(data):
                                         break
                                 amountRemuneration=int(remu)/100
                             #here i add a transaction in the db 
-                            modelMain.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
-                            print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
+                            modelMain.addTx(hashOpe,eli[2],initiator,'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',1,dat["timestamp"],cashBack,amountRemuneration,"UNO")
+                            print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
                             print("cashBack: "+ str(cashBack))
                             sys.stdout.flush()
                             #print(str(cashBack)+" "+str(initiator))
@@ -98,14 +98,50 @@ def analyse(data):
                             sys.stdout.flush()
                             #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                             if(modelMain.isPayementAdded(hashOpe)==False):
-                                modelMain.addPayement(hashOpe,initiator,"player",cashBack)
+                                modelMain.addPayement(hashOpe,initiator,"player",cashBack,"UNO")
                                 print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                                 if(len(eli[5])==36):
-                                    modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
+                                    modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration,"UNO")
 
                             break
                         if operationsVisualizerMain.isArtifactFromStarbaseMinted(hashOpe):
-                            None
+                            entrypoint=dat["parameter"]["entrypoint"]
+                            initiator=dat["initiator"]["address"]
+                            print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
+                            sys.stdout.flush()
+                            discount=eli[1]
+                            disc=transformer(discount)
+                            cashBack=int(disc)/100 # verifier decimales
+                            typeRemuneration=eli[4]
+                            amountRemuneration=eli[3]
+                            if typeRemuneration=="commission":
+                                remu=""
+                                i=0
+                                while(amountRemuneration[i]!="%"):
+                                    remu=remu+amountRemuneration[i]
+                                    print(str(remu))
+                                    i+=1
+                                    if(i==len(amountRemuneration)-1):
+                                        break
+                                amountRemuneration=int(remu)/100
+                            #here i add a transaction in the db 
+                            modelMain.addTx(hashOpe,eli[2],initiator,'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',1,dat["timestamp"],cashBack,amountRemuneration,"UNO")
+                            print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
+                            print("cashBack: "+ str(cashBack))
+                            sys.stdout.flush()
+                            #print(str(cashBack)+" "+str(initiator))
+                            print(str(cashBack),initiator)
+                            sys.stdout.flush()
+                            print(str(amountRemuneration),eli[5])
+                            sys.stdout.flush()
+                            #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
+                            if(modelMain.isPayementAdded(hashOpe)==False):
+                                modelMain.addPayement(hashOpe,initiator,"player",cashBack,"UNO")
+                                print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
+                                if(len(eli[5])==36):
+                                    modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration,"UNO")
+
+                            break
                 print("user Tracked "+str(modelMain.isUserTracked(initiator)))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia ACTUALLY NOT EFFECTIVE

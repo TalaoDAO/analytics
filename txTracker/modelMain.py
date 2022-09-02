@@ -10,9 +10,9 @@ DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
 
 try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
-    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER)")
-    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT)")
-    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER)")
+    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER,currency TEXT)")
+    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT,currency TEXT)")
+    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER,currency TEXT)")
     max =sql.connect(DBPATH).cursor().execute("select max(prio) from payements ").fetchone()
     print(max[0])
     if(max[0]==None):
@@ -59,11 +59,11 @@ def eligible():
         print("eligibles :")
         print(rows)
         return rows
-def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate):
+def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate,currency):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO transactions (hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate) VALUES (?,?,?,?,?,?,?,?)",(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate) )
+            cur.execute("INSERT INTO transactions (hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate,currency) VALUES (?,?,?,?,?,?,?,?,?)",(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate,currency) )
             con.commit()
             msg = "tx successfully added"
     except:
@@ -73,8 +73,8 @@ def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,
     finally:
         con.close()
         print("msg db "+str(msg))
-def addPayement(hash,address,forWho,amount):
-    print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount))
+def addPayement(hash,address,forWho,amount,currency):
+    print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount)+" "+str(currency))
     sys.stdout.flush()
     try:
         with sql.connect(DBPATH) as con:
@@ -82,7 +82,7 @@ def addPayement(hash,address,forWho,amount):
             cur.execute("select max(prio) from payements ")
             max = cur.fetchone()
             cur = con.cursor()
-            cur.execute("INSERT INTO payements (hash,prio,address,applied,forWho,amount) VALUES (?,?,?,?,?,?)",(hash,max[0]+1,address,False,forWho,amount) )
+            cur.execute("INSERT INTO payements (hash,prio,address,applied,forWho,amount,currency) VALUES (?,?,?,?,?,?,?)",(hash,max[0]+1,address,False,forWho,amount,currency) )
             con.commit()
             msg = "payement successfully added"
     except sql.Error as er:
@@ -139,7 +139,7 @@ def getPayementPrio():
         with sql.connect(DBPATH) as con:
             #print("try")
             cur = con.cursor()
-            cur.execute("select address,amount,hash,prio from payements where prio=(select min(prio) from payements where applied=0 and forWho='player' and length(address)=36) ")
+            cur.execute("select address,amount,hash,prio,currency from payements where prio=(select min(prio) from payements where applied=0 and forWho='player' and length(address)=36) ")
             max = cur.fetchone()
             #if(max==None):
                 #cur.execute("select address,amount,hash,prio from payements where prio=(select min(prio) from payements where applied=0 and forWho='affiliate' and length(address)=36) ")

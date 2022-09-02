@@ -103,6 +103,25 @@ def isArtifactFromStarbaseMinted(hash):
         return jsonRes[3]["diffs"][1]["content"]["value"]["category"]=="artifact"
     except IndexError:
         return False
+def getAmountPrimarySales(hash):
+    conn = http.client.HTTPSConnection("api.mainnet.tzkt.io")
+    headers = {
+        }
+  
+    link="/v1/operations/"+hash
+    conn.request("GET",link , headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+    output=data.decode("utf-8")
+    jsonRes=json.loads(output)
+    try:
+        print(int(jsonRes[0]["diffs"][1]["content"]["value"]["price"]))
+        return int(jsonRes[0]["diffs"][1]["content"]["value"]["price"])
+    except IndexError:
+        return None
+    except KeyError:
+        return None
 #print(getBalanceUNO("tz1UJEY6MH5KaDtYdLycoCGB7z1zDq8Krfhy"))
 #print(isTezotopMinted("ooD1tmwxtty6Gi4p3veJF5QDKSqcUKTLFrr5iYTCJauFpYQo87a"))
-print(isArtifactFromStarbaseMinted("oo7RBQSgBx35PzKACxsiG1bujswM3ooEs4pY5BA3m3pxePgZbZf"))
+#print(isArtifactFromStarbaseMinted("oo7RBQSgBx35PzKACxsiG1bujswM3ooEs4pY5BA3m3pxePgZbZf"))
+print(getAmountPrimarySales("ooGpTGhDxWo7o4fjT2vMfLxsrGhVet7Z7UHZ1BZT9VAinZJUbfK"))
