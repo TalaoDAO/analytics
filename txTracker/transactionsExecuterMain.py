@@ -19,8 +19,11 @@ while True:
         if(len(payementToExecute[0])==36 or payementToExecute[0]==None):
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
-            
-            hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
+            hash=""
+            if(payementToExecute[4]=="UNO"):
+                hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
+            if(payementToExecute[4]=="XTZ"):
+                hash=cashBackSenderMain.cashbackSender(payementToExecute[1,payementToExecute[0]])
             time.sleep(10)
             status=operationsVisualizerMain.getOperationStatus(hash)
             print("status : "+str(status))
