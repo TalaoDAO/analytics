@@ -453,6 +453,7 @@ def followup(red):
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
+    vouchersAdded=0
     try:
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
@@ -488,7 +489,7 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
                 print("TezVoucher_1")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
@@ -520,7 +521,7 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TalaoCommunity"):
                 print("TalaoCommunity")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
@@ -553,7 +554,7 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
         else:
             return jsonify("Forbidden"), 403
     except KeyError:
@@ -593,7 +594,7 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
                 print("TezVoucher_1")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
@@ -625,7 +626,7 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TalaoCommunity"):
                 print("TalaoCommunity")
                 adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
@@ -658,12 +659,13 @@ def newvoucher():
                 finally:
                     con.close()
                     print("msg db addVoucher "+str(msg))
-                    return jsonify("ok"), 200
+                    vouchersAdded=vouchersAdded+1
         else:
             return jsonify("Forbidden"), 403
     except KeyError:
         return jsonify("error"),404
-
+    if(vouchersAdded==2):
+        return jsonify("ok"), 200
 
 if __name__ == '__main__':
     # to get the local server IP 
