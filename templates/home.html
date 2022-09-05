@@ -26,10 +26,10 @@
          </thead>
          {% for row in rows %}
          <tr>
-            <td><a href="https://ghostnet.tzkt.io/{{row["hash"]}}" class="line">{{row["amount"]}}</a></td>
+            <td><a href="https://tzkt.io/{{row["hash"]}}" class="line">{{row["amount"]}}</a></td>
             <td><p class="line">{{row["date"]}}</p></td>
             <td><p class="line">{{row["discount"]}}</p></td>
-            <td><a href="https://ghostnet.tzkt.io/{{row["hashPayement"]}}" class="line">{{row["amountDiscount"]}}</a></td> 
+            <td><a href="https://tzkt.io/{{row["hashPayement"]}}" class="line">{{row["amountDiscount"]}}</a></td> 
             <td><p class="line">{{ row["status"]}}</p></td> 
          </tr>
          {% endfor %}
