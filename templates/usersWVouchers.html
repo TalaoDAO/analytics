@@ -13,9 +13,9 @@
             <td><p class="line">User address</p></td>
             <td><p class="line">Expiration data</p></td>
             <td><p class="line">Gamer discount</p></td>
-            <td><p class="line">Affiliate commission</p></td>
+            <!--<td><p class="line">Affiliate commission</p></td>
             <td><p class="line">benefitAffiliateType</p></td>
-            <td><p class="line">Affiliate address</p></td>
+            <td><p class="line">Affiliate address</p></td>-->
          </thead>
          
          {% for row in rows %}
@@ -24,9 +24,9 @@
                <td><p class="line">{{row["addressUser"]}}</p></td>
                <td> <p class="line">{{ row["expiration"]}}</p></td>
                <td><p class="line">{{row["discount"]}}</p></td>
-               <td><p class="line">{{ row["benefitAffiliate"]}}</p> </td>
+               <!--<td><p class="line">{{ row["benefitAffiliate"]}}</p> </td>
                <td><p class="line">{{row['benefitAffiliateType']}}</p></td>
-               <td><p class="line">{{row['affiliate']}}</p></td>
+               <td><p class="line">{{row['affiliate']}}</p></td>-->
             </tr>
          {% endfor %}
       </table>
