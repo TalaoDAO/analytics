@@ -77,10 +77,10 @@ def hometestnet(address):
                 return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
             except TypeError:
                 pass
-            
+
 @app.route('/analytics/')
 def selector():
-    return("test")
+    return render_template("selector.html")
 
 @app.route('/analytics/<address>')
 def home(address):

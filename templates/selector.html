@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+   <head>
+      <title>Home</title>
+      <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
+   </head>
+   <body>
+      
+      <p id="connected">connected with {{addressTezos}}</p>
+      <div id="logo">
+      <img  src="../analytics/static/logo">
+   </div>
+      <input  class="button" id="vouchers" type="button" onclick="location.href='/analytics/usersvouchers';" value="Vouchers" {{usersWVouchers}}=""/>
+   
+      
+      <input  class="button" id="logout" type="button" onclick="location.href='/analytics/logout';" value="Deconnexion" />
+      <p id="myAnalytics">My analytics</p>
+      <input type="text" id="address" name="name" required
+       minlength="36" maxlength="36" size="10">
+   </div>
+   </body>
+</html>
