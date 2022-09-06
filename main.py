@@ -37,9 +37,8 @@ async def verifyPresentation(vc):
 
 @app.route('/analytics/testnet/<address>')
 def hometestnet(address):
-        addressSelector=''
+
         if(session.get('user')=="admin"):
-            addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
             con = sql.connect(DBPATHTESTNET)
             con.row_factory = sql.Row
             cur = con.cursor()
@@ -51,7 +50,7 @@ def hometestnet(address):
                 sys.stdout.flush()
                 print(rows[0])
                 sys.stdout.flush()
-                return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
+                return render_template("home.html",rows = rows,addressTezos="admin") 
             except TypeError:
                 pass
             
@@ -74,38 +73,24 @@ def hometestnet(address):
     #            print(rows[0])
                 sys.stdout.flush()
 
-                return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+                return render_template("home.html",rows = rows,usersWVouchers="hidden",addressTezos=session.get("user")) 
             except TypeError:
                 pass
 
 @app.route('/analytics/')
 def selector():
+    if(session.get('user')=="admin"):
+            con = sql.connect(DBPATH)
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount,b.currency from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
+            rows = cur.fetchall()
+            return render_template("home.html",rows = rows,addressTezos="admin") 
+            
     return render_template("selector.html")
 
 @app.route('/analytics/<address>')
 def home(address):
-        addressSelector=''
-        if(session.get('user')=="admin"):
-            addressSelector='''<div><input class="button" type="button" onclick="location.href='/payements?address='+addressToSee.value" value="Select address" /><input  type="text" id="addressToSee" ></div>'''
-            con = sql.connect(DBPATH)
-            con.row_factory = sql.Row
-            cur = con.cursor()
-
-            try:  
-                cur.execute("select * ,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount/1000000 as amount,datetime(a.date) as date,b.applied,b.address,b.amount as 'amountDiscount' ,b.hashPayement,c.discount from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player')") 
-                rows = cur.fetchall()
-                return render_template("home.html",rows = rows,addressSelector=addressSelector,addressTezos="admin") 
-            except TypeError:
-                pass
-            
-            cur.execute("select * from payements")  
-            rows = cur.fetchall()
-            print("rows   --------1")
-            sys.stdout.flush()
-            print(rows)
-            sys.stdout.flush()
-            return render_template("home.html",rows = rows)
-        else:
             try:  
                 con = sql.connect(DBPATH)
                 con.row_factory = sql.Row
@@ -117,7 +102,7 @@ def home(address):
     #            print(rows[0])
                 sys.stdout.flush()
 
-                return render_template("home.html",rows = rows,addressSelector=addressSelector,usersWVouchers="hidden",addressTezos=session.get("user")) 
+                return render_template("home.html",rows = rows,usersWVouchers="hidden",addressTezos=session.get("user")) 
             except TypeError:
                 pass
 
