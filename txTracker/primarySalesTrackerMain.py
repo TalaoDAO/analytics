@@ -36,8 +36,10 @@ connection = HubConnectionBuilder()\
 def analyse(data):
     tx=data[0]["data"][0]
     hashOpe=tx["hash"]
-    initiator=tx["initiator"]
+    initiator=tx["sender"]["address"]
     entryPoint=str(tx["parameter"]["entrypoint"])
+    amount=tx["amount"]/1000000
+    print(amount)
     print("entrypoint "+str(tx["parameter"]["entrypoint"]))
     if(entryPoint=="buy"):
         elis=modelMain.eligible()
@@ -47,7 +49,7 @@ def analyse(data):
                 disc=transformer(discount)
                 typeRemuneration=eli[4]
                 amountRemuneration=eli[3]
-                cashBack=int(disc)/100 # verifier decimales
+                cashBack=int(disc)/100*amount # verifier decimales
                 if typeRemuneration=="commission":
                     remu=""
                     i=0
@@ -57,7 +59,7 @@ def analyse(data):
                         i+=1
                         if(i==len(amountRemuneration)-1):
                             break
-                    amountRemuneration=int(remu)/100
+                    amountRemuneration=int(remu)/100*amount
                 modelMain.addTx(hashOpe,eli[2],initiator,'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37',1,tx["timestamp"],cashBack,amountRemuneration,"XTZ")
                 print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37',str(1),str(tx["timestamp"]),str(cashBack),str(amountRemuneration))
                 print("cashBack: "+ str(cashBack))
