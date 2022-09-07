@@ -49,4 +49,3 @@ def sendUNO(amount,address):
     if(balance<50):
         mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
     return hash
-cashbackSender(0.1,publicKey)
