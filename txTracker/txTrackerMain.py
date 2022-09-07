@@ -123,7 +123,7 @@ def analyse(data):
                                     i+=1
                                     if(i==len(amountRemuneration)-1):
                                         break
-                                amountRemuneration=int(remu)/100
+                                amountRemuneration=int(remu)/1000
                             #here i add a transaction in the db 
                             modelMain.addTx(hashOpe,eli[2],initiator,'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',0.1,dat["timestamp"],cashBack,amountRemuneration,"UNO")
                             print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
