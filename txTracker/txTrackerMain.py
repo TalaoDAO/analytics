@@ -111,7 +111,7 @@ def analyse(data):
                             sys.stdout.flush()
                             discount=eli[1]
                             disc=transformer(discount)
-                            cashBack=int(disc)/100 # verifier decimales
+                            cashBack=int(disc)/1000 # verifier decimales
                             typeRemuneration=eli[4]
                             amountRemuneration=eli[3]
                             if typeRemuneration=="commission":
