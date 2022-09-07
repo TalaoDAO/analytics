@@ -16,7 +16,7 @@ with open(file_path) as mon_fichier:
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
-    hash=pytezos.using(key=privateKey, shell="https://mainnet.smartpy.io") \
+    hash=pytezos.using(key=privateKey, shell="https://mainnet-tezos.giganode.io") \
     .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
@@ -32,7 +32,7 @@ def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address+" from "+publicKey)
     sys.stdout.flush()
     amountToSend=int(amount*1000000000)
-    hash=(pytezos.using(key=privateKey, shell='https://mainnet.smartpy.io') \
+    hash=(pytezos.using(key=privateKey, shell='https://mainnet-tezos.giganode.io') \
     .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
         "txs": [         {  
@@ -49,3 +49,4 @@ def sendUNO(amount,address):
     if(balance<50):
         mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
     return hash
+cashbackSender(0.1,publicKey)
