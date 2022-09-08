@@ -77,7 +77,7 @@ def analyse(data):
 
                             
 def init():
-    print("connection established, subscribing to blocks and operations")
+    print("connection established, subscribing to blocks and operations of PrimarySales KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37")
     sys.stdout.flush()
     connection.send('SubscribeToOperations', 
                     [{'address': 'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37', 
