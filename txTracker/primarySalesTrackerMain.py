@@ -63,9 +63,12 @@ def analyse(data):
         print(str(elis))
         sys.stdout.flush()
         for eli in elis:
+            print(str(tx["initiator"])+" "+str(eli[0]))
             if(tx["initiator"]==eli[0]):
                 discount=eli[1]
                 disc=transformer(discount)
+                print(disc)
+                sys.stdout.flush()
                 typeRemuneration=eli[4]
                 amountRemuneration=eli[3]
                 cashBack=int(disc)/100*amount # verifier decimales
