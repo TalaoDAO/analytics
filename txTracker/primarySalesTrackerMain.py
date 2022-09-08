@@ -6,6 +6,10 @@ import operationsVisualizerMain
 import modelMain
 import sys 
 
+elis=modelMain.eligible()
+print(str(elis))
+sys.stdout.flush()
+
 def transformer(num):
     print("transformer")
     sys.stdout.flush()
