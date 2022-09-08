@@ -1,3 +1,4 @@
+from re import A
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
@@ -39,13 +40,24 @@ def analyse(data):
     print(data)
     sys.stdout.flush()
     tx=data[0]["data"][0]
+    print(str(tx))
+    sys.stdout.flush()
     hashOpe=tx["hash"]
+    print(hashOpe)
+    sys.stdout.flush()
     initiator=tx["sender"]["address"]
+    print(initiator)
+    sys.stdout.flush()
     entryPoint=str(tx["parameter"]["entrypoint"])
     amount=tx["amount"]/1000000
-    print("entrypoint "+str(tx["parameter"]["entrypoint"]))
+    print("entrypoint "+str(tx["parameter"]["entrypoint"])+entryPoint)
+    sys.stdout.flush()
+    print("amount "+str(amount))
+    sys.stdout.flush()
     if(entryPoint=="buy"):
         elis=modelMain.eligible()
+        print(str(elis))
+        sys.stdout.flush()
         for eli in elis:
             if(tx["initiator"]==eli[0]):
                 discount=eli[1]
