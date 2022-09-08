@@ -1,4 +1,3 @@
-from importlib.metadata import EntryPoint
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
