@@ -85,7 +85,7 @@ def init():
 connection.on_open(init)
 connection.on("operations", analyse)
 
-"""connection.start()
+connection.start()
 
 try:
     while True:
@@ -94,7 +94,6 @@ except KeyboardInterrupt:
     pass
 finally:
     print('shutting down...')
-    connection.stop()"""
+    connection.stop()
 
-print(modelMain.eligible())
 
