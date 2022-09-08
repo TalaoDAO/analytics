@@ -33,12 +33,15 @@ connection = HubConnectionBuilder()\
     })\
     .build()
 def analyse(data):
+    print("caught a tx")
+    sys.stdout.flush()
+    print(data)
+    sys.stdout.flush()
     tx=data[0]["data"][0]
     hashOpe=tx["hash"]
     initiator=tx["sender"]["address"]
     entryPoint=str(tx["parameter"]["entrypoint"])
     amount=tx["amount"]/1000000
-    print(amount)
     print("entrypoint "+str(tx["parameter"]["entrypoint"]))
     if(entryPoint=="buy"):
         elis=modelMain.eligible()
