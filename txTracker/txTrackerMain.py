@@ -42,6 +42,10 @@ def transformer(num):
     return int(num)
     
 def analyse(data):
+    print("caught a tx")
+    sys.stdout.flush()
+    print(data)
+    sys.stdout.flush()
     pprint(data)
     for dat in data[0]["data"]:
         try:
@@ -167,9 +171,7 @@ def init():
                       'types': 'transaction'}])
 
 connection.on_open(init)
-#connection.on("head", pprint)
 connection.on("operations", analyse)
-#connection.on("blocks", pprint)
 
 connection.start()
 
