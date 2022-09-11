@@ -3,6 +3,7 @@ import sys
 #import operationsVisualizerMain
 import http.client
 import json
+import model
 def transformer(num):
     print("transformer")
     sys.stdout.flush()
@@ -73,7 +74,7 @@ data = res.read()
 output=data.decode("utf-8")
 jsonRes=json.loads(output)
 analyse(jsonRes)"""
-analyse([
+"""analyse([
     {
         "type": 1,
         "data": [
@@ -516,4 +517,6 @@ analyse([
         ],
         "state": 2692112
     }
-])
+])"""
+print(str([('tz1LK2aE2zmvqqsVYGAaCTauz7peWQ3gAuqK', 25, 3, None, None, None), ('tz1LK1kJ73YwKEd8xpkCKtACc13qQayrfAeZ', 15, 1, '5%', 'commission', '')]))
+print(str(model.eligible()))
