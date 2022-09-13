@@ -23,7 +23,7 @@ while True:
             if(payementToExecute[4]=="UNO"):
                 hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
             if(payementToExecute[4]=="XTZ"):
-                hash=cashBackSenderMain.cashbackSender(payementToExecute[1,payementToExecute[0]])
+                hash=cashBackSenderMain.cashbackSender(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
             status=operationsVisualizerMain.getOperationStatus(hash)
             print("status : "+str(status))
