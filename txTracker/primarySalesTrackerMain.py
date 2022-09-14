@@ -90,7 +90,7 @@ def analyse(data):
                         if(i==len(amountRemuneration)-1):
                             break
                     amountRemuneration=int(remu)/100*amount
-                modelMain.addTx(hashOpe,eli[2],initiator,'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37',1,tx["timestamp"],cashBack,amountRemuneration,"XTZ")
+                modelMain.addTx(hashOpe,eli[2],initiator,'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37',amount,tx["timestamp"],cashBack,amountRemuneration,"XTZ")
                 print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37',str(1),str(tx["timestamp"]),str(cashBack),str(amountRemuneration))
                 print("cashBack: "+ str(cashBack))
                 sys.stdout.flush()
