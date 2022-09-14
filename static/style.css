@@ -129,5 +129,14 @@ line-height: 0px;
   font-size: 40px;
 }
 #addressSelector{
-  
+  text-align: center;
 }
+#enterAddress
+  {
+    color: #ffffff;
+    font-family :Rubik;
+    font-size: 36px;
+    line-height: 0px;
+    font-weight: bold;
+    text-align: center;
+  }
