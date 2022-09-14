@@ -49,6 +49,13 @@ a{
   letter-spacing: 0px;
 color: #EEE9F4;
 opacity: 1;}
+.lineDate{
+  text-align: center;
+  font-family :Rubik;
+  letter-spacing: 0px;
+color: #EEE9F4;
+opacity: 1;
+max-width: 150px;}
 td{
   height: 50px;
   border: 1px solid #FFFFFF;
