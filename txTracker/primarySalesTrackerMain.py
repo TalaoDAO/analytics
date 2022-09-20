@@ -1,4 +1,3 @@
-from re import A
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint

@@ -1,4 +1,3 @@
-from audioop import add
 import sqlite3 as sql
 import traceback
 import sys
