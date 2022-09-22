@@ -57,14 +57,16 @@ def analyse(data):
                 print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
-                elis=modelTest.eligible() # here i get vouchers with addresses of players having a voucher
+                #elis=modelTest.eligible() # here i get vouchers with addresses of players having a voucher
                 #print("eligibles "+str(elis))
                 #sys.stdout.flush()
-                for u in range(0,len(elis)):
-                    eli=elis[u]
+                eli=modelTest.isEligible(initiator)
+
+                #for u in range(0,len(elis)):
+                    #eli=elis[u]
                     #print(str(eli[0])+", initiator : "+str(initiator))
                     #sys.stdout.flush()
-                    if initiator==str(eli[0]):
+                if eli!=None:
                         print("yes")
                         sys.stdout.flush()
                         #amount=operationsVisualizer.getOperationAmount(dat["hash"])

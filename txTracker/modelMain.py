@@ -56,6 +56,15 @@ def eligible():
         cur.execute("select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') group by addressUser;")
         rows = cur.fetchall()
         return rows
+
+def isEligible(address):
+    with sql.connect(DBPATH) as conn:
+        cur = conn.cursor()
+        cur.execute("select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and addressUser="+address+'"')
+        rows = cur.fetchall()
+        return rows
+
+
 def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,forAffiliate,currency):
     try:
         with sql.connect(DBPATH) as con:

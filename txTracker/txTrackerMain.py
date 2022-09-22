@@ -61,16 +61,17 @@ def analyse(data):
                 print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(modelMain.eligible())))
-                elis=modelMain.eligible() # here i get vouchers with addresses of players having a voucher
+                #elis=modelMain.eligible() # here i get vouchers with addresses of players having a voucher
                 #print("eligibles "+str(elis))
                 #sys.stdout.flush()
-                for u in range(0,len(elis)):
-                    eli=elis[u]
+                eli=modelMain.isEligible(initiator)
+                #for u in range(0,len(elis)):
+                    #eli=elis[u]
                     #print(str(eli[0])+", initiator : "+str(initiator))
                     #sys.stdout.flush()
-                    if initiator==str(eli[0]):
-                        hashOpe=dat["hash"]
-                        if operationsVisualizerMain.isTezotopMinted(hashOpe):
+                if eli!=None:
+                    hashOpe=dat["hash"]
+                    if operationsVisualizerMain.isTezotopMinted(hashOpe):
                             entrypoint=dat["parameter"]["entrypoint"]
                             initiator=dat["initiator"]["address"]
                             print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
@@ -108,7 +109,7 @@ def analyse(data):
                                     modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration,"UNO")
 
                             break
-                        if operationsVisualizerMain.isArtifactFromStarbaseMinted(hashOpe):
+                    if operationsVisualizerMain.isArtifactFromStarbaseMinted(hashOpe):
                             entrypoint=dat["parameter"]["entrypoint"]
                             initiator=dat["initiator"]["address"]
                             print(hashOpe+" : "+entrypoint+" => "+" by "+initiator)
