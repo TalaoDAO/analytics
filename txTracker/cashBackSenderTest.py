@@ -3,7 +3,7 @@ from pytezos import pytezos
 from decimal import Decimal
 from pprint import pprint
 import mailSender
-import operationsVisualizer
+import txTracker.operationsVisualizerTest as operationsVisualizerTest
 import sys
 import json
 import os
@@ -22,7 +22,7 @@ def cashbackSender(amountToSend,userAddress):
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
     sys.stdout.flush()
-    balance=operationsVisualizer.getBalanceAddress(publicKey)
+    balance=operationsVisualizerTest.getBalanceAddress(publicKey)
     print(balance)
     sys.stdout.flush()
     if(balance<50):
@@ -43,7 +43,7 @@ def sendUNO(amount,address):
           }] }]).send().hash())
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
-    balance=operationsVisualizer.getBalanceUNO(publicKey)
+    balance=operationsVisualizerTest.getBalanceUNO(publicKey)
     print(balance)
     sys.stdout.flush()
 

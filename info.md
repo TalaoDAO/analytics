@@ -10,5 +10,5 @@
 
 If a gamer has a valid voucher and a new one is added for him, the one with the biggest discount will be applied.
 
-
+In the txTracker/ folder, files named *Test.py are for the TESTNET
 

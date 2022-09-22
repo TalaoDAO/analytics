@@ -1,9 +1,9 @@
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
-import operationsVisualizer
+import txTracker.operationsVisualizerTest as operationsVisualizerTest
 #print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
-import model
+import txTracker.modelTest as modelTest
 
 import sys
 #import cashBackSender
@@ -51,13 +51,13 @@ def analyse(data):
                 #print("data from api "+str(dat))
                 #sys.stdout.flush()
                 initiator=dat["initiator"]["address"]
-                print("model.eligible "+str(model.eligible()))
+                print("model.eligible "+str(modelTest.eligible()))
                 sys.stdout.flush()
 
                 print("initiator :"+initiator)
                 sys.stdout.flush()
                 #print("length "+str(len(model.eligible())))
-                elis=model.eligible() # here i get vouchers with addresses of players having a voucher
+                elis=modelTest.eligible() # here i get vouchers with addresses of players having a voucher
                 #print("eligibles "+str(elis))
                 #sys.stdout.flush()
                 for u in range(0,len(elis)):
@@ -107,7 +107,7 @@ def analyse(data):
                         print(typeRemuneration+" "+str(amountRemuneration))
                         sys.stdout.flush()
                         #here i add a transaction in the db 
-                        model.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
+                        modelTest.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
                         print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
                         print("cashBack: "+ str(cashBack))
                         sys.stdout.flush()
@@ -117,23 +117,23 @@ def analyse(data):
                         print(str(amountRemuneration),eli[5])
                         sys.stdout.flush()
                         #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
-                        if(model.isPayementAdded(hashOpe)==False):
-                            model.addPayement(hashOpe,initiator,"player",cashBack)
+                        if(modelTest.isPayementAdded(hashOpe)==False):
+                            modelTest.addPayement(hashOpe,initiator,"player",cashBack)
                             print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                             if(len(eli[5])==36):
-                                model.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
+                                modelTest.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration)
                         #cashBackSender.cashbackSender(cashBack,initiator)
                         #cashBackSender.cashbackSender(amountRemuneration,eli[5])
                         break
-                print("user Tracked "+str(model.isUserTracked(initiator)))
+                print("user Tracked "+str(modelTest.isUserTracked(initiator)))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia
-                if (model.isUserTracked(initiator)):
+                if (modelTest.isUserTracked(initiator)):
                     hashOpe=dat["hash"]
                     #amount=operationsVisualizer.getOperationAmount(dat["hash"])
                     date=dat["timestamp"]
-                    if(model.isFeeAdded(hashOpe)==False):
-                        model.addFee(hashOpe,initiator,date,1)
+                    if(modelTest.isFeeAdded(hashOpe)==False):
+                        modelTest.addFee(hashOpe,initiator,date,1)
         except KeyError:
             print("keyError")
             sys.stdout.flush()
