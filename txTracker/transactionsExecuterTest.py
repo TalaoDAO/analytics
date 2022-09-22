@@ -1,8 +1,8 @@
-from txTracker.cashBackSenderTest import cashbackSender
-import txTracker.modelTest as modelTest
+from cashBackSenderTest import cashbackSender
+import modelTest as modelTest
 import time
-import txTracker.cashBackSenderTest as cashBackSenderTest
-import txTracker.operationsVisualizerTest as operationsVisualizerTest
+import cashBackSenderTest as cashBackSenderTest
+import operationsVisualizerTest as operationsVisualizerTest
 import sys
 
 from decimal import Decimal

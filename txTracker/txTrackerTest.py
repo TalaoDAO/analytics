@@ -1,9 +1,9 @@
 from signalrcore.hub_connection_builder import HubConnectionBuilder
 from time import sleep
 from pprint import pprint
-import txTracker.operationsVisualizerTest as operationsVisualizerTest
+import operationsVisualizerTest as operationsVisualizerTest
 #print(operationsVisualizer.getOperationAmount("op8a6QBcK4bbfy2ZnAR7utzMgJkypQtx2arVXo5qsoKpFwgdtsv"))
-import txTracker.modelTest as modelTest
+import modelTest as modelTest
 
 import sys
 #import cashBackSender
