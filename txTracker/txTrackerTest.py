@@ -63,7 +63,12 @@ def analyse(data):
                 eli=modelTest.isEligible(initiator)
                 print(eli)
                 sys.stdout.flush()
-
+                print(eli[0])
+                sys.stdout.flush()
+                print(eli[1])
+                sys.stdout.flush()
+                print(eli[2])
+                sys.stdout.flush()
                 #for u in range(0,len(elis)):
                     #eli=elis[u]
                     #print(str(eli[0])+", initiator : "+str(initiator))
