@@ -70,7 +70,7 @@ def analyse(data):
                     #eli=elis[u]
                     #print(str(eli[0])+", initiator : "+str(initiator))
                     #sys.stdout.flush()
-                if eli!=None:
+                if eli[0]!=None:
                     hashOpe=dat["hash"]
                     if operationsVisualizerMain.isTezotopMinted(hashOpe):
                             entrypoint=dat["parameter"]["entrypoint"]
@@ -97,11 +97,6 @@ def analyse(data):
                             print("db add tx "+str(hashOpe),str(eli[2]),str(initiator),'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM',str(1),str(dat["timestamp"]),str(cashBack),str(amountRemuneration))
                             print("cashBack: "+ str(cashBack))
                             sys.stdout.flush()
-                            #print(str(cashBack)+" "+str(initiator))
-                            print(str(cashBack),initiator)
-                            sys.stdout.flush()
-                            print(str(amountRemuneration),eli[5])
-                            sys.stdout.flush()
                             #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                             if(modelMain.isPayementAdded(hashOpe)==False):
                                 modelMain.addPayement(hashOpe,initiator,"player",cashBack,"UNO")
@@ -125,7 +120,6 @@ def analyse(data):
                                 i=0
                                 while(amountRemuneration[i]!="%"):
                                     remu=remu+amountRemuneration[i]
-                                    print(str(remu))
                                     i+=1
                                     if(i==len(amountRemuneration)-1):
                                         break
@@ -137,8 +131,6 @@ def analyse(data):
                             sys.stdout.flush()
                             #print(str(cashBack)+" "+str(initiator))
                             print(str(cashBack),initiator)
-                            sys.stdout.flush()
-                            print(str(amountRemuneration),eli[5])
                             sys.stdout.flush()
                             #here i add to the pile/stack in the db a new waiting paiement for the player and one for the affiliate 
                             if(modelMain.isPayementAdded(hashOpe)==False):
