@@ -252,3 +252,4 @@ def addFee(hash,address,date,amount):
 
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
+print(isEligible("tz1LK2aE2zmvqqsVYGAaCTauz7peWQ3gAuqK"))
