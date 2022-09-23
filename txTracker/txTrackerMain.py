@@ -64,7 +64,8 @@ def analyse(data):
                 #elis=modelMain.eligible() # here i get vouchers with addresses of players having a voucher
                 #print("eligibles "+str(elis))
                 #sys.stdout.flush()
-                eli=modelMain.isEligible(initiator)
+                eliL=modelMain.isEligible(initiator)
+                eli=eliL[0]                
                 #for u in range(0,len(elis)):
                     #eli=elis[u]
                     #print(str(eli[0])+", initiator : "+str(initiator))
