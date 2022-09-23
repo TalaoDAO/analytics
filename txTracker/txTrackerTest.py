@@ -60,7 +60,8 @@ def analyse(data):
                 #elis=modelTest.eligible() # here i get vouchers with addresses of players having a voucher
                 #print("eligibles "+str(elis))
                 #sys.stdout.flush()
-                eli=modelTest.isEligible(initiator)
+                eliL=modelTest.isEligible(initiator)
+                eli=eliL[0]
                 print(eli)
                 sys.stdout.flush()
                 print(eli[0])
