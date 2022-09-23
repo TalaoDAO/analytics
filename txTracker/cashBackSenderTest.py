@@ -17,7 +17,7 @@ with open(file_path) as mon_fichier:
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
-    hash=pytezos.using(key=privateKey, shell="https://rpc.ghostnet.teztnets.xyz/") \
+    hash=pytezos.using(key=privateKey, shell="https://ghostnet.tezos.marigold.dev/") \
     .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
@@ -33,7 +33,7 @@ def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     amountToSend=int(amount*1000000000)
-    hash=(pytezos.using(key=privateKey, shell='https://rpc.ghostnet.teztnets.xyz/') \
+    hash=(pytezos.using(key=privateKey, shell='https://ghostnet.tezos.marigold.dev/') \
     .contract('KT1E2e7m7PfXNrt7pVgAMHYs74LDQv5qqiUQ').transfer([{          
         "from_": publicKey,  
         "txs": [         {  
