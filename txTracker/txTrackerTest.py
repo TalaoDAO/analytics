@@ -114,7 +114,7 @@ def analyse(data):
                             print(len(remu))
                             sys.stdout.flush()
                             amountRemuneration=int(remu)/100
-                        print(typeRemuneration+" "+str(amountRemuneration))
+                        print(str(typeRemuneration)+" "+str(amountRemuneration))
                         sys.stdout.flush()
                         #here i add a transaction in the db 
                         modelTest.addTx(hashOpe,eli[2],initiator,'KT1CfhVyVnwLnwjfZL6dY4mRNxDVbGnZCkqa',1,dat["timestamp"],cashBack,amountRemuneration)
