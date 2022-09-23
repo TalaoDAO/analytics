@@ -2,6 +2,7 @@ import sqlite3 as sql
 import traceback
 import sys
 from datetime import datetime
+from xml.etree.ElementTree import iselement
 
 DBPATH="/home/achille/analytics/databaseMain.db"
 #DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
@@ -260,4 +261,4 @@ def addFee(hash,address,date,amount):
 
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
-print(getPayementPrio())
+isEligible("tz1LK2aE2zmvqqsVYGAaCTauz7peWQ3gAuqK")
