@@ -3,7 +3,7 @@ from pytezos import pytezos
 from decimal import Decimal
 from pprint import pprint
 import mailSender
-import txTracker.operationsVisualizerTest as operationsVisualizerTest
+import operationsVisualizerTest as operationsVisualizerTest
 import sys
 import json
 import os
