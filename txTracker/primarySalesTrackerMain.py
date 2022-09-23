@@ -58,20 +58,10 @@ def analyse(data):
     print("amount "+str(amount))
     sys.stdout.flush()
     if(entryPoint=="buy"):
-        try:
-            elis=modelMain.eligible()
-        except:
-            print("error 1")
-            sys.stdout.flush()
-        try:
-            print(str(elis))
-        except:
-            print("error 2")
-            sys.stdout.flush()
-        for eli in elis:
-            print(str(initiator)+" "+str(eli[0]))
-            sys.stdout.flush()
-            if(initiator==eli[0]):
+        eliL=modelMain.isEligible(initiator)
+        eli=eliL[0]                
+
+        if eli[0]!=None:
                 discount=eli[1]
                 disc=transformer(discount)
                 print(disc)

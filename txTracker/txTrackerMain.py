@@ -52,24 +52,15 @@ def analyse(data):
             if dat["parameter"]["entrypoint"]=="mint":
                 print("hash mint "+dat["hash"])
                 sys.stdout.flush()
-                #print("data from api "+str(dat))
-                #sys.stdout.flush()
+
                 initiator=dat["initiator"]["address"]
-                print("modelMain.eligible "+str(modelMain.eligible()))
-                sys.stdout.flush()
 
                 print("initiator :"+initiator)
                 sys.stdout.flush()
-                #print("length "+str(len(modelMain.eligible())))
-                #elis=modelMain.eligible() # here i get vouchers with addresses of players having a voucher
-                #print("eligibles "+str(elis))
-                #sys.stdout.flush()
+
                 eliL=modelMain.isEligible(initiator)
                 eli=eliL[0]                
-                #for u in range(0,len(elis)):
-                    #eli=elis[u]
-                    #print(str(eli[0])+", initiator : "+str(initiator))
-                    #sys.stdout.flush()
+
                 if eli[0]!=None:
                     hashOpe=dat["hash"]
                     if operationsVisualizerMain.isTezotopMinted(hashOpe):
@@ -103,8 +94,8 @@ def analyse(data):
                                 print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                                 if(len(eli[5])==36):
                                     modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration,"UNO")
-
                             break
+
                     if operationsVisualizerMain.isArtifactFromStarbaseMinted(hashOpe):
                             entrypoint=dat["parameter"]["entrypoint"]
                             initiator=dat["initiator"]["address"]
@@ -138,8 +129,8 @@ def analyse(data):
                                 print("db add payement "+str(hashOpe),str(initiator),"player",str(cashBack))
                                 if(len(eli[5])==36):
                                     modelMain.addPayement(hashOpe,eli[5],"affiliate",amountRemuneration,"UNO")
-
                             break
+                        
                 print("user Tracked "+str(modelMain.isUserTracked(initiator)))
                 sys.stdout.flush()
                 #here i track all transactions made by an user talao brang to Tezotopia ACTUALLY NOT EFFECTIVE
