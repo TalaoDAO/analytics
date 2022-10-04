@@ -1,7 +1,6 @@
 import cashBackSenderMain
 import modelMain
 import time
-import cashBackSenderMain
 import operationsVisualizerMain
 import sys
 

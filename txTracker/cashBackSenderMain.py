@@ -12,16 +12,18 @@ NODE = "https://mainnet.smartpy.io"
 script_dir = os.path.dirname(__file__)
 script_dir = os.path.dirname(script_dir)
 file_path = os.path.join(script_dir, 'keys.json')
+print('file path = ', file_path)
 
 with open(file_path) as mon_fichier:
     data = json.load(mon_fichier)
     privateKey=data["privateKeyCashBackSender"]
     publicKey=data["publicKeyCashBackSender"]
-    print(privateKey)
+  
 
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
+    print("private key = ", privateKey)
     hash=pytezos.using(key=privateKey, shell = NODE) \
     .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
     .autofill().sign().inject()["hash"]
