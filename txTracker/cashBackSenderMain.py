@@ -10,11 +10,14 @@ import os
 NODE = "https://mainnet.smartpy.io"
 
 script_dir = os.path.dirname(__file__)
-file_path = os.path.join(script_dir, '../keys.json')
+script_dir = os.path.dirname(script_dir)
+file_path = os.path.join(script_dir, 'keys.json')
+
 with open(file_path) as mon_fichier:
     data = json.load(mon_fichier)
     privateKey=data["privateKeyCashBackSender"]
     publicKey=data["publicKeyCashBackSender"]
+    print(privateKey)
 
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
@@ -35,6 +38,7 @@ def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address+" from "+publicKey)
     sys.stdout.flush()
     amountToSend=int(amount*1000000000)
+    print("private key = ", privateKey)
     hash=(pytezos.using(key=privateKey, shell=NODE) \
     .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
