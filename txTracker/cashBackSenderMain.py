@@ -41,25 +41,15 @@ def sendUNO(amount,address):
     amountToSend=int(amount*1000000000)
     print("private key = ", privateKey)
     print(publicKey, address, amountToSend)
-    """
     hash=(pytezos.using(key=privateKey, shell=NODE) \
-    .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
+    .activate_account().contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
         "txs": [         {  
         "to_": address,  
         "token_id": 0,  
         "amount": amountToSend
           }] }]).send().hash())
-    """
-    pytezos.using(key=privateKey, shell=NODE)
-    pytezos.activate_account().autofill()
-    hash= pytezos.contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
-        "from_": publicKey,  
-        "txs": [         {  
-        "to_": address,  
-        "token_id": 0,  
-        "amount": amountToSend
-          }] }]).send().hash()
+    
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
