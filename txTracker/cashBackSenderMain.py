@@ -12,7 +12,6 @@ NODE = "https://mainnet.tezos.marigold.dev/"
 script_dir = os.path.dirname(__file__)
 script_dir = os.path.dirname(script_dir)
 file_path = os.path.join(script_dir, 'keys.json')
-print('file path = ', file_path)
 
 with open(file_path) as mon_fichier:
     data = json.load(mon_fichier)
@@ -42,6 +41,7 @@ def sendUNO(amount,address):
     amountToSend=int(amount*1000000000)
     print("private key = ", privateKey)
     print(publicKey, address, amountToSend)
+    """
     hash=(pytezos.using(key=privateKey, shell=NODE) \
     .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
@@ -50,6 +50,16 @@ def sendUNO(amount,address):
         "token_id": 0,  
         "amount": amountToSend
           }] }]).send().hash())
+    """
+    pytezos.using(key=privateKey, shell=NODE)
+    pytezos.activate_account().autofill()
+    hash= pytezos.contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
+        "from_": publicKey,  
+        "txs": [         {  
+        "to_": address,  
+        "token_id": 0,  
+        "amount": amountToSend
+          }] }]).send().hash()
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)

@@ -7,7 +7,6 @@ from xml.etree.ElementTree import iselement
 DBPATH="/home/achille/analytics/databaseMain.db"
 
 #DBPATH="databaseMain.db"
-NODE = "https://mainnet.smartpy.io"
 
 try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
@@ -81,6 +80,8 @@ def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,
     finally:
         con.close()
         print("msg db "+str(msg))
+
+
 def addPayement(hash,address,forWho,amount,currency):
     print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount)+" "+str(currency))
     sys.stdout.flush()
@@ -131,6 +132,7 @@ def setPayementDone(prio,hash,date):
 
     finally:
         con.close()
+
 def cli():
     print("start")
     toDo=input("cmd : ")
@@ -142,6 +144,7 @@ def cli():
         print(getPayementPrio())
     if(toDo=="t"):
         print(isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"))
+
 def getPayementPrio():
     try:
         with sql.connect(DBPATH) as con:
@@ -163,6 +166,7 @@ def getPayementPrio():
             con.close()
         except:
             pass
+
 def isUserTracked(address):
     try:
         with sql.connect(DBPATH) as con:
@@ -184,6 +188,7 @@ def isUserTracked(address):
                     msg="error"       
     finally:
         con.close()
+
 def isPayementAdded(hash):
     try:
         with sql.connect(DBPATH) as con:
