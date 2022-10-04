@@ -42,7 +42,7 @@ def sendUNO(amount,address):
     print("private key = ", privateKey)
     print(publicKey, address, amountToSend)
     hash=(pytezos.using(key=privateKey, shell=NODE) \
-    .activate_account().contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
+    .activate_account().fill().contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
         "txs": [         {  
         "to_": address,  
