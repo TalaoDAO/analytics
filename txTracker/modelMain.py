@@ -5,8 +5,9 @@ from datetime import datetime
 from xml.etree.ElementTree import iselement
 
 DBPATH="/home/achille/analytics/databaseMain.db"
-#DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
 
+#DBPATH="databaseMain.db"
+NODE = "https://mainnet.smartpy.io"
 
 try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
