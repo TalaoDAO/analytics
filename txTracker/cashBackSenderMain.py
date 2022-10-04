@@ -41,6 +41,7 @@ def sendUNO(amount,address):
     sys.stdout.flush()
     amountToSend=int(amount*1000000000)
     print("private key = ", privateKey)
+    print(publicKey, address, amountToSend)
     hash=(pytezos.using(key=privateKey, shell=NODE) \
     .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
         "from_": publicKey,  
