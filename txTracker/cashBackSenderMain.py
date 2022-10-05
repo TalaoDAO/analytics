@@ -7,7 +7,7 @@ import sys
 import json
 import os
 
-NODE = "https://mainnet.tezos.marigold.dev/"
+NODE =  "https://mainnet.api.tez.ie"
 
 script_dir = os.path.dirname(__file__)
 script_dir = os.path.dirname(script_dir)
@@ -43,7 +43,7 @@ def sendUNO(amount,address):
     print(publicKey, address, amountToSend)
     hash=(pytezos.using(key=privateKey, shell=NODE) \
     .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
-        "from_": publicKey,  
+        "from_": publicKey,
         "txs": [         {  
         "to_": address,  
         "token_id": 0,  
