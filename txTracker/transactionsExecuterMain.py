@@ -23,17 +23,18 @@ while True:
                 hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
             if(payementToExecute[4]=="XTZ"):
                 hash=cashBackSenderMain.cashbackSender(payementToExecute[1],payementToExecute[0])
-            time.sleep(10)
-            status=operationsVisualizerMain.getOperationStatus(hash)
-            print("status : "+str(status))
-            sys.stdout.flush()
-            while(status!="applied"):
+            if hash : # ajout thierry
                 time.sleep(10)
                 status=operationsVisualizerMain.getOperationStatus(hash)
                 print("status : "+str(status))
                 sys.stdout.flush()
-            #test balance
-            modelMain.setPayementDone(payementToExecute[3],hash,"date")
+                while(status!="applied"):
+                    time.sleep(10)
+                    status=operationsVisualizerMain.getOperationStatus(hash)
+                    print("status : "+str(status))
+                    sys.stdout.flush()
+                #test balance
+                modelMain.setPayementDone(payementToExecute[3],hash,"date")
     if(payementToExecute==None):
         time.sleep(3)
     
