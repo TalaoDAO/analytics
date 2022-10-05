@@ -7,7 +7,7 @@ import sys
 import json
 import os
 
-NODE =  "https://mainnet.api.tez.ie"
+NODE = "https://mainnet.smartpy.io"
 
 script_dir = os.path.dirname(__file__)
 script_dir = os.path.dirname(script_dir)
