@@ -39,20 +39,12 @@ def cashbackSender(amountToSend,userAddress):
 def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address+" from "+publicKey)
     sys.stdout.flush()
-    amountToSend=int(amount*1000000000)
-    tx_data = [{"from_": publicKey,
-                "txs": [{
-                    "to_": address,
-                    "token_id": 0,
-                    "amount": amountToSend
-                }]}]
-    try :
-        hash=(pytezos.using(key=privateKey, shell=NODE) \
-        .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send().hash())
-        print("sent "+str(amount)+" UNO to "+address)
-    except RpcError :
-        print(RpcError.__dict__)
-        hash = ""
+    amountToSend=amount*1000000000
+    print("amount to send = ", amountToSend)
+    tx_data = [{"from_": publicKey,"txs": [{"to_": address,"token_id": 0,"amount": amountToSend}]}]
+    hash=(pytezos.using(key=privateKey, shell=NODE) \
+    .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send().hash())
+    print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
     sys.stdout.flush()
