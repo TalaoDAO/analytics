@@ -6,6 +6,8 @@ import operationsVisualizerMain
 import sys
 import json
 import os
+from pytezos.rpc.node import RpcError
+
 
 NODE = "https://mainnet.smartpy.io"
 
@@ -22,7 +24,6 @@ with open(file_path) as mon_fichier:
 def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
-    print("private key = ", privateKey)
     hash=pytezos.using(key=privateKey, shell = NODE) \
     .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
     .autofill().sign().inject()["hash"]
@@ -39,23 +40,22 @@ def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address+" from "+publicKey)
     sys.stdout.flush()
     amountToSend=int(amount*1000000000)
-    print("private key = ", privateKey)
-    print(publicKey, address, amountToSend)
-    hash=(pytezos.using(key=privateKey, shell=NODE) \
-    .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer([{          
-        "from_": publicKey,
-        "txs": [         {  
-        "to_": address,  
-        "token_id": 0,  
-        "amount": amountToSend
-          }] }]).send().hash())
-    
-    print("sent "+str(amount)+" UNO to "+address)
+    tx_data = [{"from_": publicKey,
+                "txs": [{
+                    "to_": address,
+                    "token_id": 0,
+                    "amount": amountToSend
+                }]}]
+    try :
+        hash=(pytezos.using(key=privateKey, shell=NODE) \
+        .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send().hash())
+        print("sent "+str(amount)+" UNO to "+address)
+        print("hash = ", hash)
+    except RpcError :
+        print(RpcError.__dict__)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
-    print(balance)
     sys.stdout.flush()
-
     if(balance<50):
         mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
     return hash
