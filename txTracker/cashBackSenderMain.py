@@ -50,9 +50,9 @@ def sendUNO(amount,address):
         hash=(pytezos.using(key=privateKey, shell=NODE) \
         .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send().hash())
         print("sent "+str(amount)+" UNO to "+address)
-        print("hash = ", hash)
     except RpcError :
         print(RpcError.__dict__)
+        hash = ""
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
     sys.stdout.flush()
