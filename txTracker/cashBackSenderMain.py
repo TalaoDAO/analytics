@@ -43,7 +43,7 @@ def sendUNO(amount,address):
     print("amount to send = ", amountToSend)
     tx_data = [{"from_": publicKey,"txs": [{"to_": address,"token_id": 0,"amount": amountToSend}]}]
     hash=(pytezos.using(key=privateKey, shell=NODE) \
-    .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send(gas_reserve=1000).hash())
+    .contract('KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF').transfer(tx_data).send(gas_reserve=1000000).hash())
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
