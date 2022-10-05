@@ -6,7 +6,6 @@ import operationsVisualizerMain
 import sys
 import json
 import os
-from pytezos.rpc.node import RpcError
 
 
 NODE = "https://mainnet.smartpy.io"
@@ -39,7 +38,7 @@ def cashbackSender(amountToSend,userAddress):
 def sendUNO(amount,address):
     print("trying to send "+str(amount)+" UNO to "+address+" from "+publicKey)
     sys.stdout.flush()
-    amountToSend=amount*1000000000
+    amountToSend=int(amount*1000000000)
     print("amount to send = ", amountToSend)
     tx_data = [{"from_": publicKey,"txs": [{"to_": address,"token_id": 0,"amount": amountToSend}]}]
     hash=(pytezos.using(key=privateKey, shell=NODE) \
