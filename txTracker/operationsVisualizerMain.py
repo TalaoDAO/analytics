@@ -56,6 +56,7 @@ def getBalanceAddress(address):
     jsonRes=json.loads(output)
     print(int(jsonRes)/1000000)
     return(int(jsonRes)/1000000)
+
 def getBalanceUNO(address):
     print("request balance ")
     sys.stdout.flush()
@@ -70,6 +71,7 @@ def getBalanceUNO(address):
     output=data.decode("utf-8")
     jsonRes=json.loads(output)
     return(int(jsonRes[0]["balance"])/1000000000)
+
 def isTezotopMinted(hash):
     conn = http.client.HTTPSConnection("api.mainnet.tzkt.io")
     headers = {

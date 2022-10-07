@@ -19,16 +19,16 @@ while True:
             print(Decimal(payementToExecute[1]))
             sys.stdout.flush()
             hash=""
-            if(payementToExecute[4]=="UNO"):
+            if(payementToExecute[4]=="UNO"):  
                 try :
                     hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
                 except :
-                    print("error on UNO cashback")
+                    print("error on cashback UNO")
             if(payementToExecute[4]=="XTZ"):
                 try :
                     hash=cashBackSenderMain.cashbackSender(payementToExecute[1],payementToExecute[0])
                 except :
-                    print("error on XTZ cashback")
+                    print("error on cashback XTZ")
             time.sleep(10)
             status=operationsVisualizerMain.getOperationStatus(hash)
             print("status : "+str(status))
