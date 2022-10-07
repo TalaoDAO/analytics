@@ -20,15 +20,9 @@ while True:
             sys.stdout.flush()
             hash=""
             if(payementToExecute[4]=="UNO"):  
-                try :
-                    hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
-                except :
-                    print("error on cashback UNO")
+                hash=cashBackSenderMain.sendUNO(payementToExecute[1],payementToExecute[0])
             if(payementToExecute[4]=="XTZ"):
-                try :
-                    hash=cashBackSenderMain.cashbackSender(payementToExecute[1],payementToExecute[0])
-                except :
-                    print("error on cashback XTZ")
+                hash=cashBackSenderMain.cashbackSender(payementToExecute[1],payementToExecute[0])
             time.sleep(10)
             status=operationsVisualizerMain.getOperationStatus(hash)
             print("status : "+str(status))
