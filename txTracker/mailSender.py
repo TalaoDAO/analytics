@@ -5,7 +5,7 @@ headers = {
  	'content-type': "application/json"
  	}
 def sendAlert(objet,alert):
-    payload = "{\"from\":{\"email\":\"achillerondo@pepisandbox.com\",\"name\":\"Talao Analytics Alerts\"},\"subject\":\""+objet+"\",\"content\":[{\"type\":\"html\",\"value\":\""+alert+"\"}],\"personalizations\":[{\"to\":[{\"email\":\"achillerondo@gmail.com\",\"name\":\"Lionel Messi\"}]}]}"
+    payload = "{\"from\":{\"email\":\"thierry@altme.io\",\"name\":\"Talao Analytics Alerts\"},\"subject\":\""+objet+"\",\"content\":[{\"type\":\"html\",\"value\":\""+alert+"\"}],\"personalizations\":[{\"to\":[{\"email\":\"achillerondo@gmail.com\",\"name\":\"Lionel Messi\"}]}]}"
     response = requests.request("POST", url, data=payload, headers=headers)
     print(response.text)
 #sendAlert("testDash","EWWWW")

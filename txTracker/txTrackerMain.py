@@ -12,6 +12,8 @@ import sys
 
 #This service use a websocket system based on https://api.tzkt.io/#section/Python-simple-client
 
+# follow Tezotopia Minter  
+
 connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
     .with_automatic_reconnect({

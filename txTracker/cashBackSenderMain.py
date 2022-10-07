@@ -47,6 +47,7 @@ def sendUNO(amount,address):
     print("sent "+str(amount)+" UNO to "+address)
     sys.stdout.flush()
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
+    print("balance = ", balance)
     sys.stdout.flush()
     if(balance<50):
         mailSender.sendAlert("LLess than 50 UNO on payements address","Only "+str(balance)+" left.")
