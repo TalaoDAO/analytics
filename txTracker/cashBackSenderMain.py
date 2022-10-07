@@ -21,11 +21,12 @@ with open(file_path) as mon_fichier:
     publicKey=data["publicKeyCashBackSender"]
   
 
-def cashbackSender(amountToSend,userAddress):
+def cashbackSender(amount,userAddress):
+    amountToSend=int(amount*1000000)
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
     hash=pytezos.using(key=privateKey, shell = NODE) \
-    .transaction(destination=userAddress, amount=Decimal(amountToSend), storage_limit=200, gas_limit=1000100) \
+    .transaction(destination=userAddress, amount=int(amountToSend), storage_limit=200, gas_limit=1000100) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
     sys.stdout.flush()
