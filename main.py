@@ -27,8 +27,11 @@ PORT = 3000
 app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
 DBPATHTESTNET="/home/achille/analytics/database.db"
 #DBPATHTESTNET="/home/achille1017/prog/tezotopia/database.db"
+DBPATHTESTNET="/home/thierry/analyticss/database.db"
+
 DBPATH="/home/achille/analytics/databaseMain.db"
 #DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
+DBPATH="/home/thierry/analytics/databaseMain.db"
 
 async def verifyPresentation(vc):
     verif = await didkit.verify_presentation(vc, '{}')
