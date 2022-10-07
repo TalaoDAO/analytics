@@ -25,7 +25,7 @@ def cashbackSender(amountToSend,userAddress):
     print("trying to sendCashBack "+str(Decimal(amountToSend))+ " to "+str(userAddress))
     sys.stdout.flush()
     hash=pytezos.using(key=privateKey, shell = NODE) \
-    .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=1000000) \
+    .transaction(destination=userAddress, amount=Decimal(amountToSend),gas_limit=None) \
     .autofill().sign().inject()["hash"]
     print("sent "+str(amountToSend)+" to "+userAddress)
     sys.stdout.flush()
