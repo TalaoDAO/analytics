@@ -7,6 +7,7 @@ import modelMain
 import logging
 logging.basicConfig(level=logging.INFO)
 import sys
+import json
 
 
 #This service use a websocket system based on https://api.tzkt.io/#section/Python-simple-client
@@ -19,7 +20,7 @@ def transformer(num):
     logging.info("num = %s", num)
     if(type(num)==int):
         return num
-    if(num[len(num)-1]=="%"):
+    if(num[len(num)-1]=="%") :
         disc=""
         i=0
         while(num[i]!="%"):
@@ -32,7 +33,7 @@ def transformer(num):
     
 def analyse(data):
     logging.info("caught a tx")
-    logging.info("data = %s", data)
+    logging.info("data = %s", json.dumps(data))
     if not data[0].get("data") :
         logging.warning('not a transaction object')
         return
@@ -123,7 +124,7 @@ def analyse(data):
 
 
 def init():
-    connection.send('SubscribeToHead', [])
+    #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
                     [{'address': 'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM', 
                       'types': 'transaction'}])
@@ -140,7 +141,7 @@ try :
         .build()
     connection.on_open(init)
     connection.on("operations", analyse)
-    connection.on("head", pprint)
+    #connection.on("head", pprint)
     connection.start()
     logging.info("Connection TZKT initialized")
 except :

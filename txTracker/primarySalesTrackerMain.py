@@ -3,6 +3,7 @@ from time import sleep
 from pprint import pprint
 import modelMain
 import logging
+import json
 import sys
 logging.basicConfig(level=logging.INFO)
 
@@ -25,8 +26,7 @@ def transformer(num):
 
 
 def analyse(data):
-    logging.info("caught a transaction, data received = %s",data)
-    sys.stdout.flush()
+    logging.info("caught a transaction, data received = %s",json.dumps(data))
     if not data[0].get("data") :
         logging.warning('It is not a transaction object')
         return
@@ -70,7 +70,7 @@ def analyse(data):
 def init():
     logging.info("connection established, subscribing to operations")
     #connection.send('SubscribeToBlocks',[])
-    connection.send('SubscribeToHead', [])
+    #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
                     [{'address': 'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37', 
                       'types': 'transaction'}])
@@ -87,7 +87,7 @@ connection = HubConnectionBuilder()\
 
 connection.on_open(init)
 connection.on("operations", analyse)
-connection.on("head", pprint)
+#connection.on("head", pprint)
 connection.start()
 
 try:
