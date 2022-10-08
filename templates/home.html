@@ -8,22 +8,24 @@
       
     <!--  <p id="connected">connected with {{addressTezos}}</p> -->
       <div id="logo">
-      <img  src="../analytics/static/logo">
+      <!-- <img  src="../analytics/static/logo"> -->
+      <img  src="/static/Logo.png"> -->
+
    </div>
       <input  class="button" id="vouchers" type="button" onclick="location.href='/analytics/usersvouchers';" value="Vouchers" {{usersWVouchers}}=""/>
    
       
    <!--   <input  class="button" id="logout" type="button" onclick="location.href='/analytics/logout';" value="Deconnexion" /> -->
-      <p id="myAnalytics">Altme's Cashback Analytics</p>
+      <h1 id="myAnalytics">Altme's Cashback Analytics</h1>
      
-      <h3 style="color: #f0f0f0"><center>Here are all cashbacks transactions you received by using a Voucher card (10%) or a Membership card (25%)
+      <br><h3 style=" color: #f0f0f0; padding : 15px;"><center>Here are all cashbacks transactions you received by using a Voucher card (10%) or a Membership card (25%)</center><h3>
       
-         <br>Cashbacks are only applied to <strong><u>NFT Mints on Starbase</u></strong> and <strong><u>Drops Purchases on Tezotopia Marketplace</u></strong></center></h3">
-<br>
+         <h3 style="color: #f0f0f0; padding : 15px; margin : 10px"><center>Cashbacks are only applied to <strong><u>NFT Mints on Starbase</u></strong> and <strong><u>Drops Purchases on Tezotopia Marketplace</u></strong></center></h3>
+      <br>
 
       <div class="table">
-      <table class="analyticsTable" border=1>
-         <thead class="header">
+      <table class="analyticsTable" border="1">
+         <thead style="background: linear-gradient(to bottom, #5b1f8e 0%, #9738e7 100%)">
             <td><p class="line">Date</p></td>
             <td><p class="line">Purchase amount</p></td>
             <td><p class="line">Cashback Applied(%)</p></td>
@@ -33,16 +35,17 @@
 
          </thead>
          {% for row in rows %}
+             
          <tr>
             <td><p class="lineDate">{{row["date"]}}</p></td>
-            <td><p class="line">{{row["amount"]}} {{ row["currency"]}}<br><a href="https://tzkt.io/{{row["hash"]}}">See transactions</a></p></td>
-            <td><p class="line">{{row["discount"]}} CASHBACK</p></td>
-            <td><p class="line">{{row["amountDiscount"]}} {{ row["currency"]}}<br><a href="https://tzkt.io/{{row["hashPayement"]}}" >See transactions</a></p></td> 
+            <td><p class="line">{{row["amount"]}} {{ row["currency"]}}<br><a href="https://tzkt.io/{{row["hash"]}}">See transaction</a></p></td>
+            <td><p class="line">{{row["discount"]}} CASHBACK<br></p></td>
+            <td><p class="line">{{row["amountDiscount"]}} {{ row["currency"]}}<br><a href="https://tzkt.io/{{row["hashPayement"]}}" >See transaction</a></p></td> 
             <td><p class="line">{{ row["status"].capitalize()}}</p></td> 
          </tr>
          {% endfor %}
       </table>
-      <h3 style="color: #f0f0f0"><center>If you have any problem with a transaction, please contact us at support@altme.io</center></h3>
+      <h3 style="color: #f0f0f0;  margin-top : 30px"><center>If you have any problem with a transaction, please contact us at support@altme.io</center></h3>
 
 
    </div>

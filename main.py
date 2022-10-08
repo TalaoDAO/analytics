@@ -14,6 +14,7 @@ from pprint import pprint
 import json
 from flask_mobility.decorators import mobilized
 from flask_mobility import Mobility
+from txTracker.environment import DBPATHTESTNET, DBPATH
 
 with open('keys.json') as mon_fichier:
     data = json.load(mon_fichier)
@@ -24,14 +25,8 @@ app.config.from_object(__name__)
 app.permanent_session_lifetime = timedelta(minutes=15)
 qrcode = QRcode(app)
 PORT = 3000
-app.secret_key = "1269a3845acac85161e11e51e098ac6be52926635348e1c1c2ca23c141e3179b"
-DBPATHTESTNET="/home/achille/analytics/database.db"
-#DBPATHTESTNET="/home/achille1017/prog/tezotopia/database.db"
-#DBPATHTESTNET="/home/thierry/analyticss/database.db"
+app.secret_key = data.get('secret_key')
 
-DBPATH="/home/achille/analytics/databaseMain.db"
-#DBPATH="/home/achille1017/prog/tezotopia/databaseMain.db"
-#DBPATH="/home/thierry/analytics/databaseMain.db"
 
 async def verifyPresentation(vc):
     verif = await didkit.verify_presentation(vc, '{}')
@@ -102,12 +97,11 @@ def home(address):
                 rows = cur.fetchall() 
                 print("rows   --------2")
                 sys.stdout.flush()
-    #            print(rows[0])
                 sys.stdout.flush()
-
                 return render_template("home.html",rows = rows,usersWVouchers="hidden",addressTezos=session.get("user")) 
             except TypeError:
                 pass
+
 
 @app.route('/analytics/testnet/usersvouchers')
 def usersWvouchersTestNet():
@@ -116,10 +110,8 @@ def usersWvouchersTestNet():
             if(session.get('user')=="admin"):
                 con = sql.connect(DBPATHTESTNET)
                 con.row_factory = sql.Row
-            
                 cur = con.cursor()
                 cur.execute("select * from usersWVouchers")
-                
                 rows = cur.fetchall()
                 return render_template("usersWVouchers.html",rows = rows)
             else:
@@ -130,6 +122,7 @@ def usersWvouchersTestNet():
         return redirect(url_for('login'))
     except TypeError:
         return redirect(url_for('login'))
+
 
 @app.route('/analytics/usersvouchers')
 def usersWvouchers():
@@ -153,6 +146,7 @@ def usersWvouchers():
     except TypeError:
         return redirect(url_for('login'))
 
+
 @app.route('/analytics/logout', methods=['GET', 'POST'])
 def logout():
     session['logged']=False
@@ -174,7 +168,6 @@ def extract_ip():
 red= redis.Redis(host='127.0.0.1', port=6379, db=0)
 OFFER_DELAY = timedelta(seconds= 10*60)
 did_verifier = 'did:tz:tz2NQkPq3FFA3zGAyG8kLcWatGbeXpHMu7yk'
-# pattern pour https://w3c-ccg.github.io/vp-request-spec/#query-by-example
 pattern = {"type": "VerifiablePresentationRequest",
             "query": [
                 {
@@ -250,6 +243,7 @@ def login(red):
         </script>
         </body>
         </html>"""
+    
     html_string_mobile="""  <!DOCTYPE html>
         <html>
         <head>       <link rel="stylesheet" href="https://talao.co/analytics/style"><!--https://talao.co/analytics/style {{url_for('static', filename = 'style.css')}}-->
@@ -315,7 +309,6 @@ def presentation_endpoint(id, red):
     
     if request.method == 'GET':
         #pprint("my_pattern "+str(my_pattern))
-
         return jsonify(my_pattern)
     
     if request.method == 'POST' :
@@ -431,16 +424,7 @@ def followup(red):
         session["logged"]= "True"
         if (session.get("user")=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
             session["user"]="admin"
-            
-    """if(typeCredential=="TezosAssociatedWallet"):   
-        print("presentation " +str(presentation))   
-        session["logged"]= "True"
-        session["user"]=dictionnaire["credentialSubject"]["correlation"][0]
-        if(dictionnaire["credentialSubject"]["correlation"][0]=="tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"):
-            session["user"]="admin"
-        print("user "+session.get("user"))"""
-    #print("logged in "+session.get("user"))
-    #print(session.get("user"))
+   
     return redirect("/analytics/tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im")
 
 @app.route('/analytics/api/newvoucher', methods = ['POST'])

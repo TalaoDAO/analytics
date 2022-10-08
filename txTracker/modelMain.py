@@ -3,8 +3,9 @@ import traceback
 import sys
 from datetime import datetime
 from xml.etree.ElementTree import iselement
+from environment import DBPATH
 
-DBPATH="/home/achille/analytics/databaseMain.db"
+#DBPATH="/home/achille/analytics/databaseMain.db"
 
 #DBPATH="databaseMain.db"
 
@@ -17,6 +18,7 @@ try:
     print(max[0])
     if(max[0]==None):
         print("no payements")
+
         try:
             with sql.connect(DBPATH) as con:
                 cur = con.cursor()
