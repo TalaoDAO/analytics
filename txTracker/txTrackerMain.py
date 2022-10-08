@@ -123,6 +123,7 @@ def analyse(data):
 
 
 def init():
+    connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
                     [{'address': 'KT1H67aLf6SUN1BysWfFLfjUEuN1M6E9qFwM', 
                       'types': 'transaction'}])
@@ -139,6 +140,7 @@ try :
         .build()
     connection.on_open(init)
     connection.on("operations", analyse)
+    connection.on("head", pprint)
     connection.start()
     logging.info("Connection TZKT initialized")
 except :

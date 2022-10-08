@@ -1,6 +1,4 @@
 from pytezos import pytezos
-from decimal import Decimal
-import mailSender
 import operationsVisualizerMain
 import json
 import os

@@ -1,13 +1,8 @@
 import sqlite3 as sql
-import traceback
-import sys
 from datetime import datetime
-from xml.etree.ElementTree import iselement
 from environment import DBPATH
-
-#DBPATH="/home/achille/analytics/databaseMain.db"
-
-#DBPATH="databaseMain.db"
+import logging
+logging.basicConfig(level=logging.INFO)
 
 try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS usersWVouchers (id INTEGER PRIMARY KEY, addressUser TEXT, expiration DATE, discount INTEGER, benefitAffiliate INTEGER, benefitAffiliateType TEXT, affiliate TEXT)")
@@ -15,10 +10,8 @@ try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT,currency TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER,currency TEXT)")
     max =sql.connect(DBPATH).cursor().execute("select max(prio) from payements ").fetchone()
-    print(max[0])
-    if(max[0]==None):
-        print("no payements")
-
+    if not max[0] :
+        logging.info("no payements")
         try:
             with sql.connect(DBPATH) as con:
                 cur = con.cursor()
@@ -28,11 +21,11 @@ try:
         except:
             con.rollback()
             msg = "error in insert operation"
-        
         finally:
             con.close()
-            print("msg db "+str(msg))
+            logging.info("msg db %s",msg)
 except:
+    logging.warning("error DB")
     None    
 
 
@@ -49,16 +42,18 @@ def addVoucherUser():
     except:
         con.rollback()
         msg = "error in insert operation"
-        
     finally:
         con.close()
-        print("msg db "+str(msg))
+        logging.info("msg db %s", msg)
+
+
 def eligible():
     with sql.connect(DBPATH) as conn:
         cur = conn.cursor()
         cur.execute("select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') group by addressUser;")
         rows = cur.fetchall()
         return rows
+
 
 def isEligible(address):
     with sql.connect(DBPATH) as conn:
@@ -77,16 +72,15 @@ def addTx(hash,relativeTo,userAddress,smartContractAddress,amount,date,refunded,
             msg = "tx successfully added"
     except:
         con.rollback()
-        msg = "error in insert operation"
-        
+        msg = "error in insert operation" 
     finally:
         con.close()
-        print("msg db "+str(msg))
+        logging.info("msg db %s", msg)
 
 
 def addPayement(hash,address,forWho,amount,currency):
-    print("trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount)+" "+str(currency))
-    sys.stdout.flush()
+    text = "trying to add payement with "+str(hash)+" "+str(address)+" "+str(forWho)+" "+str(amount)+" "+str(currency)
+    logging.info(text)
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
@@ -97,60 +91,40 @@ def addPayement(hash,address,forWho,amount,currency):
             con.commit()
             msg = "payement successfully added"
     except sql.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        sys.stdout.flush()
-        print("Exception class is: ", er.__class__)
-        sys.stdout.flush()
-        print('SQLite traceback: ')
-        sys.stdout.flush()
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
-        sys.stdout.flush()
+        logging.error('SQLite error: %s', ' '.join(er.args))
     finally:
-        print(msg)
-        sys.stdout.flush()
+        logging.info(msg)
         con.close()
 
 def setPayementDone(prio,hash,date):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
-            print("update payements set applied=1,hashPayement='"+hash+"' where prio="+str(prio))
             now = datetime.now()
             cur.execute("update payements set applied=1,hashPayement='"+hash+"',date='"+now.strftime("%d/%m/%Y %H:%M:%S")+"' where prio="+str(prio))
             con.commit()
-
     except sql.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        sys.stdout.flush()
-
-        print("Exception class is: ", er.__class__)
-        sys.stdout.flush()
-
-        print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
-        sys.stdout.flush()
-
+        logging.error('SQLite error: %s', ' '.join(er.args))
     finally:
         con.close()
 
+
 def cli():
-    print("start")
+    logging.info("start")
     toDo=input("cmd : ")
-    if(toDo=="avu"):
+    if toDo=="avu":
         addVoucherUser()
-    if(toDo=="e"):
-        print(eligible())
-    if(toDo=="p"):
-        print(getPayementPrio())
-    if(toDo=="t"):
-        print(isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"))
+    elif toDo=="e":
+        logging.info(eligible())
+    elif toDo=="p" :
+        logging.info(getPayementPrio())
+    elif toDo=="t":
+        logging.info(isUserTracked("tz1ReP6Pfzgmcwm9rTzivdJwnmQm4KzKS3im"))
+
 
 def getPayementPrio():
     try:
         with sql.connect(DBPATH) as con:
-            #print("try")
             cur = con.cursor()
             cur.execute("select address,amount,hash,prio,currency from payements where prio=(select min(prio) from payements where applied=0 and forWho='player' and length(address)=36) ")
             max = cur.fetchone()
@@ -169,77 +143,65 @@ def getPayementPrio():
         except:
             pass
 
+
 def isUserTracked(address):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
             cur.execute("select addressUser from usersWVouchers where addressUser='"+address+"'")
-            #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            print("res "+str(res))
-            if(len(res)==0):
+            logging.info("res %s",str(res))
+            if not len(res):
                 return False
             return True
     except sql.Error as er:
                     con.rollback()
-                    print('SQLite error: %s' % (' '.join(er.args)))
-                    print("Exception class is: ", er.__class__)
-                    print('SQLite traceback: ')
-                    exc_type, exc_value, exc_tb = sys.exc_info()
-                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
-                    msg="error"       
+                    logging.error('SQLite error: %s',' '.join(er.args))
     finally:
         con.close()
+
 
 def isPayementAdded(hash):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
             cur.execute("select prio from payements where hash='"+hash+"'")
-            #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            print("res "+str(res))
-            if(len(res)==0):
+            logging.info("res %s", str(res))
+            if not len(res):
                 return False
             return True
     except sql.Error as er:
                     con.rollback()
-                    print('SQLite error: %s' % (' '.join(er.args)))
-                    print("Exception class is: ", er.__class__)
-                    print('SQLite traceback: ')
-                    exc_type, exc_value, exc_tb = sys.exc_info()
-                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
-                    msg="error"       
+                    logging.error('SQLite error: %s', ' '.join(er.args))
     finally:
         con.close()
+
+
 def isFeeAdded(hash):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
             cur.execute("select date from FeeTracker where hash='"+hash+"'")
-            #print("select addressUser from usersWVouchers where addressUser='"+address+"'")
             res = cur.fetchall()
-            print("res "+str(res))
-            if(len(res)==0):
+            logging.info("res %s", str(res))
+            if not len(res):
                 return False
             return True
     except sql.Error as er:
                     con.rollback()
-                    print('SQLite error: %s' % (' '.join(er.args)))
-                    print("Exception class is: ", er.__class__)
-                    print('SQLite traceback: ')
-                    exc_type, exc_value, exc_tb = sys.exc_info()
-                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
-                    msg="error"       
+                    logging.error('SQLite error: %s', ' '.join(er.args))    
     finally:
         con.close()
+
+
 def getAddressFromMail(mail):
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
             cur.execute("select addressUser from usersWVouchers where email='"+mail+"'")
             res = cur.fetchall()
-            if(len(res)==0):
+            if not len(res) :
                 return None
             return res[0][0]
     except:
@@ -249,8 +211,9 @@ def getAddressFromMail(mail):
             con.close()
         except:
             pass
+
+
 def addFee(hash,address,date,amount):
-    print("trying to add fee with "+str(hash)+" "+str(address)+" "+str(date)+" "+str(amount))
     try:
         with sql.connect(DBPATH) as con:
             cur = con.cursor()
@@ -263,7 +226,7 @@ def addFee(hash,address,date,amount):
         
     finally:
         con.close()
-        print("msg db "+str(msg))
+        logging.info("msg db %s", str(msg))
 
 
 
