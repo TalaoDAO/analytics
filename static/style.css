@@ -47,8 +47,10 @@ a{
   text-align: center;
   font-family :Rubik;
   letter-spacing: 0px;
-color: #EEE9F4;
-opacity: 1;}
+  color: #EEE9F4;
+  opacity: 1;
+  max-width: 150px;
+}
 .lineDate{
   text-align: center;
   font-family :Rubik;
