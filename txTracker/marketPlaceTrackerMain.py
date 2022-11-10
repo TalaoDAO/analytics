@@ -80,7 +80,7 @@ def init():
     #connection.send('SubscribeToBlocks',[])
     #connection.send('SubscribeToHead', [])
     connection.send('SubscribeToOperations', 
-                    [{'address': 'KT1PSUKkif8KZzSeWdPewWMkx61QBR8VuXsm', 
+                    [{'address': 'KT1Wkv9KR9jsnp1LLquw9RYtranmB4nCim37', 
                       'types': 'transaction'}])
 
 
