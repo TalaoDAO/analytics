@@ -30,10 +30,12 @@ def analyse(data):
     if not data[0].get("data") :
         logging.warning('It is not a transaction object')
         return
-    tx=data[0]["data"][0]
+    tx=data[0]["data"][0]    
+    if(str(tx["type"])=="reveal"):
+        tx=data[0]["data"][1]
     hashOpe=tx["hash"]
     initiator=tx["sender"]["address"]
-    logging.info("initiator : %s", initiator)
+    logging.info("initiator : %s", initiator)   
     entryPoint=str(tx["parameter"]["entrypoint"])
     amount=tx["amount"]/1000000
     if(entryPoint=="buy"):
