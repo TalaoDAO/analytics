@@ -30,8 +30,12 @@ def analyse(data):
     if not data[0].get("data") :
         logging.warning('It is not a transaction object')
         return
-    tx=data[0]["data"][0]
+    tx=data[0]["data"][0]    
     tx2=data[0]["data"][1]
+    if(str(tx["type"])=="reveal"):
+        tx=data[0]["data"][1]
+        tx2=data[0]["data"][2]
+    
     target=tx2["target"]["address"]
     if(target=="tz1bKM4FRgAsGdDWzXs4o5HZdjBbLMbPBAA1"):
         logging.info("nft owned by gif games")
