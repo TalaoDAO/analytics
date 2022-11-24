@@ -37,7 +37,7 @@ def analyse(data):
     if not data[0].get("data") :
         logging.warning('not a transaction object')
         return
-    for dat in data[0].get["data"]:
+    for dat in data[0].get("data"):
         try:
             if dat["parameter"]["entrypoint"]=="mint":
                 logging.info("hash mint %s", dat["hash"])

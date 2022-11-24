@@ -33,6 +33,7 @@ def cashbackSender(amount,userAddress):
     if balance<50 :
         message_text = "Less than 50 XTZ on payements address, only " +str(balance)+" left."
         message.message("Funds needed", "thierry@altme.io", message_text, smtp_password)
+        message.message("Funds needed", "hugo@altme.io", message_text, smtp_password)
     return hash
 
 
@@ -49,4 +50,5 @@ def sendUNO(amount,address):
     if balance < 50 :
         message_text = "Less than 50 UNO on payements address, only " +str(balance)+" left."
         message.message("Funds needed", "thierry@altme.io", message_text, smtp_password)
+        message.message("Funds needed", "hugo@altme.io", message_text, smtp_password)
     return hash
