@@ -539,6 +539,7 @@ def newvoucher():
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
         if (key=="SECRET_KEY" or key==data.get('apiKey')):
+            print(key)
             print(vc)
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
