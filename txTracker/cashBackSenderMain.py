@@ -47,7 +47,7 @@ def sendUNO(amount,address):
     logging.info("sent  %s UNO to %s", str(amount),address)
     balance=operationsVisualizerMain.getBalanceUNO(publicKey)
     logging.info("balance = %s", balance)
-    if balance < 50 :
+    if balance < 20 :
         message_text = "Less than 50 UNO on payements address, only " +str(balance)+" left."
         message.message("Funds needed", "thierry@altme.io", message_text, smtp_password)
         message.message("Funds needed", "hugo@altme.io", message_text, smtp_password)
