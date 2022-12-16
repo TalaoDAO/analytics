@@ -437,7 +437,7 @@ def newvoucher():
             print(vc)
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
+                adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
                 expiration=vc["expirationDate"]
                 try:
                     discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
