@@ -123,8 +123,15 @@ def homeDid(did):
         print("rows")
         print(rows)
         print("rows")
+        arrayAddresses=[]
         for row in rows:
             print(row["addresses"])
+            if len(row["addresses"])>36:
+                tempArray=transformArrayFromDb(row["addresses"])
+                for add in tempArray:
+                    arrayAddresses.append(add)
+            else:
+                arrayAddresses.append(row["addresses"])
 
     except TypeError:
         pass
