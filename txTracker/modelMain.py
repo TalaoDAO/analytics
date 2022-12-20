@@ -9,7 +9,7 @@ try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER,currency TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT,currency TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER,currency TEXT)")
-    sql.connect(DBPATH).cursor().execute("drop table didToAddresses")
+    #sql.connect(DBPATH).cursor().execute("drop table didToAddresses")
 
     
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS didToAddresses (did TEXT, addresses TEXT)")
