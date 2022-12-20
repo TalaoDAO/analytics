@@ -9,6 +9,7 @@ try:
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS transactions (hash TEXT PRIMARY KEY, relativeTo INTEGER,userAddress TEXT , smartContractAddress TEXT, amount INTEGER,date TEXT, refunded NUMBER, forAffiliate NUMBER,currency TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS payements (prio NUMBER PRIMARY KEY,hash TEXT, address TEXT, applied TEXT, forWho TEXT, amount INTEGER,date TEXT,hashPayement TEXT,currency TEXT)")
     sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS FeeTracker (hash TEXT PRIMARY KEY, addressUser TEXT, date DATE,amount INTEGER,currency TEXT)")
+    sql.connect(DBPATH).cursor().execute("CREATE TABLE IF NOT EXISTS didToAddresses (did TEXT PRIMARY KEY, addresses TEXT)")
     max =sql.connect(DBPATH).cursor().execute("select max(prio) from payements ").fetchone()
     if not max[0] :
         logging.info("no payements")
@@ -58,7 +59,7 @@ def eligible():
 def isEligible(address):
     with sql.connect(DBPATH) as conn:
         cur = conn.cursor()
-        cur.execute("select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and addressUser='"+address+"'")
+        cur.execute("""select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and (( SELECT count(*) from (select seq from (WITH RECURSIVE split(seq, word, str) AS (SELECT 0, ',', substr(addressUser,2,length(addressUser)-2)||','UNION ALL SELECTseq+1,substr(str, 0, instr(str, ',')),substr(str, instr(str, ',')+1)FROM split WHERE str != '') SELECT * FROM split ORDER BY split.seq ASC) where word=" '"""+address+"""'" or word="'"""+address+"""'")) or addressUser='"""+address+"""'  or addressUser="['"""+address+"""']");""")
         rows = cur.fetchall()
         return rows
 
@@ -233,3 +234,12 @@ def addFee(hash,address,date,amount):
 """select sum(amount) from (select * from payements where forWho="affiliate" and amount !="2%" and address="tz1P3zm6rgzfYM3xHLv4xm9bQbQ5A74oid39")  union select prio from payements where forWho="affiliate" and amount !="2%" and address="tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555";
 select * from payements"""
 isEligible("tz1LK2aE2zmvqqsVYGAaCTauz7peWQ3gAuqK")
+
+"""select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and (( SELECT count(*) from (select seq from (WITH RECURSIVE split(seq, word, str) AS (
+    SELECT 0, ',', substr(addressUser,2,length(addressUser)-2)||','
+    UNION ALL SELECT
+        seq+1,
+        substr(str, 0, instr(str, ',')),
+        substr(str, instr(str, ',')+1)
+    FROM split WHERE str != ''
+) SELECT * FROM split ORDER BY split.seq ASC) where word=" 'tz1Z3kDJEQJbd91eoJUWRtV83bjFYUX7Lbwf'")) or addressUser='tz1Z3kDJEQJbd91eoJUWRtV83bjFYUX7Lbwf');"""

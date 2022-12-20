@@ -33,6 +33,16 @@ async def verifyPresentation(vc):
     print(verif)
     return verif
 
+def transformArrayFromDb(array):
+    newArray=[]
+    #print(array.split(",")[0])
+    for i in range(0,len(array.split(","))):
+        #print(array.split(",")[i])
+        newArray.append(array.split(",")[i][2:len(array.split(",")[i])-1])
+
+    newArray[len(array.split(","))-1]=newArray[len(array.split(","))-1][0:len(newArray[len(array.split(","))-1])-1]
+    return newArray
+
 @app.route('/analytics/testnet/<address>')
 def hometestnet(address):
 
@@ -102,6 +112,33 @@ def home(address):
             except TypeError:
                 pass
 
+@app.route('/analytics/did/<did>')
+def homeDid(did):
+    try:  
+        con = sql.connect(DBPATH)
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute("select addresses from didToAddresses where did='"+did+"'") 
+        rows = cur.fetchall() 
+        print("rows")
+        print(rows)
+        print("rows")
+
+    except TypeError:
+        pass
+    """try:  
+        con = sql.connect(DBPATH)
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute("select * ,case when 4*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Membership card' when 10*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Voucher card'else '' end as typeCard,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount as amount,datetime(a.date,'+2 hours') || ' (CET)' as date,b.applied,b.address,printf('%.3f', b.amount) as 'amountDiscount' ,b.hashPayement,c.discount,b.currency from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and address='"+address+"') order by date DESC") 
+        rows = cur.fetchall() 
+        print("rows   --------2")
+        sys.stdout.flush()
+        sys.stdout.flush()
+        return render_template("home.html",rows = rows,usersWVouchers="hidden",addressTezos=session.get("user")) 
+    except TypeError:
+        pass
+"""
 
 @app.route('/analytics/testnet/usersvouchers')
 def usersWvouchersTestNet():
@@ -430,6 +467,9 @@ def followup(red):
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
     vouchersAdded=0
+    adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
+    didUser=str(vc["credentialSubject"]["id"])[8:len(str(vc["credentialSubject"]["id"]))]
+    expiration=vc["expirationDate"]
     try:
         vc=json.loads(request.get_data())
         key = request.headers.get('key')
@@ -437,8 +477,7 @@ def newvoucher():
             print(vc)
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
-                adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
-                expiration=vc["expirationDate"]
+                
                 try:
                     discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
                 except:
@@ -468,8 +507,6 @@ def newvoucher():
                     vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
                 print("TezVoucher_1")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                expiration=vc["expirationDate"]
                 try:
                     discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
                 except:
@@ -500,8 +537,6 @@ def newvoucher():
                     vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TalaoCommunity"):
                 print("TalaoCommunity")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                #expiration=vc["expirationDate"]
                 expiration=discount=vc["credentialSubject"]["offers"][0]["endDate"]
 
                 try:
@@ -543,8 +578,6 @@ def newvoucher():
             print(vc)
             if(vc["credentialSubject"]["type"]=="MembershipCard_1"):
                 print("MembershipCard_1")
-                adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
-                expiration=vc["expirationDate"]
                 try:
                     discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
                 except:
@@ -574,8 +607,6 @@ def newvoucher():
                     vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TezVoucher_1"):
                 print("TezVoucher_1")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                expiration=vc["expirationDate"]
                 try:
                     discount=vc["credentialSubject"]["offers"][0]["benefit"]["discount"]
                 except:
@@ -606,8 +637,6 @@ def newvoucher():
                     vouchersAdded=vouchersAdded+1
             if(vc["credentialSubject"]["type"]=="TalaoCommunity"):
                 print("TalaoCommunity")
-                adressUser=vc["credentialSubject"]["associatedAddress"]["blockchainTezos"]
-                #expiration=vc["expirationDate"]
                 expiration=discount=vc["credentialSubject"]["offers"][0]["endDate"]
 
                 try:
@@ -642,6 +671,8 @@ def newvoucher():
     except KeyError:
         return jsonify("error"),404
     if(vouchersAdded==2):
+        cur.execute("insert into didToAddresses values (?,?)",(didUser,adressUser) )
+        con.commit()
         return jsonify("ok"), 200
 
 if __name__ == '__main__':
