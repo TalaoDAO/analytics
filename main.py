@@ -467,11 +467,11 @@ def followup(red):
 @app.route('/analytics/api/newvoucher', methods = ['POST'])
 def newvoucher():
     vouchersAdded=0
-    adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
-    didUser=str(vc["credentialSubject"]["id"])[8:len(str(vc["credentialSubject"]["id"]))]
-    expiration=vc["expirationDate"]
     try:
         vc=json.loads(request.get_data())
+        adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
+        didUser=str(vc["credentialSubject"]["id"])[8:len(str(vc["credentialSubject"]["id"]))]
+        expiration=vc["expirationDate"]
         key = request.headers.get('key')
         if (key=="SECRET_KEY" or key==data.get('apiKey')):
             print(vc)
@@ -572,6 +572,9 @@ def newvoucher():
         return jsonify("error"),404
     try:
         vc=json.loads(request.get_data())
+        adressUser=str(vc["credentialSubject"]["associatedAddress"]["blockchainTezos"])
+        didUser=str(vc["credentialSubject"]["id"])[8:len(str(vc["credentialSubject"]["id"]))]
+        expiration=vc["expirationDate"]
         key = request.headers.get('key')
         if (key=="SECRET_KEY" or key==data.get('apiKey')):
             print(key)
