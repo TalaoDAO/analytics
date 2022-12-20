@@ -144,7 +144,7 @@ def homeDid(did):
                 cur = con.cursor()
                 sqlSample=""
                 for add in arrayAddresses:
-                    sqlSample=sqlSample+"address='"+add+"' or"
+                    sqlSample=sqlSample+" address='"+add+"' or"
                 sqlSample=sqlSample.rstrip(sqlSample[-1])
                 sqlSample=sqlSample.rstrip(sqlSample[-1])
                 print("select * ,case when 4*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Membership card' when 10*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Voucher card'else '' end as typeCard,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount as amount,datetime(a.date,'+2 hours') || ' (CET)' as date,b.applied,b.address,printf('%.3f', b.amount) as 'amountDiscount' ,b.hashPayement,c.discount,b.currency from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and ("+sqlSample+")) order by date DESC")
