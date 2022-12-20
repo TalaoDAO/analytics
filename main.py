@@ -132,6 +132,7 @@ def homeDid(did):
                     arrayAddresses.append(add)
             else:
                 arrayAddresses.append(row["addresses"])
+        print(arrayAddresses)
 
     except TypeError:
         pass
