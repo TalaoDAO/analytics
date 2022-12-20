@@ -124,7 +124,7 @@ def homeDid(did):
         print(rows)
         print("rows")
         for row in rows:
-            print(row.addresses)
+            print(row)
 
     except TypeError:
         pass
