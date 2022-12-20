@@ -566,6 +566,9 @@ def newvoucher():
                     con.close()
                     print("msg db addVoucher "+str(msg))
                     vouchersAdded=vouchersAdded+1
+            cur = con.cursor()
+            cur.execute("insert into didToAddresses values (?,?)",(didUser,adressUser) )
+            con.commit()
         else:
             return jsonify("Forbidden"), 403
     except KeyError:
@@ -674,8 +677,6 @@ def newvoucher():
     except KeyError:
         return jsonify("error"),404
     if(vouchersAdded==2):
-        cur.execute("insert into didToAddresses values (?,?)",(didUser,adressUser) )
-        con.commit()
         return jsonify("ok"), 200
 
 if __name__ == '__main__':
