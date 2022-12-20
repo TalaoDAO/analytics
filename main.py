@@ -108,7 +108,7 @@ def home(address):
                 print("rows   --------2")
                 sys.stdout.flush()
                 sys.stdout.flush()
-                return render_template("home.html",rows = rows,usersWVouchers="hidden",addressTezos=session.get("user")) 
+                return render_template("home.html",rows = rows,usersWVouchers="hidden") 
             except TypeError:
                 pass
 
@@ -135,6 +135,27 @@ def homeDid(did):
         print(arrayAddresses)
         arrayAddresses=list(set(arrayAddresses))
         print(arrayAddresses)
+        if len(arrayAddresses)==0:
+            return render_template("home.html",rows = [],usersWVouchers="hidden") 
+        else:
+            try:  
+                con = sql.connect(DBPATH)
+                con.row_factory = sql.Row
+                cur = con.cursor()
+                sqlSample=""
+                for add in arrayAddresses:
+                    sqlSample=sqlSample+"address='"+add+"' or"
+                sqlSample=sqlSample.rstrip(sqlSample[-1])
+                sqlSample=sqlSample.rstrip(sqlSample[-1])
+                print("select * ,case when 4*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Membership card' when 10*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Voucher card'else '' end as typeCard,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount as amount,datetime(a.date,'+2 hours') || ' (CET)' as date,b.applied,b.address,printf('%.3f', b.amount) as 'amountDiscount' ,b.hashPayement,c.discount,b.currency from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and ("+sqlSample+")) order by date DESC")
+                cur.execute("select * ,case when 4*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Membership card' when 10*cast(amountDiscount as REAL)=cast(amount as REAL) then 'Voucher card'else '' end as typeCard,CASE WHEN applied =0 THEN 'pending' ELSE 'done' END AS status from (select a.relativeTo,a.hash,a.amount as amount,datetime(a.date,'+2 hours') || ' (CET)' as date,b.applied,b.address,printf('%.3f', b.amount) as 'amountDiscount' ,b.hashPayement,c.discount,b.currency from transactions a, payements b, (select discount,id from usersWVouchers) c where a.hash=b.hash and c.id=a.relativeTo and b.forWho='player' and ("+sqlSample+")) order by date DESC") 
+                rows = cur.fetchall() 
+                print("rows   --------2")
+                sys.stdout.flush()
+                sys.stdout.flush()
+                return render_template("home.html",rows = rows,usersWVouchers="hidden") 
+            except TypeError:
+                pass
 
     except TypeError:
         pass
