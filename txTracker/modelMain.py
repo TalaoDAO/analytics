@@ -59,7 +59,7 @@ def eligible():
 def isEligible(address):
     with sql.connect(DBPATH) as conn:
         cur = conn.cursor()
-        cur.execute("""select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and (( SELECT count(*) from (select seq from (WITH RECURSIVE split(seq, word, str) AS (SELECT 0, ',', substr(addressUser,2,length(addressUser)-2)||','UNION ALL SELECTseq+1,substr(str, 0, instr(str, ',')),substr(str, instr(str, ',')+1)FROM split WHERE str != '') SELECT * FROM split ORDER BY split.seq ASC) where word=" '"""+address+"""'" or word="'"""+address+"""'")) or addressUser='"""+address+"""'  or addressUser="['"""+address+"""']");""")
+        cur.execute("""select addressUser,(max(cast(substr(discount,1,length(discount)-1) as INTEGER))) as discount,id,benefitAffiliate,benefitAffiliateType,affiliate from usersWVouchers where date(expiration) > date('now') and (( SELECT count(*) from (select seq from (WITH RECURSIVE split(seq, word, str) AS (SELECT 0, ',', substr(addressUser,2,length(addressUser)-2)||','UNION ALL SELECT seq+1,substr(str, 0, instr(str, ',')),substr(str, instr(str, ',')+1)FROM split WHERE str != '') SELECT * FROM split ORDER BY split.seq ASC) where word=" '"""+address+"""'" or word="'"""+address+"""'")) or addressUser='"""+address+"""'  or addressUser="['"""+address+"""']");""")
         rows = cur.fetchall()
         return rows
 
