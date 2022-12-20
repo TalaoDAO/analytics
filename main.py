@@ -566,9 +566,20 @@ def newvoucher():
                     con.close()
                     print("msg db addVoucher "+str(msg))
                     vouchersAdded=vouchersAdded+1
-            cur = con.cursor()
-            cur.execute("insert into didToAddresses values (?,?)",(didUser,adressUser) )
-            con.commit()
+            try:
+                with sql.connect(DBPATHTESTNET) as con:
+                    cur = con.cursor()
+                    cur.execute("insert into didToAddresses values (?,?)",(didUser,adressUser) )
+                    con.commit()
+            except sql.Error as er:
+                    con.rollback()
+                    print('SQLite error: %s' % (' '.join(er.args)))
+                    print("Exception class is: ", er.__class__)
+                    print('SQLite traceback: ')
+                    exc_type, exc_value, exc_tb = sys.exc_info()
+                    print(traceback.format_exception(exc_type, exc_value, exc_tb))
+            finally:
+                    con.close()
         else:
             return jsonify("Forbidden"), 403
     except KeyError:
