@@ -133,6 +133,8 @@ def homeDid(did):
             else:
                 arrayAddresses.append(row["addresses"])
         print(arrayAddresses)
+        arrayAddresses=list(set(arrayAddresses))
+        print(arrayAddresses)
 
     except TypeError:
         pass
