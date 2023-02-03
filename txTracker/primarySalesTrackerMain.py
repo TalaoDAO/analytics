@@ -87,24 +87,28 @@ def initConnection():
         "keep_alive_interval": 10,
         "intervals": [1, 3, 5, 6, 7, 87, 3]
     })\
-    .on_error(initConnection())\
     .build()
+    connection.on_open(init)
+    connection.on("operations", analyse)
+    #connection.on("head", pprint)
+    connection.start()
+    connection.on_error(initConnection())
 global connection
-connection = HubConnectionBuilder()\
+initConnection()
+"""connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
     .with_automatic_reconnect({
         "type": "interval",
         "keep_alive_interval": 10,
         "intervals": [1, 3, 5, 6, 7, 87, 3]
     })\
-    .on_error(initConnection())\
     .build()
 
 connection.on_open(init)
 connection.on("operations", analyse)
 #connection.on("head", pprint)
 connection.start()
-
+connection.on_error(initConnection())"""
 try:
     while True:
         sleep(1)
