@@ -108,7 +108,7 @@ connection.on_open(init)
 connection.on("operations", analyse)
 #connection.on("head", pprint)
 connection.start()
-connection.on_error()
+connection.on_error(initConnection)
 
 try:
     while True:
