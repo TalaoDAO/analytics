@@ -94,8 +94,9 @@ def initConnection():
     #connection.on("head", pprint)
     connection.start()
     connection.on_error(initConnection())
-initConnection()
-"""connection = HubConnectionBuilder()\
+
+
+connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
     .with_automatic_reconnect({
         "type": "interval",
@@ -108,7 +109,8 @@ connection.on_open(init)
 connection.on("operations", analyse)
 #connection.on("head", pprint)
 connection.start()
-connection.on_error(initConnection())"""
+connection.on_error(initConnection())
+
 try:
     while True:
         sleep(1)
