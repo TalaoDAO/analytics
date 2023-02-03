@@ -78,8 +78,9 @@ def init():
                       'types': 'transaction'}])
 
 
-
+connection
 def initConnection():
+    global connection
     connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
     .with_automatic_reconnect({
@@ -93,7 +94,6 @@ def initConnection():
     #connection.on("head", pprint)
     connection.start()
     connection.on_error(initConnection())
-global connection
 initConnection()
 """connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
