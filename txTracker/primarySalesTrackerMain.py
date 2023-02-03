@@ -78,7 +78,7 @@ def init():
                       'types': 'transaction'}])
 
 
-connection
+connection=None
 def initConnection():
     global connection
     connection = HubConnectionBuilder()\
