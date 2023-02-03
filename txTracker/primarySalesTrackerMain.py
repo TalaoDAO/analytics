@@ -92,7 +92,7 @@ def initConnection():
     connection.on("operations", analyse)
     #connection.on("head", pprint)
     connection.start()
-    connection.on_error(initConnection())
+    connection.on_error(initConnection)
 
 
 connection = HubConnectionBuilder()\
