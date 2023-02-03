@@ -78,6 +78,18 @@ def init():
                       'types': 'transaction'}])
 
 
+
+def initConnection():
+    connection = HubConnectionBuilder()\
+    .with_url('https://api.tzkt.io/v1/events')\
+    .with_automatic_reconnect({
+        "type": "interval",
+        "keep_alive_interval": 10,
+        "intervals": [1, 3, 5, 6, 7, 87, 3]
+    })\
+    .on_error(initConnection())\
+    .build()
+global connection
 connection = HubConnectionBuilder()\
     .with_url('https://api.tzkt.io/v1/events')\
     .with_automatic_reconnect({
@@ -85,6 +97,7 @@ connection = HubConnectionBuilder()\
         "keep_alive_interval": 10,
         "intervals": [1, 3, 5, 6, 7, 87, 3]
     })\
+    .on_error(initConnection())\
     .build()
 
 connection.on_open(init)
